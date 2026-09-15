@@ -1,0 +1,17 @@
+{
+  "name": "SEDAM-RO • Vistoria de Outorga",
+  "short_name": "SEDAM Outorga",
+  "description": "Ficha de vistoria de campo para outorga de recursos hidricos da SEDAM-RO. Funciona offline no iPhone 11.",
+  "lang": "pt-BR",
+  "start_url": "FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f6f8",
+  "theme_color": "#1b4332",
+  "icons": [
+    { "src": "icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

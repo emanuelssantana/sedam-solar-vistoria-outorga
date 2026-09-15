@@ -1,0 +1,2979 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SEDAM Outorga">
+    <meta name="theme-color" content="#1b4332">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icone-180.png">
+    <title>SEDAM-RO • Vistoria de Campo e Outorga (Offline iPhone 11 - V4)</title>
+    <style>
+        /* ==========================================================================
+           SEDAM-RO / SOLAR - FICHA DE VISTORIA DE OUTORGA - V4
+           Base visual herdada da V3 (aprovada pelo usuario):
+             - faixa preta, letra branca, CAIXA ALTA, 12pt na impressao
+             - touch targets de 48px e gap de 12px (Apple HIG - sem colisao de toque)
+             - cores funcionais na tela / P&B de alto contraste no papel
+           ========================================================================== */
+        :root {
+            --primary: #1b4332;
+            --primary-dark: #081c15;
+            --primary-light: #2d6a4f;
+            --accent: #d90429;
+            --accent-blue: #0077b6;
+            --bg-page: #f4f6f8;
+            --bg-card: #ffffff;
+            --border-color: #d8e2dc;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --success: #2b9348;
+            --warning: #e85d04;
+            --touch-target: 48px; /* Diretriz Apple HIG para toque sem colisao */
+            --radius: 8px;
+        }
+
+        *, *:before, *:after {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            font-size: 15px;
+            line-height: 1.4;
+            padding-bottom: 96px; /* Espaco para barra flutuante inferior no iPhone */
+        }
+
+        /* BARRA SUPERIOR DE STATUS OFFLINE / ONLINE E AUTO-SAVE */
+        .top-status-bar {
+            background-color: var(--primary);
+            color: #ffffff;
+            padding: env(safe-area-inset-top, 12px) 16px 10px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-title-box { display: flex; align-items: center; gap: 8px; }
+        .app-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .status-badge.online { background-color: var(--success); }
+        .status-badge.offline { background-color: var(--warning); }
+        .auto-save-text { font-size: 11px; opacity: 0.9; margin-top: 3px; }
+
+        /* CONTAINER PRINCIPAL */
+        .main-container {
+            max-width: 960px;
+            margin: 12px auto;
+            padding: 0 12px;
+        }
+
+        /* ABAS DE NAVEGACAO RAPIDA */
+        .nav-tabs-mobile {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 6px 0 12px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .nav-tabs-mobile::-webkit-scrollbar { display: none; }
+        .nav-tab-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            white-space: nowrap;
+            min-height: var(--touch-target);   /* 48px: mesma regra dos demais alvos */
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .nav-tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* BLOCO DE CABECALHO DO PROCESSO */
+        .card-header-info {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .header-sei-badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .grid-inputs-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 600px) { .grid-inputs-2 { grid-template-columns: 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-label {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .form-control {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 16px; /* 16px evita o zoom automatico do Safari no foco */
+            color: var(--text-main);
+            background: #fff;
+            min-height: var(--touch-target);
+            width: 100%;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2);
+        }
+
+        /* SECAO E PERGUNTAS */
+        .section-banner {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 12px 14px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin: 18px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 14px;
+            overflow: hidden;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.04);
+        }
+
+        /* TITULO DA PERGUNTA: FUNDO PRETO + LETRA BRANCA + CAIXA ALTA (12pt no papel) */
+        .question-card-title {
+            background-color: #000000;
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.3;
+        }
+        .question-card-title svg { flex-shrink: 0; margin-top: 1px; fill: #ffffff; }
+
+        .question-card-body { padding: 12px; }
+
+        .question-desc-text {
+            font-size: 12.5px;
+            color: #374151;
+            font-style: italic;
+            border-left: 3px solid var(--primary);
+            padding-left: 8px;
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+
+        /* RESPOSTAS SIM/NAO (TOUCH FRIENDLY, ESPACAMENTO LARGO) */
+        .radio-touch-group { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .touch-radio-btn {
+            flex: 1 1 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: var(--touch-target);
+            padding: 6px 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 800;
+            background: #f8fafc;
+            color: var(--text-main);
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            line-height: 1.2;
+            transition: all 0.15s ease;
+        }
+        .touch-radio-btn input { display: none; }
+        .touch-radio-btn.selected {
+            border-color: var(--primary);
+            background-color: #e8f5e9;
+            color: var(--primary-dark);
+            box-shadow: 0 2px 6px rgba(27, 67, 50, 0.2);
+        }
+
+        .handwriting-textarea {
+            width: 100%;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 16px;
+            min-height: 65px;
+            resize: vertical;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        /* OBSERVACAO RECOLHIVEL: em vez de deixar a caixa de texto sempre visivel
+           e vazia (ocupando espaco que na maioria das vistorias nunca sera usado),
+           ela some e vira so um botao fino. So expande se voce tocar nele, ou se
+           ja tiver algo escrito ao carregar a vistoria. */
+        .btn-obs-expandir {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            min-height: 40px;
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        .btn-obs-expandir:active { background: #eef2f7; }
+        .btn-obs-expandir.oculto,
+        textarea.handwriting-textarea.oculto { display: none; }
+
+        /* BOTAO DE GPS COM 1 TOQUE */
+        .btn-gps-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #0284c7;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            font-weight: 800;
+            min-height: var(--touch-target);
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 8px;
+            transition: background 0.15s ease;
+        }
+        .btn-gps-action:active { background-color: #0369a1; transform: scale(0.98); }
+
+        /* GRADE DE VARIEDADES TECNICAS */
+        .varieties-title {
+            font-size: 11.5px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-top: 1.5px dashed #e2e8f0;
+            padding-top: 10px;
+            margin-top: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .varieties-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 550px) { .varieties-grid { grid-template-columns: 1fr; } }
+        .variety-touch-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            min-height: 48px;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.3;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+        .variety-touch-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-top: 1px;
+            accent-color: var(--primary);
+            flex-shrink: 0;
+        }
+        .variety-touch-item.active {
+            border-color: var(--primary);
+            background-color: #edf7ee;
+            font-weight: 700;
+        }
+
+        /* LOGICA DINAMICA DA PERGUNTA 20: FONTES DE AGUA */
+        .water-sources-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        @media (max-width: 600px) { .water-sources-selector { grid-template-columns: 1fr; } }
+        /* Cartao de fonte de agua = QUADRADINHO DE VERDADE (input checkbox real),
+           igual ao portal SOLAR (perguntaId33, opcoes 49/50/51). E um <label> que
+           envolve o <input>, entao funciona por toque, por teclado e por leitor de
+           tela -- e o navegador marca/desmarca sozinho, sem depender de JavaScript. */
+        .water-source-card {
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            background: #ffffff;
+            min-height: var(--touch-target);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .water-source-card.active {
+            border-color: #0284c7;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+        }
+        .water-source-card svg { width: 26px; height: 26px; flex-shrink: 0; }
+        .ws-texto { line-height: 1.25; }
+        .ws-sub { font-size: 11px; font-weight: 600; opacity: 0.8; text-transform: none; }
+
+        /* O quadradinho em si: 26px, borda grossa, visivel sob sol forte */
+        .ws-check {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            margin: 0;
+            border: 2.5px solid #64748b;
+            border-radius: 4px;
+            background: #ffffff;
+            position: relative;
+            cursor: pointer;
+        }
+        .ws-check:checked {
+            background: #0284c7;
+            border-color: #0284c7;
+        }
+        /* o "X" / tick desenhado em CSS puro, sem depender de fonte ou imagem */
+        .ws-check:checked::after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 2px;
+            width: 7px;
+            height: 14px;
+            border: solid #ffffff;
+            border-width: 0 3.5px 3.5px 0;
+            transform: rotate(45deg);
+        }
+        .ws-check:focus-visible {
+            outline: 3px solid #0369a1;
+            outline-offset: 2px;
+        }
+
+        .conditional-subterranea,
+        .conditional-superficial,
+        .conditional-publico,
+        .conditional-q35 {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .conditional-subterranea.visible,
+        .conditional-superficial.visible,
+        .conditional-publico.visible,
+        .conditional-q35.visible { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           BLOCO DE FOTOGRAFIAS (MINIMO 6, SEM TETO, COM DESCRICAO E REMOCAO)
+           ========================================================================== */
+        .photo-actions { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .btn-photo {
+            flex: 1 1 45%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: var(--touch-target);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .btn-photo-camera { background-color: #0284c7; }
+        .btn-photo-gallery { background-color: var(--primary-light); }
+        .btn-photo:active { transform: scale(0.98); }
+
+        .photo-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 2px solid;
+        }
+        .photo-counter.incomplete {
+            background-color: #fff1f2;
+            border-color: var(--accent);
+            color: #9f1239;
+        }
+        .photo-counter.complete {
+            background-color: #ecfdf5;
+            border-color: var(--success);
+            color: #14532d;
+        }
+
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 550px) { .photo-grid { grid-template-columns: 1fr; } }
+        .photo-item {
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+        .photo-thumb {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+            background: #e5e7eb;
+        }
+        .photo-item-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .photo-index-badge {
+            align-self: flex-start;
+            background: #000000;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .photo-desc-input {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 16px;
+            min-height: var(--touch-target);
+            font-family: inherit;
+            width: 100%;
+        }
+        .btn-photo-remove {
+            min-height: var(--touch-target);
+            border: 2px solid var(--accent);
+            background: #fff;
+            color: var(--accent);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .btn-photo-remove:active { background: #fee2e2; }
+
+        /* ==========================================================================
+           ABA DE VISTORIAS SALVAS / OUTBOX
+           ========================================================================== */
+        .view { display: none; }
+        .view.active { display: block; }
+
+        .vistoria-row {
+            background: #ffffff;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .vistoria-row-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .vistoria-nome { font-size: 15px; font-weight: 800; line-height: 1.25; }
+        .vistoria-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+        .chip-status {
+            font-size: 10.5px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 12px;
+            white-space: nowrap;
+            border: 1.5px solid;
+        }
+        .chip-rascunho { background:#f1f5f9; color:#334155; border-color:#94a3b8; }
+        .chip-pendente { background:#fff7ed; color:#9a3412; border-color:var(--warning); }
+        .chip-enviada  { background:#ecfdf5; color:#14532d; border-color:var(--success); }
+        .chip-erro     { background:#fff1f2; color:#9f1239; border-color:var(--accent); }
+
+        .vistoria-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-row-action {
+            flex: 1 1 45%;
+            min-height: var(--touch-target);
+            border-radius: 6px;
+            border: 1.5px solid var(--border-color);
+            background: #f8fafc;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        .btn-row-action.danger { border-color: var(--accent); color: var(--accent); }
+        .btn-row-action:active { background: #e2e8f0; }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .sync-log {
+            background: #0b1120;
+            color: #d1fae5;
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            font-size: 11.5px;
+            border-radius: 8px;
+            padding: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin-top: 12px;
+        }
+
+        .config-warning {
+            background: #fffbeb;
+            border: 2px solid var(--warning);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.45;
+            margin-bottom: 14px;
+            color: #7c2d12;
+        }
+        .config-warning b { display: block; margin-bottom: 4px; text-transform: uppercase; font-size: 12px; }
+
+        /* BARRA INFERIOR FLUTUANTE DE ACOES */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border-top: 1.5px solid var(--border-color);
+            padding: 10px 12px env(safe-area-inset-bottom, 16px) 12px;
+            display: flex;
+            gap: 10px;
+            z-index: 999;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        .btn-bottom {
+            flex: 1 1 0;
+            min-width: 0;       /* deixa o botao encolher em vez de estourar a barra */
+            overflow: hidden;
+            min-height: var(--touch-target);
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            padding: 6px 4px;
+            line-height: 1.15;
+        }
+        @media (max-width: 420px) {
+            .bottom-action-bar { gap: 6px; padding-left: 8px; padding-right: 8px; }
+            .btn-bottom { font-size: 10.5px; gap: 0; padding: 6px 2px; }
+            .btn-bottom svg { display: none; }  /* o rotulo e mais util que o icone aqui */
+        }
+        .btn-bottom-primary { background-color: var(--primary); color: #ffffff; }
+        .btn-bottom-secondary { background-color: #0284c7; color: #ffffff; }
+        .btn-bottom-dark { background-color: #000000; color: #ffffff; }
+        .btn-bottom:active { opacity: 0.85; }
+
+        /* SELETOR DE MODO DE IMPRESSAO */
+        .overlay-print {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 3500;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 12px;
+        }
+        .overlay-print.on { display: flex; }
+        .modal-print {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 18px;
+            width: 100%;
+            max-width: 520px;
+            margin-bottom: env(safe-area-inset-bottom, 12px);
+        }
+        .modal-print h2 {
+            font-size: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0 0 6px 0;
+        }
+        .modal-print p {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin: 0 0 14px 0;
+        }
+        .btn-print-modo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            width: 100%;
+            min-height: var(--touch-target);
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: #f8fafc;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+        .btn-print-modo b { font-size: 13.5px; font-weight: 900; text-transform: uppercase; }
+        .btn-print-modo span { font-size: 12px; color: var(--text-muted); line-height: 1.35; }
+        .btn-print-compacto { border-color: var(--success); background: #ecfdf5; }
+        .btn-print-compacto b { color: #14532d; }
+        .btn-print-completo { border-color: var(--warning); background: #fffbeb; }
+        .btn-print-completo b { color: #7c2d12; }
+        .btn-print-cancelar {
+            align-items: center;
+            border-color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+
+        /* TOAST DE AVISO (nao bloqueia a tela como o alert) */
+        .toast {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            bottom: 92px;
+            background: #0b1120;
+            color: #ffffff;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: 600;
+            line-height: 1.35;
+            z-index: 3000;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            display: none;
+        }
+        .toast.show { display: block; }
+        .toast.ok { background: #14532d; }
+        .toast.err { background: #7f1d1d; }
+
+        /* ==========================================================================
+           IMPRESSAO EM PRETO E BRANCO (ALTO CONTRASTE, 2 COLUNAS, TITULO 12pt)
+           ========================================================================== */
+        @page { size: A4 portrait; margin: 10mm; }
+        @media print {
+            .top-status-bar,
+            .nav-tabs-mobile,
+            .bottom-action-bar,
+            .btn-gps-action,
+            .water-sources-selector,
+            .photo-actions,
+            .btn-photo-remove,
+            .config-warning,
+            .sync-log,
+            .vistoria-actions,
+            .toast,
+            .btn-obs-expandir,
+            .no-print {
+                display: none !important;
+            }
+            /* no papel a linha para escrever a mao continua aparecendo, mesmo que
+               em tela estivesse recolhida por nao ter texto ainda */
+            textarea.handwriting-textarea.oculto {
+                display: block !important;
+            }
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding-bottom: 0 !important;
+                font-size: 8.5pt !important;
+            }
+            .main-container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            .view { display: block !important; } /* imprime a ficha inteira */
+            .content-columns-print {
+                column-count: 2 !important;
+                column-gap: 8mm !important;
+                column-rule: 1.5px solid #000 !important;
+            }
+            .section-banner {
+                background: #000000 !important;
+                color: #ffffff !important;
+                font-size: 13pt !important;
+                font-weight: 900 !important;
+                padding: 5px !important;
+                margin: 8px 0 6px 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                break-after: avoid !important;
+                page-break-after: avoid !important;
+            }
+            .question-card {
+                border: 1.5px solid #000000 !important;
+                margin-bottom: 8px !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+                box-shadow: none !important;
+            }
+            .question-card-title {
+                background: #000000 !important;
+                color: #ffffff !important;
+                font-size: 12pt !important;
+                font-weight: 900 !important;
+                padding: 5px 6px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .question-card-title * { color: #ffffff !important; }
+            .header-sei-badge {
+                background: #000000 !important;
+                color: #ffffff !important;
+                font-size: 10pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .card-header-info { border: 1.5px solid #000 !important; box-shadow: none !important; padding: 6px !important; }
+            .form-label { color: #000 !important; font-size: 7.5pt !important; }
+            .question-desc-text { color: #000 !important; border-left-color: #000 !important; font-size: 7.5pt !important; }
+            .handwriting-textarea {
+                border: none !important;
+                border-bottom: 1.2px dotted #000 !important;
+                border-radius: 0 !important;
+                min-height: 25px !important;
+                padding: 0 !important;
+            }
+            .form-control {
+                border: none !important;
+                border-bottom: 1.2px dotted #000 !important;
+                border-radius: 0 !important;
+                min-height: 18px !important;
+                padding: 0 !important;
+                font-size: 9pt !important;
+            }
+            /* ECONOMIA DE PAPEL: por padrao imprime SO o bloco da fonte que foi
+               marcada. Antes, os 3 blocos saiam sempre, e quem so tem poco jogava
+               fora as folhas de captacao superficial e de rede publica.
+               Para imprimir a ficha em branco com tudo, use o arquivo dedicado
+               FICHA_VISTORIA_CAMPO_OUTORGA_IMPRESSAO_PB_V2_FINAL.html, ou ligue
+               o modo "ficha completa" no seletor de impressao. */
+            .conditional-subterranea,
+            .conditional-superficial,
+            .conditional-publico { display: none !important; }
+            .conditional-subterranea.visible,
+            .conditional-superficial.visible,
+            .conditional-publico.visible { display: block !important; }
+            body.imprimir-tudo .conditional-subterranea,
+            body.imprimir-tudo .conditional-superficial,
+            body.imprimir-tudo .conditional-publico { display: block !important; }
+
+            /* COMPACTACAO DO REGISTRO DIGITAL:
+               o texto de orientacao serve para quem esta preenchendo, nao para o
+               registro impresso -- sai fora e economiza varias linhas por pergunta. */
+            .question-desc-text { display: none !important; }
+            body.imprimir-tudo .question-desc-text { display: block !important; }
+
+            /* opcoes nao escolhidas e itens nao marcados somem do registro impresso
+               (a classe e aplicada pelo evento beforeprint, e removida no afterprint) */
+            .sem-resposta { display: none !important; }
+
+            /* espacamento mais apertado, ainda legivel em 12pt no titulo */
+            .question-card { margin-bottom: 5px !important; }
+            .question-card-body { padding: 4px 6px !important; }
+            .radio-touch-group { gap: 4px !important; margin-bottom: 4px !important; }
+            .varieties-title { padding-top: 4px !important; margin: 4px 0 2px 0 !important; font-size: 7pt !important; }
+            .form-group { gap: 1px !important; }
+            .grid-inputs-2 { gap: 4px !important; }
+            .varieties-grid { grid-template-columns: 1fr 1fr !important; gap: 2px 6px !important; }
+            .variety-touch-item {
+                background: none !important;
+                border: none !important;
+                padding: 1px 0 !important;
+                min-height: auto !important;
+                font-size: 7.5pt !important;
+            }
+            .touch-radio-btn {
+                background: none !important;
+                border: 1.2px solid #000 !important;
+                min-height: 16px !important;
+                font-size: 8.5pt !important;
+                padding: 2px 4px !important;
+                box-shadow: none !important;
+            }
+            .touch-radio-btn.selected {
+                background: #000 !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .photo-grid { grid-template-columns: 1fr 1fr !important; gap: 4px !important; }
+            .photo-thumb { height: 90px !important; }
+            .photo-item { border: 1.2px solid #000 !important; break-inside: avoid !important; }
+            .photo-counter { border: 1.2px solid #000 !important; background: none !important; color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================= BARRA SUPERIOR: STATUS E AUTO-SAVE ======================= -->
+    <div class="top-status-bar">
+        <div class="top-row">
+            <div class="app-title-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C8 6 6 9.5 6 13a6 6 0 0 0 12 0c0-3.5-2-7-6-11zm0 17a4 4 0 0 1-4-4h2a2 2 0 0 0 2 2v2z"/></svg>
+                <div>
+                    <div class="app-title">SEDAM-RO • Vistoria Outorga</div>
+                    <div class="auto-save-text" id="lblAutoSave">Rascunho novo — nada salvo ainda</div>
+                </div>
+            </div>
+            <div style="text-align:right">
+                <span class="status-badge offline" id="badgeNetwork">
+                    <span id="dotNet">●</span> <span id="txtNet">Offline</span>
+                </span>
+                <div class="auto-save-text" id="lblOutbox">Fila: 0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- ======================= ABAS ======================= -->
+        <div class="nav-tabs-mobile no-print">
+            <div class="nav-tab-btn active" id="tab-ficha" onclick="showView('ficha')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                Ficha atual
+            </div>
+            <div class="nav-tab-btn" id="tab-salvas" onclick="showView('salvas')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-2 4H7V5h10v2zM7 11h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+                Vistorias salvas
+            </div>
+            <div class="nav-tab-btn" id="tab-sync" onclick="showView('sync')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6a6 6 0 0 1 6 6c0 1-.26 1.97-.71 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12a8 8 0 0 0-8-8zm0 14a6 6 0 0 1-6-6c0-1 .26-1.97.71-2.8L5.25 7.74A7.93 7.93 0 0 0 4 12a8 8 0 0 0 8 8v3l4-4-4-4v3z"/></svg>
+                Sincronização
+            </div>
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- VIEW 1: A FICHA (37 PERGUNTAS)                                       -->
+        <!-- ==================================================================== -->
+        <div class="view active" id="view-ficha">
+
+            <!-- CABECALHO DO PROCESSO -->
+            <div class="card-header-info" id="sec-header">
+                <span class="header-sei-badge">IDENTIFICAÇÃO DA VISTORIA</span>
+                <div class="grid-inputs-2">
+                    <div class="form-group">
+                        <label class="form-label">Nº da Vistoria</label>
+                        <input type="text" class="form-control" id="fld_num_vistoria" placeholder="Ex: 042/2026/COREH">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Data da Vistoria</label>
+                        <input type="date" class="form-control" id="fld_data_vistoria">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Empreendimento</label>
+                        <input type="text" class="form-control" id="fld_empreendimento" placeholder="Nome da Fazenda, Indústria ou Sítio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Interessado / Requerente</label>
+                        <input type="text" class="form-control" id="fld_interessado" placeholder="Nome completo ou Razão Social">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Processo SEI</label>
+                        <input type="text" class="form-control" id="fld_processo_sei" placeholder="Ex: 0021.123456/2026-00">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Município</label>
+                        <input type="text" class="form-control" id="fld_municipio" placeholder="Ex: Porto Velho, Ji-Paraná, Ariquemes">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Localização / Acesso</label>
+                        <input type="text" class="form-control" id="fld_localizacao" placeholder="Ex: Linha 67, KM 12, Lote 45">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Técnico Vistoriador</label>
+                        <input type="text" class="form-control" id="fld_tecnico" placeholder="Seu nome / Matrícula SEDAM">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:12px">
+                    <label class="form-label">Coordenadas da Sede (SIRGAS 2000)</label>
+                    <input type="text" class="form-control" id="fld_coord_sede" placeholder="Toque no botão para capturar..." style="font-family: monospace; font-weight: bold;">
+                    <button class="btn-gps-action no-print" onclick="captureGPS('fld_coord_sede')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                        CAPTURAR GPS DA SEDE
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-columns-print">
+
+            <!-- ============================================================ -->
+            <!-- BLOCO 1: INTERFERENCIA DIRETA E RESTRICOES LEGAIS (01 a 08)  -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                BLOCO 1 • INTERFERÊNCIA E RESTRIÇÕES LEGAIS
+            </div>
+
+            <!-- 01 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M13 16.5V21h-2v-4.5C7.6 16 5 13.1 5 9.5 5 5.9 8.1 3 12 3s7 2.9 7 6.5c0 3.6-2.6 6.5-6 7zM3 22h18v-2H3v2z"/></svg>
+                    <span>01. ÁREA DE PRESERVAÇÃO PERMANENTE (APP)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Lei Federal nº 12.651/2012 (Código Florestal). Avaliar cursos d'água, nascentes (raio de 50m), topos de morro e bordas de tabuleiros.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q01" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q01" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q01" placeholder="Descreva a interferência, a distância medida e a faixa de APP aplicável..."></textarea>
+                </div>
+            </div>
+
+            <!-- 02 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    <span>02. UNIDADE DE CONSERVAÇÃO (UC)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Resolução CONAMA nº 428/2010. Verificar sobreposição ou inserção na Zona de Amortecimento (ZA — faixa de 2 a 3 km).</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q02" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q02" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q02" placeholder="Nome da UC, esfera (federal/estadual/municipal), distância e situação na ZA..."></textarea>
+                </div>
+            </div>
+
+            <!-- 03 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 4l-2 12H6L4 4H2V2h3.3l.4 2H22l-2 12zM8 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM11 6v3H8v2h3v3h2v-3h3V9h-3V6h-2z"/></svg>
+                    <span>03. TERRA INDÍGENA (TI)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Instrução Normativa FUNAI nº 002/2015. Avaliar distâncias mínimas regulamentares e áreas lindeiras.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q03" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q03" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q03" placeholder="Nome da TI, etnia, distância aproximada e necessidade de anuência da FUNAI..."></textarea>
+                </div>
+            </div>
+
+            <!-- 04 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.2 3.8 21.7l1.9.3 1-2.8c.5.2 1 .3 1.3.3 11 0 14-15 14-15-1 2-8 2.2-13 3.2C6 8.7 4 11.5 4 14.5c0 1 .2 1.7.5 2.4C7 9 17 8 17 8z"/></svg>
+                    <span>04. RESERVA LEGAL E CAR</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Lei 12.651/2012 e Lei Estadual. Conferir se o empreendimento ou a captação intercepta a Reserva Legal averbada ou proposta no SICAR-RO.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q04" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q04" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label class="form-label">Nº do recibo CAR / SICAR-RO</label>
+                        <input type="text" class="form-control" id="fld_car" placeholder="Ex: RO-1100205-XXXX...">
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q04" placeholder="Situação da Reserva Legal: averbada, proposta, em recomposição, déficit..."></textarea>
+                </div>
+            </div>
+
+            <!-- 05 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>05. COMUNIDADE QUILOMBOLA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Instrução Normativa INCRA nº 01/2018 / Fundação Cultural Palmares.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q05" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q05" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q05" placeholder="Nome da comunidade, situação de titulação e distância..."></textarea>
+                </div>
+            </div>
+
+            <!-- 06 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0-4c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1V8z"/></svg>
+                    <span>06. CURSOS D'ÁGUA EXISTENTES</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Declaração de corpos hídricos perenes, intermitentes ou efêmeros na área direta ou indireta.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q06" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q06" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <div class="varieties-title">REGIME HÍDRICO OBSERVADO</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q06" value="Perene" onchange="toggleVariety(this)"> Perene (água o ano todo)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q06" value="Intermitente" onchange="toggleVariety(this)"> Intermitente (seca na estiagem)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q06" value="Efêmero" onchange="toggleVariety(this)"> Efêmero (só após chuva)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q06" value="Nascente" onchange="toggleVariety(this)"> Nascente / olho d'água</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q06" style="margin-top:10px" placeholder="Nome dos corpos hídricos e distância da área..."></textarea>
+                </div>
+            </div>
+
+            <!-- 07 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M13 16.5V21h-2v-4.5C7.6 16 5 13.1 5 9.5 5 5.9 8.1 3 12 3s7 2.9 7 6.5c0 3.6-2.6 6.5-6 7z"/></svg>
+                    <span>07. VEGETAÇÃO INTERNA E DO ENTORNO</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Fitofisionomias predominantes observadas em campo.</div>
+                    <div class="varieties-title">FITOFISIONOMIAS DE RONDÔNIA</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Ombrófila Aberta" onchange="toggleVariety(this)"> Floresta Ombrófila Aberta</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Ombrófila Densa" onchange="toggleVariety(this)"> Floresta Ombrófila Densa</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Savana/Cerrado" onchange="toggleVariety(this)"> Savana / Cerrado</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Estacional" onchange="toggleVariety(this)"> Floresta Estacional</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Pastagem" onchange="toggleVariety(this)"> Pastagem antropizada</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q07" value="Capoeira" onchange="toggleVariety(this)"> Capoeira / regeneração</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q07" style="margin-top:10px" placeholder="Estado de conservação, espécies notáveis, percentual de cobertura..."></textarea>
+                </div>
+            </div>
+
+            <!-- 08 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 3.84L19.35 19H4.65L12 5.84zM11 10h2v4h-2zm0 6h2v2h-2z"/></svg>
+                    <span>08. SUPRESSÃO VEGETAL RECENTE</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Comparativo in loco com imagens históricas (Google Earth / Planet / MapBiomas) para verificar descapoeiramento ou desmatamento sem ASV.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q08" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q08" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q08" placeholder="Área estimada em hectares, indício de queima, existência de ASV..."></textarea>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- BLOCO 2: MEIO FISICO E LOCALIZACAO (09 a 12)                 -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco2" style="background-color:#5c4033;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M2 20h20v2H2v-2zm2-6h4v5H4v-5zm6-5h4v10h-4V9zm6-6h4v16h-4V3z"/></svg>
+                BLOCO 2 • MEIO FÍSICO E LOCALIZAÇÃO
+            </div>
+
+            <!-- 09 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M2 20h20v2H2v-2zm1.15-4.05L7 11l3.5 4.5 3-3.5L21 20H3l.15-4.05z"/></svg>
+                    <span>09. PEDOLOGIA, TOPOGRAFIA E GEOMORFOLOGIA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Classificação do solo (SiBCS/Embrapa), declividade do terreno e relevo regional.</div>
+                    <div class="varieties-title">SOLOS PREDOMINANTES EM RONDÔNIA</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Latossolo Vermelho-Amarelo" onchange="toggleVariety(this)"> Latossolo Vermelho-Amarelo</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Latossolo Vermelho" onchange="toggleVariety(this)"> Latossolo Vermelho</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Argissolo" onchange="toggleVariety(this)"> Argissolo</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Neossolo Quartzarênico" onchange="toggleVariety(this)"> Neossolo Quartzarênico</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Cambissolo" onchange="toggleVariety(this)"> Cambissolo</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Gleissolo" onchange="toggleVariety(this)"> Gleissolo (baixada úmida)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Plintossolo" onchange="toggleVariety(this)"> Plintossolo</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09s" value="Nitossolo" onchange="toggleVariety(this)"> Nitossolo (terra roxa)</label>
+                    </div>
+                    <div class="varieties-title">RELEVO E DECLIVIDADE</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09t" value="Plano" onchange="toggleVariety(this)"> Plano (0-3%)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09t" value="Suave ondulado" onchange="toggleVariety(this)"> Suave ondulado (3-8%)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09t" value="Ondulado" onchange="toggleVariety(this)"> Ondulado (8-20%)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q09t" value="Forte ondulado" onchange="toggleVariety(this)"> Forte ondulado (20-45%)</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q09" style="margin-top:10px" placeholder="Observações de campo sobre solo, relevo e geomorfologia..."></textarea>
+                </div>
+            </div>
+
+            <!-- 10 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M17 5.33C17 3.17 12 0 12 0S7 3.17 7 5.33C7 8.06 9.24 10 12 10s5-1.94 5-4.67zM3 14c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0 5c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2z"/></svg>
+                    <span>10. DRENAGEM SUPERFICIAL DO TERRENO</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Capacidade de infiltração, alagamentos periódicos, escoamento laminar ou formação de voçorocas e sulcos erosivos.</div>
+                    <div class="varieties-title">CONDIÇÃO DE DRENAGEM OBSERVADA</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Bem drenado" onchange="toggleVariety(this)"> Bem drenado</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Moderadamente drenado" onchange="toggleVariety(this)"> Moderadamente drenado</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Mal drenado" onchange="toggleVariety(this)"> Mal drenado / encharca</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Alagamento periódico" onchange="toggleVariety(this)"> Alagamento periódico</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Erosão laminar" onchange="toggleVariety(this)"> Erosão laminar</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q10" value="Sulcos / voçorocas" onchange="toggleVariety(this)"> Sulcos / voçorocas</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q10" style="margin-top:10px" placeholder="Descreva o escoamento, pontos críticos e obras de drenagem existentes..."></textarea>
+                </div>
+            </div>
+
+            <!-- 11 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm-1 8h2v2h-2v-2z"/></svg>
+                    <span>11. PROXIMIDADE A EQUIPAMENTOS SOCIAIS</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Distâncias a hospitais, postos de saúde, escolas, creches e núcleos residenciais urbanos e rurais.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q11" value="Sim" onchange="pick(this)"> HÁ VIZINHANÇA SENSÍVEL</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q11" value="Não" onchange="pick(this)"> ÁREA ISOLADA</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q11" placeholder="Liste o equipamento e a distância aproximada em metros..."></textarea>
+                </div>
+            </div>
+
+            <!-- 12 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+                    <span>12. COMPATIBILIDADE DE ZONEAMENTO</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Plano Diretor Municipal, Lei de Uso e Ocupação do Solo e Zoneamento Socioeconômico-Ecológico de Rondônia (ZSEE-RO / LC 233/2000).</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q12" value="Compatível" onchange="pick(this)"> COMPATÍVEL</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q12" value="Incompatível" onchange="pick(this)"> INCOMPATÍVEL</label>
+                    </div>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label class="form-label">Zona do ZSEE-RO</label>
+                        <input type="text" class="form-control" id="fld_zsee" placeholder="Ex: Zona 1, Subzona 1.2">
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q12" placeholder="Enquadramento no Plano Diretor e no ZSEE-RO..."></textarea>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- BLOCO 3: CONVENIENCIA, OPERACAO E IMPACTOS (13 a 19)         -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco3" style="background-color:#7c2d12;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M10 21v-2H6.83l1.45-3.32L7.05 15l-3.32 1.45L2 13.17V10h2V6.83l3.32 1.45L8.95 7l-1.45-3.32L9.17 2H12v2h3.17l-1.45 3.32 1.23 1.28 3.32-1.45L20 8.83V12h-2v3.17l-3.32-1.45-1.23 1.28 1.45 3.32-1.67 1.68H10z"/></svg>
+                BLOCO 3 • OPERAÇÃO E IMPACTOS AMBIENTAIS
+            </div>
+
+            <!-- 13 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C8 6 6 9.5 6 13a6 6 0 0 0 12 0c0-3.5-2-7-6-11z"/></svg>
+                    <span>13. NECESSIDADE DE USO DE ÁGUA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Identificação do uso no processo produtivo, consumo humano, combate a incêndio, sanitários ou irrigação.</div>
+                    <div class="varieties-title">FINALIDADES DO USO DA ÁGUA</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Consumo humano" onchange="toggleVariety(this)"> Consumo humano / sanitários</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Processo produtivo" onchange="toggleVariety(this)"> Processo produtivo / industrial</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Dessedentação animal" onchange="toggleVariety(this)"> Dessedentação animal</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Irrigação" onchange="toggleVariety(this)"> Irrigação</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Combate a incêndio" onchange="toggleVariety(this)"> Combate a incêndio</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q13" value="Lavagem" onchange="toggleVariety(this)"> Lavagem de veículos / pátio</label>
+                    </div>
+                    <div class="form-group" style="margin-top:10px">
+                        <label class="form-label">Consumo estimado (m³/dia) e regime (horas/dia)</label>
+                        <input type="text" class="form-control" id="fld_consumo" placeholder="Ex: 12 m³/dia • 8 h/dia">
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q13" style="margin-top:10px" placeholder="Detalhe o uso da água no empreendimento..."></textarea>
+                </div>
+            </div>
+
+            <!-- 14 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.47 4.47 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
+                    <span>14. EMISSÃO DE RUÍDOS E VIBRAÇÕES</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Avaliação conforme NBR 10.151 / NBR 10.152, proximidade com vizinhos e maquinário pesado.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q14" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q14" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q14" placeholder="Fontes de ruído, horário de operação e medidas de atenuação..."></textarea>
+                </div>
+            </div>
+
+            <!-- 15 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 19a5 5 0 0 1-.42-9.98A7 7 0 0 1 19 9.5a4.5 4.5 0 0 1-.5 9.5H6zm3-11.5L7 10h3v4h2v-4h3L11.5 6 9 7.5z"/></svg>
+                    <span>15. EMISSÕES ATMOSFÉRICAS E GASES</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Queima de biomassa, poeira suspensa em vias de acesso, fornalhas, geradores diesel e odores.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q15" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q15" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q15" placeholder="Tipo de emissão, fonte, existência de filtro/lavador e controle de poeira..."></textarea>
+                </div>
+            </div>
+
+            <!-- 16 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h14v-8h3L12 3zm-2 15v-5h4v5h-4z"/></svg>
+                    <span>16. CANTEIRO DE OBRAS E INSTALAÇÕES PROVISÓRIAS</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Condições sanitárias, drenagem provisória e armazenamento de materiais da fase de implantação.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q16" value="Sim" onchange="pick(this)"> EXISTE</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q16" value="Não" onchange="pick(this)"> NÃO EXISTE</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q16" placeholder="Condições observadas no canteiro, banheiros, refeitório e paiol..."></textarea>
+                </div>
+            </div>
+
+            <!-- 17 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4 4h4v6H6v4h5v-2h2v2h5v-4h-2V4h4v6h-2v6a2 2 0 0 1-2 2h-3v2h-2v-2H8a2 2 0 0 1-2-2v-6H4V4z"/></svg>
+                    <span>17. GERAÇÃO E DISPOSIÇÃO DE EFLUENTES LÍQUIDOS</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Efluentes sanitários (fossa séptica + sumidouro — NBR 7229 / NBR 13969) e industriais ou oleosos (caixa separadora água e óleo — CSAO).</div>
+                    <div class="varieties-title">SISTEMA DE TRATAMENTO EXISTENTE</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="Fossa séptica + sumidouro" onchange="toggleVariety(this)"> Fossa séptica + sumidouro</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="Fossa rudimentar" onchange="toggleVariety(this)"> Fossa rudimentar (negra)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="Rede coletora" onchange="toggleVariety(this)"> Rede pública coletora</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="CSAO" onchange="toggleVariety(this)"> Caixa separadora água/óleo</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="ETE compacta" onchange="toggleVariety(this)"> ETE compacta</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q17" value="Sem tratamento" onchange="toggleVariety(this)"> Sem tratamento (irregular)</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q17" style="margin-top:10px" placeholder="Estado de conservação, distância do poço e destino final do efluente..."></textarea>
+                </div>
+            </div>
+
+            <!-- 18 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    <span>18. RESÍDUOS SÓLIDOS (PGRS / PNRS)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Lei 12.305/2010. Segregação de Classe I (perigosos, lubrificantes, baterias) e Classe II (recicláveis e comuns), com destinação final adequada.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q18" value="Sim" onchange="pick(this)"> POSSUI PGRS</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q18" value="Não" onchange="pick(this)"> NÃO POSSUI</label>
+                    </div>
+                    <div class="varieties-title">RESÍDUOS OBSERVADOS</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Classe I - perigosos" onchange="toggleVariety(this)"> Classe I — perigosos</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Classe II - comuns" onchange="toggleVariety(this)"> Classe II — comuns/recicláveis</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Óleo lubrificante" onchange="toggleVariety(this)"> Óleo lubrificante usado</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Embalagem de agrotóxico" onchange="toggleVariety(this)"> Embalagem de agrotóxico</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Queima a céu aberto" onchange="toggleVariety(this)"> Queima a céu aberto (irregular)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q18" value="Aterro/vala no local" onchange="toggleVariety(this)"> Vala ou aterro no local</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q18" style="margin-top:10px" placeholder="Armazenamento temporário, empresa coletora e comprovantes de destinação..."></textarea>
+                </div>
+            </div>
+
+            <!-- 19 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    <span>19. VIZINHANÇA E ENTREVISTAS LOCAIS</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Diálogo com confrontantes sobre histórico de enchentes, disponibilidade hídrica e conflitos socioambientais.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q19" value="Sim" onchange="pick(this)"> HOUVE ENTREVISTA</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q19" value="Não" onchange="pick(this)"> NÃO HOUVE</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q19" placeholder="Quem foi entrevistado, relatos de secas/enchentes e conflitos pelo uso da água..."></textarea>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- BLOCO 4: CAPTACAO E OUTORGA (20 a 34)                        -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco4" style="background-color: #0369a1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                BLOCO 4 • CAPTAÇÃO DE ÁGUA E OUTORGA
+            </div>
+
+            <!-- 20 - MULTIPLA ESCOLHA QUE COMANDA OS BLOCOS CONDICIONAIS -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    <span>20. FONTES DE ABASTECIMENTO DE ÁGUA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Múltipla escolha: pode marcar 1, 2 ou as 3 fontes ao mesmo tempo. Só abrem as perguntas da fonte que você marcar — igual ao portal SOLAR (opções 49, 50 e 51).</div>
+                    <div class="water-sources-selector">
+                        <label class="water-source-card" id="card_superficial">
+                            <input type="checkbox" class="ws-check" id="chk_superficial" onchange="toggleWaterSource('superficial', this)" aria-label="Captação superficial (opção 49 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0-4c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1V8z"/></svg>
+                            <span class="ws-texto">CAPTAÇÃO SUPERFICIAL<br><span class="ws-sub">rio / igarapé — opção 49</span></span>
+                        </label>
+                        <label class="water-source-card" id="card_subterranea">
+                            <input type="checkbox" class="ws-check" id="chk_subterranea" onchange="toggleWaterSource('subterranea', this)" aria-label="Captação subterrânea (opção 50 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                            <span class="ws-texto">CAPTAÇÃO SUBTERRÂNEA<br><span class="ws-sub">poço — opção 50</span></span>
+                        </label>
+                        <label class="water-source-card" id="card_publico">
+                            <input type="checkbox" class="ws-check" id="chk_publico" onchange="toggleWaterSource('publico', this)" aria-label="Abastecimento público (opção 51 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2zm-6-5c.55 0 1 .45 1 1v4h-2V6c0-.55.45-1 1-1zm-2 15h4v2h-4z"/></svg>
+                            <span class="ws-texto">ABASTECIMENTO PÚBLICO<br><span class="ws-sub">CAERD / SAAE — opção 51</span></span>
+                        </label>
+                    </div>
+                    <div class="varieties-title">OUTRAS FONTES DECLARADAS</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Caminhão-pipa" onchange="toggleVariety(this)"> Caminhão-pipa</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Água de chuva" onchange="toggleVariety(this)"> Água de chuva (cisterna)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Nascente" onchange="toggleVariety(this)"> Nascente / olho d'água</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Lagoa/Represa" onchange="toggleVariety(this)"> Lagoa / represa / açude</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOLAR-35 (extra, fora da numeracao local 1-37) - PERGUNTA COMPARTILHADA (dependencia de 49 e de 50 no portal SOLAR) -->
+            <div class="question-card conditional-q35" id="block_q35">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-3 16l-3-3 1.41-1.41L11 15.17l4.59-4.58L17 12l-6 6zm2-9V3.5L18.5 9H13z"/></svg>
+                    <span>SOLAR-35 (EXTRA). POSSUI OUTORGA DE CAPTAÇÃO?</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">ID oficial 35 do portal SOLAR — pergunta compartilhada que aparece tanto para captação superficial (opção 49) quanto subterrânea (opção 50). Responda de forma geral aqui; o número da outorga específica de cada fonte é registrado dentro do bloco correspondente (itens 143/144 para superficial e 145/146 para subterrânea).</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q35" value="Sim" onchange="pick(this)"> SIM</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q35" value="Não" onchange="pick(this)"> NÃO</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= CONDICIONAL A: SUBTERRANEA (21 a 29) ======= -->
+            <div class="conditional-subterranea" id="block_subterranea">
+                <div class="section-banner" style="background-color:#075985;font-size:13px">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                    CAPTAÇÃO SUBTERRÂNEA • ITENS 21 A 29
+                </div>
+
+                <!-- 21 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M11 2h2v20h-2zM7 6h2v14H7zm8 0h2v14h-2z"/></svg>
+                        <span>21. QUAL O TIPO DE POÇO?</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q21" value="Tubular" onchange="pick(this)"> TUBULAR PROFUNDO</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q21" value="Amazônico" onchange="pick(this)"> AMAZÔNICO (CACIMBA)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 22 e 23 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M3 17h18v2H3v-2zm0-7h18v2H3v-2zm0-7h18v2H3V3zm9 3l3 3h-2v6h2l-3 3-3-3h2V9H9l3-3z"/></svg>
+                        <span>22 & 23. PROFUNDIDADE (M) E VAZÃO (M³/H)</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="grid-inputs-2">
+                            <div class="form-group">
+                                <label class="form-label">22. Profundidade (m)</label>
+                                <input type="text" class="form-control" id="fld_profundidade" placeholder="Ex: 80 m" inputmode="decimal">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">23. Vazão (m³/h ou L/s)</label>
+                                <input type="text" class="form-control" id="fld_vazao_poco" placeholder="Ex: 5 m³/h • 6 h/dia">
+                            </div>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q22_23" style="margin-top:10px" placeholder="Fonte do dado: documentação da perfuratriz, medição por sonda ou declaração..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 24 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 14l-4-4 1.41-1.41L11 12.17l4.59-4.58L17 9l-6 6z"/></svg>
+                        <span>24. ESTADO DE CONSERVAÇÃO DO POÇO</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Avaliação estrutural do cavalete, laje de proteção sanitária e vedação da boca do poço.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q24" value="Bom" onchange="pick(this)"> BOM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q24" value="Regular" onchange="pick(this)"> REGULAR</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q24" value="Ruim" onchange="pick(this)"> RUIM</label>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q24" placeholder="Descreva a laje, o cavalete e a proteção sanitária..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 25 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 8h-1V6A5 5 0 0 0 7 6v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9V6z"/></svg>
+                        <span>25. EXISTÊNCIA DE TAMPA / VEDAÇÃO SANITÁRIA</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Tampa metálica ou de concreto hermética, impedindo entrada de enxurrada e animais.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q25" value="Sim" onchange="pick(this)"> SIM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q25" value="Não" onchange="pick(this)"> NÃO</label>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q25" placeholder="Material da tampa e qualidade da vedação..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 26 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>
+                        <span>26. APARÊNCIA EXTERNA DO POÇO</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Limpeza ao redor, trincas na alvenaria, vegetação invasora e integridade física.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q26" value="Boa" onchange="pick(this)"> BOA</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q26" value="Ruim" onchange="pick(this)"> RUIM</label>
+                        </div>
+                        <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">Enum oficial do SOLAR (pergunta 154). Detalhe o motivo na observação abaixo.</div>
+                        <textarea class="handwriting-textarea" id="obs_q26" placeholder="Trincas, mato alto, acúmulo de água ou lixo no entorno..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 27 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c-1 3-4 5.5-4 8.5a4 4 0 0 0 8 0C16 7.5 13 5 12 2zm-6 14h12v2H6v-2zm2 4h8v2H8v-2z"/></svg>
+                        <span>27. VAZAMENTOS OU PERDAS NO SISTEMA</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Verificação visual de junções, conexões, tubulação de recalque e hidrômetro.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q27" value="Sim" onchange="pick(this)"> SIM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q27" value="Não" onchange="pick(this)"> NÃO</label>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q27" placeholder="Local do vazamento e gravidade observada..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 28 e 29 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/></svg>
+                        <span>28 & 29. TIPO DE BOMBA E COORDENADAS DO POÇO</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="form-label" style="margin-bottom:6px">28. TIPO DE BOMBA (156 — ENUM OFICIAL DO SOLAR)</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q28" value="Interna" onchange="pick(this)"> INTERNA</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q28" value="Externa" onchange="pick(this)"> EXTERNA</label>
+                        </div>
+                        <div class="form-label" style="margin:10px 0 6px 0">DETALHE TÉCNICO LOCAL (não é campo do SOLAR)</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q28_local" value="Submersa" onchange="pick(this)"> SUBMERSA</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q28_local" value="Centrífuga" onchange="pick(this)"> CENTRÍFUGA</label>
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label class="form-label">Potência (CV / HP)</label>
+                            <input type="text" class="form-control" id="fld_potencia_poco" placeholder="Ex: 1,5 CV">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">29. Coordenadas do poço (SIRGAS 2000)</label>
+                            <input type="text" class="form-control" id="fld_coord_poco" placeholder="Latitude e Longitude do poço..." style="font-family:monospace;font-weight:bold">
+                            <button class="btn-gps-action no-print" onclick="captureGPS('fld_coord_poco')">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/></svg>
+                                CAPTURAR GPS DO POÇO
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 145 e 146 - OUTORGA ESPECIFICA DA CAPTACAO SUBTERRANEA (par independente no SOLAR) -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-3 16l-3-3 1.41-1.41L11 15.17l4.59-4.58L17 12l-6 6zm2-9V3.5L18.5 9H13z"/></svg>
+                        <span>145 & 146. OUTORGA DE CAPTAÇÃO SUBTERRÂNEA</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Par independente do portal SOLAR — não é o mesmo campo da superficial (143/144). 145 pergunta se possui; 146 só aparece se a resposta for Sim.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q145" value="Sim" onchange="pick(this)"> SIM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q145" value="Não" onchange="pick(this)"> NÃO</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">146. Número da outorga de captação subterrânea</label>
+                            <input type="text" class="form-control" id="fld_num_outorga_subterranea" placeholder="Ex: Portaria nº 000/2025/SEDAM">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= CONDICIONAL B: SUPERFICIAL (30 a 33) ======= -->
+            <div class="conditional-superficial" id="block_superficial">
+                <div class="section-banner" style="background-color:#0e7490;font-size:13px">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2z"/></svg>
+                    CAPTAÇÃO SUPERFICIAL • ITENS 30 A 33
+                </div>
+
+                <!-- 30 e 31 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C8 6 6 9.5 6 13a6 6 0 0 0 12 0c0-3.5-2-7-6-11z"/></svg>
+                        <span>158, 159 & 160. LOCAL, NOME E CARACTERÍSTICAS DO CORPO HÍDRICO</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">IDs oficiais do portal SOLAR (perguntaId33/opção 49): 158 = onde é a captação; 159 = nome do corpo hídrico; 160 = características do corpo hídrico. Confirmado por auditoria forense dos dumps em 15/09/2026.</div>
+                        <div class="form-label" style="margin-bottom:6px">158. ONDE É A CAPTAÇÃO NO CORPO HÍDRICO?</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q158" value="Rio/Igarapé" onchange="pick(this)"> RIO / IGARAPÉ</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q158" value="Barramento" onchange="pick(this)"> BARRAMENTO</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q158" value="Represa" onchange="pick(this)"> REPRESA</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q158" value="Nascente" onchange="pick(this)"> NASCENTE</label>
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label class="form-label">159. Nome do corpo hídrico</label>
+                            <input type="text" class="form-control" id="fld_corpo_hidrico" placeholder="Ex: Igarapé Bate-Estaca">
+                        </div>
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label class="form-label">160. Características do corpo hídrico</label>
+                            <input type="text" class="form-control" id="fld_caracteristicas_corpo" placeholder="Ex: perene, água turva, margem erodida, largura aprox. 8m">
+                        </div>
+                        <div class="varieties-title">BACIA HIDROGRÁFICA ESTADUAL (enriquecimento local — não é campo oficial do SOLAR)</div>
+                        <div class="varieties-grid">
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Madeira" onchange="toggleVariety(this)"> Bacia do Rio Madeira</label>
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Machado/Ji-Paraná" onchange="toggleVariety(this)"> Bacia do Rio Machado (Ji-Paraná)</label>
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Jamari" onchange="toggleVariety(this)"> Bacia do Rio Jamari</label>
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Guaporé" onchange="toggleVariety(this)"> Bacia do Rio Guaporé</label>
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Mamoré" onchange="toggleVariety(this)"> Bacia do Rio Mamoré</label>
+                            <label class="variety-touch-item"><input type="checkbox" name="v_q31" value="Roosevelt" onchange="toggleVariety(this)"> Bacia do Rio Roosevelt</label>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q30_31" style="margin-top:10px" placeholder="Local exato da tomada d'água e margem (direita/esquerda)..."></textarea>
+                    </div>
+                </div>
+
+                <!-- 32 e 33 -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/></svg>
+                        <span>32 & 33. POTÊNCIA/VAZÃO E COORDENADAS SUPERFICIAL</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="grid-inputs-2">
+                            <div class="form-group">
+                                <label class="form-label">32. Potência da motobomba</label>
+                                <input type="text" class="form-control" id="fld_potencia_sup" placeholder="Ex: 3 CV">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">32. Vazão captada (m³/h)</label>
+                                <input type="text" class="form-control" id="fld_vazao_sup" placeholder="Ex: 10 m³/h">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Diâmetro sucção / recalque</label>
+                                <input type="text" class="form-control" id="fld_diametro_sup" placeholder="Ex: 2&quot; / 1.1/2&quot;">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Regime (horas/dia)</label>
+                                <input type="text" class="form-control" id="fld_regime_sup" placeholder="Ex: 4 h/dia">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:12px">
+                            <label class="form-label">33. Coordenadas da captação (SIRGAS 2000)</label>
+                            <input type="text" class="form-control" id="fld_coord_superficial" placeholder="Latitude e Longitude da captação..." style="font-family:monospace;font-weight:bold">
+                            <button class="btn-gps-action no-print" onclick="captureGPS('fld_coord_superficial')">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06z"/></svg>
+                                CAPTURAR GPS DA CAPTAÇÃO
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 143 e 144 - OUTORGA ESPECIFICA DA CAPTACAO SUPERFICIAL (par independente no SOLAR) -->
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-3 16l-3-3 1.41-1.41L11 15.17l4.59-4.58L17 12l-6 6zm2-9V3.5L18.5 9H13z"/></svg>
+                        <span>143 & 144. OUTORGA DE CAPTAÇÃO SUPERFICIAL</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Par independente do portal SOLAR — não é o mesmo campo da subterrânea (145/146). 143 pergunta se possui; 144 só aparece se a resposta for Sim.</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q143" value="Sim" onchange="pick(this)"> SIM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q143" value="Não" onchange="pick(this)"> NÃO</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">144. Número da outorga de captação superficial</label>
+                            <input type="text" class="form-control" id="fld_num_outorga_superficial" placeholder="Ex: Portaria nº 000/2025/SEDAM">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= CONDICIONAL C: REDE PUBLICA (opcao 51 do portal) ======= -->
+            <div class="conditional-publico" id="block_publico">
+                <div class="section-banner" style="background-color:#4338ca;font-size:13px">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2z"/></svg>
+                    ABASTECIMENTO PÚBLICO • CONCESSIONÁRIA
+                </div>
+
+                <div class="question-card">
+                    <div class="question-card-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2zm-6-5c.55 0 1 .45 1 1v4h-2V6c0-.55.45-1 1-1zm-2 15h4v2h-4z"/></svg>
+                        <span>20.C. REDE PÚBLICA DE ABASTECIMENTO</span>
+                    </div>
+                    <div class="question-card-body">
+                        <div class="question-desc-text">Opção 51 do portal SOLAR: não exige dados de motobomba nem profundidade de poço próprio. Registre a concessionária e o consumo faturado.</div>
+                        <div class="form-label" style="margin-bottom:6px">CONCESSIONÁRIA / PRESTADOR</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q20c" value="CAERD" onchange="pick(this)"> CAERD</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q20c" value="SAAE" onchange="pick(this)"> SAAE MUNICIPAL</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q20c" value="Outro" onchange="pick(this)"> OUTRO PRESTADOR</label>
+                        </div>
+                        <div class="grid-inputs-2">
+                            <div class="form-group">
+                                <label class="form-label">Matrícula / Unidade consumidora</label>
+                                <input type="text" class="form-control" id="fld_matricula_agua" placeholder="Nº da ligação de água">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Consumo médio faturado (m³/mês)</label>
+                                <input type="text" class="form-control" id="fld_consumo_rede" placeholder="Ex: 45 m³/mês">
+                            </div>
+                        </div>
+                        <div class="form-label" style="margin:12px 0 6px 0">EXISTE HIDRÔMETRO INSTALADO?</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q20c_hidro" value="Sim" onchange="pick(this)"> SIM</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q20c_hidro" value="Não" onchange="pick(this)"> NÃO</label>
+                        </div>
+                        <div class="form-label" style="margin-bottom:6px">A REDE PÚBLICA ATENDE SOZINHA A DEMANDA?</div>
+                        <div class="radio-touch-group">
+                            <label class="touch-radio-btn"><input type="radio" name="q20c_supre" value="Sim" onchange="pick(this)"> SIM, ATENDE</label>
+                            <label class="touch-radio-btn"><input type="radio" name="q20c_supre" value="Não" onchange="pick(this)"> NÃO, É COMPLEMENTAR</label>
+                        </div>
+                        <textarea class="handwriting-textarea" id="obs_q20c" placeholder="Regularidade do fornecimento, intermitências e uso combinado com poço ou caminhão-pipa..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 34 (LOCAL) -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-3 16l-3-3 1.41-1.41L11 15.17l4.59-4.58L17 12l-6 6zm2-9V3.5L18.5 9H13z"/></svg>
+                    <span>34. CLASSIFICAÇÃO LOCAL DA SITUAÇÃO DA OUTORGA (RESUMO)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Campo de ENRIQUECIMENTO LOCAL — não corresponde a um perguntaId do portal SOLAR. Os campos oficiais de outorga são os pares independentes 143/144 (superficial, dentro do bloco de Captação Superficial) e 145/146 (subterrânea, dentro do bloco de Captação Subterrânea). Use este campo só como resumo qualitativo para facilitar sua própria leitura depois.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q34" value="Portaria de Outorga vigente" onchange="pick(this)"> PORTARIA DE OUTORGA VIGENTE</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q34" value="Declaração de Uso Insignificante" onchange="pick(this)"> USO INSIGNIFICANTE (DUI)</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q34" value="Dispensa de Outorga" onchange="pick(this)"> DISPENSA DE OUTORGA</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q34" value="Processo SEI em análise" onchange="pick(this)"> PROCESSO SEI EM ANÁLISE</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q34" value="Não possui outorga" onchange="pick(this)"> NÃO POSSUI (REGULARIZAR)</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q34" placeholder="Validade, vazão outorgada e divergências encontradas em campo..."></textarea>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- BLOCO 5: CONCLUSAO E REGISTRO FOTOGRAFICO (35 a 37)          -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco5">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                BLOCO 5 • CONCLUSÃO E REGISTRO FOTOGRÁFICO
+            </div>
+
+            <!-- 35 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    <span>35. OUTROS ASPECTOS RELEVANTES OBSERVADOS</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Particularidades locais, fauna avistada, restrições viárias ou logísticas.</div>
+                    <textarea class="handwriting-textarea" id="obs_q35" style="min-height:110px" placeholder="Anotações livres da vistoria..."></textarea>
+                </div>
+            </div>
+
+            <!-- 36 -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                    <span>36. CONSIDERAÇÕES FINAIS E CONCLUSÃO TÉCNICA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Parecer preliminar do vistoriador sobre a viabilidade ambiental e hidrológica.</div>
+                    <div class="radio-touch-group">
+                        <label class="touch-radio-btn"><input type="radio" name="q36" value="Favorável" onchange="pick(this)"> FAVORÁVEL</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q36" value="Favorável com condicionantes" onchange="pick(this)"> FAVORÁVEL COM CONDICIONANTES</label>
+                        <label class="touch-radio-btn"><input type="radio" name="q36" value="Desfavorável" onchange="pick(this)"> DESFAVORÁVEL</label>
+                    </div>
+                    <textarea class="handwriting-textarea" id="obs_q36" style="min-height:130px" placeholder="Parecer técnico preliminar e condicionantes propostas..."></textarea>
+                </div>
+            </div>
+
+            <!-- 37 - FOTOS -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 3l-1.83 2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                    <span>37. REGISTRO FOTOGRÁFICO (MÍNIMO 6 FOTOS)</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">Sugestão de cobertura: (1) ponto de captação, (2) sistema de bombeamento/hidrômetro, (3) vista geral do empreendimento, (4) entorno ambiental, (5) efluentes/resíduos, (6) acesso e placa de identificação. Pode tirar quantas quiser e remover depois as que não forem necessárias.</div>
+
+                    <div class="photo-counter incomplete" id="photoCounter">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"/></svg>
+                        <span id="photoCounterText">0 de 6 fotos mínimas</span>
+                    </div>
+
+                    <div class="photo-actions no-print">
+                        <button class="btn-photo btn-photo-camera" onclick="document.getElementById('inpCamera').click()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M9 3l-1.83 2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.17L15 3H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+                            CÂMERA
+                        </button>
+                        <button class="btn-photo btn-photo-gallery" onclick="document.getElementById('inpGaleria').click()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M22 16V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14a2 2 0 0 0 2 2h14v-2H4V6H2z"/></svg>
+                            GALERIA
+                        </button>
+                    </div>
+                    <input type="file" id="inpCamera" accept="image/*" capture="environment" multiple style="display:none" onchange="onPhotosSelected(event)">
+                    <input type="file" id="inpGaleria" accept="image/*" multiple style="display:none" onchange="onPhotosSelected(event)">
+
+                    <div class="photo-grid" id="photoGrid"></div>
+                </div>
+            </div>
+
+            </div><!-- /content-columns-print -->
+        </div><!-- /view-ficha -->
+
+        <!-- ==================================================================== -->
+        <!-- VIEW 2: VISTORIAS SALVAS NO APARELHO                                 -->
+        <!-- ==================================================================== -->
+        <div class="view" id="view-salvas">
+            <div class="section-banner">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-2 4H7V5h10v2zM7 11h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+                VISTORIAS SALVAS NESTE APARELHO
+            </div>
+
+            <div class="config-warning" style="background-color:#ecfdf5;border-color:var(--success);color:#14532d">
+                <b>✓ Seus dados já estão seguros mesmo fechando o app</b>
+                Tudo o que você preenche fica gravado neste aparelho (armazenamento IndexedDB do Safari),
+                não na memória do navegador. Fechar o app, desligar a tela ou trocar de aplicativo
+                <b style="display:inline">não apaga nada</b> — ao reabrir pelo ícone, a vistoria continua exatamente como você deixou.
+                O que apaga os dados é só: excluir a vistoria manualmente, apagar os dados do Safari nos
+                Ajustes do iPhone, ou remover o app da Tela de Início.
+            </div>
+
+            <div class="card-header-info">
+                <span class="header-sei-badge">CÓPIA DE SEGURANÇA EXTRA (RECOMENDADO NO FIM DO DIA)</span>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:10px;line-height:1.4">
+                    Gera um arquivo com <b>todas</b> as vistorias e fotos deste aparelho — mesmo as já enviadas.
+                    Salve esse arquivo na pasta do Google Drive pelo app Arquivos: se o iPhone quebrar, perder ou
+                    for restaurado antes de sincronizar, o trabalho não se perde.
+                </div>
+                <div class="vistoria-actions" style="margin:0">
+                    <button class="btn-row-action" style="flex:1 1 100%;background:#0284c7;color:#fff;border-color:#0284c7" onclick="exportarTudoJSON()">
+                        BAIXAR TUDO (.JSON — completo, com fotos)
+                    </button>
+                    <button class="btn-row-action" style="flex:1 1 100%;background:#000;color:#fff;border-color:#000" onclick="exportarTudoMarkdown()">
+                        BAIXAR TUDO (.MD — leitura humana, sem fotos)
+                    </button>
+                </div>
+            </div>
+
+            <div id="listaVistorias"></div>
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- VIEW 3: SINCRONIZACAO                                                -->
+        <!-- ==================================================================== -->
+        <div class="view" id="view-sync">
+            <div class="section-banner" style="background-color:#0369a1">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 4V1L8 5l4 4V6a6 6 0 0 1 6 6c0 1-.26 1.97-.71 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12a8 8 0 0 0-8-8z"/></svg>
+                SINCRONIZAÇÃO COM O GOOGLE DRIVE
+            </div>
+
+            <div class="config-warning" id="warnEndpoint">
+                <b>⚠ Endpoint ainda não configurado</b>
+                Enquanto você não colar aqui a URL do seu Web App do Google Apps Script, o app funciona
+                normalmente offline e guarda tudo no aparelho — mas <b style="display:inline">nada é enviado para a nuvem</b>.
+                O passo a passo de publicação está no arquivo <code>APPS_SCRIPT_BACKEND.gs</code>.
+            </div>
+
+            <div class="card-header-info">
+                <span class="header-sei-badge">CONFIGURAÇÃO DO ENVIO</span>
+                <div class="form-group" style="margin-bottom:12px">
+                    <label class="form-label">URL do Web App (termina em /exec)</label>
+                    <input type="url" class="form-control" id="cfg_endpoint" placeholder="https://script.google.com/macros/s/.../exec" inputmode="url">
+                </div>
+                <div class="form-group" style="margin-bottom:12px">
+                    <label class="form-label">Token combinado com o script</label>
+                    <input type="text" class="form-control" id="cfg_token" placeholder="O mesmo texto que você pôs em TOKEN no .gs">
+                </div>
+                <button class="btn-gps-action" style="background-color:var(--primary)" onclick="salvarConfig()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg>
+                    SALVAR CONFIGURAÇÃO NESTE APARELHO
+                </button>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:8px;line-height:1.4">
+                    A configuração fica guardada só neste iPhone, no armazenamento do navegador.
+                    Não é gravada em nenhum arquivo do Drive, do GitHub ou do Obsidian.
+                </div>
+            </div>
+
+            <div class="card-header-info">
+                <span class="header-sei-badge">FILA DE ENVIO</span>
+                <div id="resumoFila" style="font-size:14px;line-height:1.6;margin-bottom:12px"></div>
+                <button class="btn-gps-action" onclick="sincronizarTudo()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 4V1L8 5l4 4V6a6 6 0 0 1 6 6c0 1-.26 1.97-.71 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12a8 8 0 0 0-8-8zm0 14a6 6 0 0 1-6-6c0-1 .26-1.97.71-2.8L5.25 7.74A7.93 7.93 0 0 0 4 12a8 8 0 0 0 8 8v3l4-4-4-4v3z"/></svg>
+                    ENVIAR AGORA TUDO QUE ESTÁ PENDENTE
+                </button>
+                <div class="sync-log" id="syncLog">Aguardando...</div>
+            </div>
+        </div>
+
+    </div><!-- /main-container -->
+
+    <!-- ======================= BARRA INFERIOR DE ACOES ======================= -->
+    <div class="bottom-action-bar no-print">
+        <button class="btn-bottom btn-bottom-primary" onclick="novaVistoria()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            NOVA
+        </button>
+        <button class="btn-bottom btn-bottom-secondary" onclick="sincronizarTudo()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 4V1L8 5l4 4V6a6 6 0 0 1 6 6c0 1-.26 1.97-.71 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12a8 8 0 0 0-8-8z"/></svg>
+            ENVIAR
+        </button>
+        <button class="btn-bottom btn-bottom-dark" onclick="exportarAtual()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            BACKUP
+        </button>
+        <button class="btn-bottom btn-bottom-dark" onclick="abrirOpcoesImpressao()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff"><path d="M19 8H5a3 3 0 0 0-3 3v6h4v4h12v-4h4v-6a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm3-7a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm-1-9H6v4h12V3z"/></svg>
+            IMPRIMIR
+        </button>
+    </div>
+
+    <!-- SELETOR DE MODO DE IMPRESSAO (economia de papel) -->
+    <div class="overlay-print no-print" id="overlayPrint">
+        <div class="modal-print">
+            <h2>COMO IMPRIMIR?</h2>
+            <p id="resumoImpressao"></p>
+            <button class="btn-print-modo btn-print-compacto" onclick="imprimirFicha('compacto')">
+                <b>SÓ O QUE FOI PREENCHIDO</b>
+                <span>Menos folhas. Sai apenas a fonte de água marcada e as respostas escolhidas.</span>
+            </button>
+            <button class="btn-print-modo btn-print-completo" onclick="imprimirFicha('completo')">
+                <b>FICHA COMPLETA</b>
+                <span>Sai tudo, inclusive blocos não marcados e textos de orientação. Gasta bem mais papel.</span>
+            </button>
+            <button class="btn-print-modo btn-print-cancelar" onclick="fecharOpcoesImpressao()">CANCELAR</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================================
+   SEDAM-RO / SOLAR - FICHA DE VISTORIA DE OUTORGA V4
+   Camadas: (1) IndexedDB local  (2) Outbox  (3) Envio ao Apps Script
+   Nenhum dado sai do aparelho sem que o endpoint esteja configurado pelo usuario.
+   ============================================================================ */
+
+/* ---------------------------------------------------------------- CONFIG --- */
+const DB_NAME    = 'sedam_outorga_v4';
+const DB_VERSAO  = 1;
+const CFG_KEY    = 'sedam_cfg_sync_v4';
+const MIN_FOTOS  = 6;
+const LOTE_FOTOS = 3;   // fotos por requisicao, para nao estourar o payload
+
+let db = null;
+let vistoriaAtual = null;
+let saveTimer = null;
+let sincronizando = false;
+
+/* --------------------------------------------------------------- UTIL ----- */
+function agoraISO() { return new Date().toISOString(); }
+
+function horaCurta() {
+    return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function novoId() {
+    return 'v' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function toast(msg, tipo) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (tipo ? ' ' + tipo : '');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.className = 'toast'; }, 4200);
+}
+
+function log(msg) {
+    const el = document.getElementById('syncLog');
+    el.textContent = '[' + horaCurta() + '] ' + msg + '\n' + el.textContent;
+}
+
+function getCfg() {
+    try { return JSON.parse(localStorage.getItem(CFG_KEY) || '{}'); }
+    catch (e) { return {}; }
+}
+
+/* ------------------------------------------------------- INDEXEDDB -------- */
+function abrirDB() {
+    return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSAO);
+        req.onupgradeneeded = (ev) => {
+            const d = ev.target.result;
+            if (!d.objectStoreNames.contains('vistorias')) {
+                d.createObjectStore('vistorias', { keyPath: 'id' });
+            }
+            if (!d.objectStoreNames.contains('fotos')) {
+                const s = d.createObjectStore('fotos', { keyPath: 'id' });
+                s.createIndex('porVistoria', 'vistoriaId', { unique: false });
+            }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+    });
+}
+
+function tx(store, modo) {
+    return db.transaction(store, modo).objectStore(store);
+}
+
+function put(store, obj) {
+    return new Promise((res, rej) => {
+        const r = tx(store, 'readwrite').put(obj);
+        r.onsuccess = () => res(obj);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+function del(store, id) {
+    return new Promise((res, rej) => {
+        const r = tx(store, 'readwrite').delete(id);
+        r.onsuccess = () => res();
+        r.onerror = () => rej(r.error);
+    });
+}
+
+function getAll(store) {
+    return new Promise((res, rej) => {
+        const r = tx(store, 'readonly').getAll();
+        r.onsuccess = () => res(r.result || []);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+function fotosDaVistoria(vistoriaId) {
+    return new Promise((res, rej) => {
+        const r = tx('fotos', 'readonly').index('porVistoria').getAll(vistoriaId);
+        r.onsuccess = () => res((r.result || []).sort((a, b) => a.ordem - b.ordem));
+        r.onerror = () => rej(r.error);
+    });
+}
+
+/* ------------------------------------------- COLETA E APLICACAO DO FORM --- */
+const AREA = () => document.getElementById('view-ficha');
+
+function coletarForm() {
+    const dados = { campos: {}, radios: {}, variedades: {}, fontes: [] };
+
+    AREA().querySelectorAll('input[type="text"], input[type="date"], input[type="url"], textarea').forEach(el => {
+        if (el.id) dados.campos[el.id] = el.value;
+    });
+
+    AREA().querySelectorAll('input[type="radio"]:checked').forEach(el => {
+        dados.radios[el.name] = el.value;
+    });
+
+    AREA().querySelectorAll('input[type="checkbox"]:checked').forEach(el => {
+        if (!el.name) return;
+        (dados.variedades[el.name] = dados.variedades[el.name] || []).push(el.value);
+    });
+
+    // As 3 fontes vem do estado real dos checkboxes (opcoes 49/50/51 do SOLAR).
+    // Elas nao tem atributo name de proposito, para o coletor generico de
+    // checkbox acima nao duplica-las dentro de dados.variedades.
+    ['subterranea', 'superficial', 'publico'].forEach(f => {
+        if (document.getElementById('chk_' + f).checked) dados.fontes.push(f);
+    });
+
+    return dados;
+}
+
+function aplicarForm(dados) {
+    dados = dados || { campos: {}, radios: {}, variedades: {}, fontes: [] };
+
+    AREA().querySelectorAll('input[type="text"], input[type="date"], input[type="url"], textarea').forEach(el => {
+        if (el.id) el.value = (dados.campos && dados.campos[el.id]) || '';
+    });
+
+    AREA().querySelectorAll('input[type="radio"]').forEach(el => {
+        const marcado = dados.radios && dados.radios[el.name] === el.value;
+        el.checked = marcado;
+        el.closest('.touch-radio-btn').classList.toggle('selected', marcado);
+    });
+
+    // [name] exclui de proposito as 3 checkboxes de fonte de agua (chk_superficial/
+    // subterranea/publico), que nao tem "name" e sao restauradas linhas abaixo, por
+    // dados.fontes. Sem esse filtro, .closest('.variety-touch-item') retorna null
+    // para elas e quebra a funcao inteira no meio (bug real, achado em 15/09/2026).
+    AREA().querySelectorAll('input[type="checkbox"][name]').forEach(el => {
+        const lista = (dados.variedades && dados.variedades[el.name]) || [];
+        el.checked = lista.indexOf(el.value) !== -1;
+        el.closest('.variety-touch-item').classList.toggle('active', el.checked);
+    });
+
+    ['subterranea', 'superficial', 'publico'].forEach(f => {
+        const ativo = (dados.fontes || []).indexOf(f) !== -1;
+        document.getElementById('chk_' + f).checked = ativo;
+        document.getElementById('card_' + f).classList.toggle('active', ativo);
+        document.getElementById('block_' + f).classList.toggle('visible', ativo);
+    });
+    aplicarRegraQ35();
+    configurarObservacoesRecolhiveis();
+}
+
+/* ------------------------- OBSERVACOES RECOLHIVEIS ------------------------ */
+/* Pedido do Emanuel: uma caixa de texto vazia, sempre visivel, ocupa espaco
+   em campo que na maioria das vistorias nunca sera preenchido (nem toda
+   pergunta precisa de observacao extra). Isso troca a caixa por um botao
+   fino ("+ ESCREVER OBSERVACAO"); ela so aparece se voce tocar nele, ou se
+   a vistoria que abriu ja tinha algo escrito ali. */
+function configurarObservacoesRecolhiveis() {
+    AREA().querySelectorAll('textarea.handwriting-textarea').forEach(ta => {
+        if (!ta.dataset.recolhivelPronto) {
+            ta.dataset.recolhivelPronto = '1';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-obs-expandir';
+            btn.innerHTML = '&#43; ESCREVER OBSERVAÇÃO';
+            btn.onclick = () => {
+                ta.classList.remove('oculto');
+                btn.classList.add('oculto');
+                ta.focus();
+            };
+            ta.insertAdjacentElement('beforebegin', btn);
+        }
+        atualizarEstadoObservacao(ta);
+    });
+}
+
+function atualizarEstadoObservacao(ta) {
+    const btn = ta.previousElementSibling;
+    if (!btn || !btn.classList.contains('btn-obs-expandir')) return;
+    const temTexto = ta.value.trim().length > 0;
+    ta.classList.toggle('oculto', !temTexto);
+    btn.classList.toggle('oculto', temTexto);
+}
+
+/* -------------------------------------------------- INTERACOES DE TOQUE --- */
+function pick(input) {
+    const grupo = input.closest('.radio-touch-group');
+    grupo.querySelectorAll('.touch-radio-btn').forEach(b => b.classList.remove('selected'));
+    input.closest('.touch-radio-btn').classList.add('selected');
+    salvar();
+}
+
+function toggleVariety(cb) {
+    cb.closest('.variety-touch-item').classList.toggle('active', cb.checked);
+    salvar();
+}
+
+/* O proprio navegador ja marcou/desmarcou o checkbox antes de chamar esta funcao.
+   Aqui so refletimos esse estado no cartao e no bloco condicional correspondente. */
+function toggleWaterSource(tipo, input) {
+    const ativo = input ? input.checked : document.getElementById('chk_' + tipo).checked;
+    document.getElementById('card_' + tipo).classList.toggle('active', ativo);
+    document.getElementById('block_' + tipo).classList.toggle('visible', ativo);
+    aplicarRegraQ35();
+    salvar();
+}
+
+/* Regra CONFIRMADA pelos 4 dumps oficiais (style inline gravado em tempo de execucao):
+   a pergunta 35 abre quando marca Superficial(49) OU Subterranea(50), e NAO abre
+   quando so ha Abastecimento publico(51) -- que nao tem dependentes.
+   Ver MATRIZ_OFICIAL_SOLAR_94_PERGUNTAS.md. */
+function aplicarRegraQ35() {
+    const abre = document.getElementById('chk_superficial').checked
+              || document.getElementById('chk_subterranea').checked;
+    document.getElementById('block_q35').classList.toggle('visible', abre);
+}
+
+function showView(nome) {
+    ['ficha', 'salvas', 'sync'].forEach(v => {
+        document.getElementById('view-' + v).classList.toggle('active', v === nome);
+        document.getElementById('tab-' + v).classList.toggle('active', v === nome);
+    });
+    if (nome === 'salvas') renderListaVistorias();
+    if (nome === 'sync')   renderResumoFila();
+    window.scrollTo(0, 0);
+}
+
+/* ------------------------------------------------------- IMPRESSAO -------- */
+/* O modo compacto existe porque a ficha completa desperdicava papel: os 3 blocos
+   de fonte de agua saiam sempre, mesmo quando so um se aplicava ao produtor. */
+
+function abrirOpcoesImpressao() {
+    const fontes = ['superficial', 'subterranea', 'publico'].filter(
+        f => document.getElementById('chk_' + f).checked);
+    const nomes = { superficial: 'Captação superficial', subterranea: 'Captação subterrânea', publico: 'Abastecimento público' };
+
+    document.getElementById('resumoImpressao').innerHTML = fontes.length
+        ? 'Fonte(s) marcada(s): <b>' + fontes.map(f => nomes[f]).join(' + ') + '</b>. No modo compacto, só esse(s) bloco(s) vai(vão) para o papel.'
+        : '<b>Nenhuma fonte de água marcada ainda.</b> No modo compacto, nenhum bloco de captação será impresso.';
+
+    document.getElementById('overlayPrint').classList.add('on');
+}
+
+function fecharOpcoesImpressao() {
+    document.getElementById('overlayPrint').classList.remove('on');
+}
+
+function imprimirFicha(modo) {
+    fecharOpcoesImpressao();
+    document.body.classList.toggle('imprimir-tudo', modo === 'completo');
+    // espera o overlay sumir de fato antes de abrir o dialogo de impressao
+    setTimeout(() => window.print(), 120);
+}
+
+/* Antes de imprimir, marca o que nao foi respondido para sair do papel.
+   Isso e desfeito logo depois, entao a tela nunca fica alterada. */
+window.addEventListener('beforeprint', () => {
+    if (document.body.classList.contains('imprimir-tudo')) return;
+
+    // opcoes de multipla escolha que nao foram marcadas
+    AREA().querySelectorAll('.variety-touch-item').forEach(item => {
+        const cb = item.querySelector('input[type="checkbox"]');
+        if (cb && !cb.checked) item.classList.add('sem-resposta');
+    });
+
+    // alternativas de Sim/Nao que nao foram a resposta escolhida
+    AREA().querySelectorAll('.radio-touch-group').forEach(grupo => {
+        const algumMarcado = grupo.querySelector('input[type="radio"]:checked');
+        if (!algumMarcado) return;   // nenhuma resposta: mantem tudo, registra que ficou em branco
+        grupo.querySelectorAll('.touch-radio-btn').forEach(btn => {
+            if (!btn.classList.contains('selected')) btn.classList.add('sem-resposta');
+        });
+    });
+});
+
+window.addEventListener('afterprint', () => {
+    document.querySelectorAll('.sem-resposta').forEach(el => el.classList.remove('sem-resposta'));
+    document.body.classList.remove('imprimir-tudo');
+});
+
+/* ------------------------------------------------------------------ GPS --- */
+function captureGPS(alvoId) {
+    const campo = document.getElementById(alvoId);
+    if (!navigator.geolocation) { toast('Este navegador não oferece GPS.', 'err'); return; }
+    campo.value = 'Buscando satélites...';
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude.toFixed(6);
+            const lon = pos.coords.longitude.toFixed(6);
+            const pre = pos.coords.accuracy ? Math.round(pos.coords.accuracy) : '?';
+            campo.value = lat + ', ' + lon + ' (SIRGAS 2000 • ±' + pre + ' m)';
+            salvar();
+            toast('Coordenada capturada com precisão de ' + pre + ' m.', 'ok');
+        },
+        (err) => {
+            campo.value = '';
+            toast('GPS não respondeu: ' + err.message + '. Saia de baixo de cobertura e tente de novo.', 'err');
+        },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+    );
+}
+
+/* ----------------------------------------------------------- FOTOGRAFIAS -- */
+function comprimirImagem(file) {
+    return new Promise((resolve, reject) => {
+        const leitor = new FileReader();
+        leitor.onload = () => {
+            const img = new Image();
+            img.onload = () => {
+                const MAX = 1600;
+                let { width: w, height: h } = img;
+                if (w > MAX || h > MAX) {
+                    const escala = Math.min(MAX / w, MAX / h);
+                    w = Math.round(w * escala);
+                    h = Math.round(h * escala);
+                }
+                const cv = document.createElement('canvas');
+                cv.width = w; cv.height = h;
+                cv.getContext('2d').drawImage(img, 0, 0, w, h);
+                resolve(cv.toDataURL('image/jpeg', 0.72));
+            };
+            img.onerror = () => reject(new Error('Imagem inválida'));
+            img.src = leitor.result;
+        };
+        leitor.onerror = () => reject(leitor.error);
+        leitor.readAsDataURL(file);
+    });
+}
+
+async function onPhotosSelected(ev) {
+    const arquivos = Array.from(ev.target.files || []);
+    if (!arquivos.length) return;
+    await garantirVistoriaAtual();
+
+    const existentes = await fotosDaVistoria(vistoriaAtual.id);
+    let ordem = existentes.length;
+
+    for (const arq of arquivos) {
+        try {
+            const dataUrl = await comprimirImagem(arq);
+            await put('fotos', {
+                id: novoId(),
+                vistoriaId: vistoriaAtual.id,
+                ordem: ordem++,
+                descricao: '',
+                dataUrl: dataUrl,
+                enviada: false,
+                criadaEm: agoraISO()
+            });
+        } catch (e) {
+            toast('Não consegui ler uma das fotos: ' + e.message, 'err');
+        }
+    }
+
+    ev.target.value = '';           // permite escolher a mesma foto de novo
+    vistoriaAtual.fotosEnviadas = false;
+    if (vistoriaAtual.status === 'enviada') vistoriaAtual.status = 'pendente';
+    await salvar(true);
+    await renderFotos();
+    toast(arquivos.length + ' foto(s) adicionada(s).', 'ok');
+}
+
+async function renderFotos() {
+    const grid = document.getElementById('photoGrid');
+    const cont = document.getElementById('photoCounter');
+    const txt  = document.getElementById('photoCounterText');
+
+    const fotos = vistoriaAtual ? await fotosDaVistoria(vistoriaAtual.id) : [];
+    grid.innerHTML = '';
+
+    fotos.forEach((f, i) => {
+        const item = document.createElement('div');
+        item.className = 'photo-item';
+
+        const img = document.createElement('img');
+        img.className = 'photo-thumb';
+        img.src = f.dataUrl;
+        img.alt = 'Foto ' + (i + 1);
+
+        const corpo = document.createElement('div');
+        corpo.className = 'photo-item-body';
+
+        const badge = document.createElement('span');
+        badge.className = 'photo-index-badge';
+        badge.textContent = 'FOTO ' + String(i + 1).padStart(2, '0') + (f.enviada ? ' • ENVIADA' : '');
+
+        const desc = document.createElement('input');
+        desc.type = 'text';
+        desc.className = 'photo-desc-input';
+        desc.placeholder = 'Descreva esta foto (ex: boca do poço com tampa sanitária)';
+        desc.value = f.descricao || '';
+        desc.addEventListener('input', async () => {
+            f.descricao = desc.value;
+            await put('fotos', f);
+        });
+
+        const btn = document.createElement('button');
+        btn.className = 'btn-photo-remove';
+        btn.textContent = 'REMOVER ESTA FOTO';
+        btn.onclick = () => removerFoto(f.id);
+
+        corpo.appendChild(badge);
+        corpo.appendChild(desc);
+        corpo.appendChild(btn);
+        item.appendChild(img);
+        item.appendChild(corpo);
+        grid.appendChild(item);
+    });
+
+    const ok = fotos.length >= MIN_FOTOS;
+    cont.className = 'photo-counter ' + (ok ? 'complete' : 'incomplete');
+    // icone acompanha o estado: check quando atingiu o minimo, alerta quando falta
+    cont.querySelector('svg').innerHTML = ok
+        ? '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 15l-5-5 1.41-1.41L11 14.17l5.59-5.59L18 10l-7 7z"/>'
+        : '<path d="M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"/>';
+    txt.textContent = ok
+        ? fotos.length + ' fotos registradas — mínimo de ' + MIN_FOTOS + ' atendido'
+        : fotos.length + ' de ' + MIN_FOTOS + ' fotos mínimas';
+}
+
+async function removerFoto(id) {
+    if (!confirm('Remover esta foto da vistoria? A foto original continua salva no rolo da câmera do iPhone.')) return;
+    await del('fotos', id);
+    // renumera a ordem para nao deixar buracos
+    const restantes = await fotosDaVistoria(vistoriaAtual.id);
+    for (let i = 0; i < restantes.length; i++) {
+        restantes[i].ordem = i;
+        await put('fotos', restantes[i]);
+    }
+    await renderFotos();
+    toast('Foto removida.', 'ok');
+}
+
+/* ------------------------------------------------- PERSISTENCIA / SALVAR -- */
+async function garantirVistoriaAtual() {
+    if (vistoriaAtual) return vistoriaAtual;
+    vistoriaAtual = {
+        id: novoId(),
+        criadaEm: agoraISO(),
+        atualizadaEm: agoraISO(),
+        status: 'rascunho',
+        fotosEnviadas: false,
+        erro: '',
+        dados: coletarForm()
+    };
+    await put('vistorias', vistoriaAtual);
+    localStorage.setItem('sedam_vistoria_atual_v4', vistoriaAtual.id);
+    return vistoriaAtual;
+}
+
+function salvar(imediato) {
+    clearTimeout(saveTimer);
+    const executar = async () => {
+        await garantirVistoriaAtual();
+        const novos = coletarForm();
+
+        // So rebaixa uma vistoria ja enviada se o conteudo realmente mudou.
+        // Sem esta comparacao, o proprio sincronizarTudo() (que salva antes de
+        // enviar) marcaria tudo como pendente e reenviaria a cada toque.
+        const mudou = JSON.stringify(novos) !== JSON.stringify(vistoriaAtual.dados);
+        if (!mudou && vistoriaAtual.status !== 'rascunho') return;
+
+        vistoriaAtual.dados = novos;
+        vistoriaAtual.atualizadaEm = agoraISO();
+        if (mudou && vistoriaAtual.status === 'enviada') vistoriaAtual.status = 'pendente';
+        await put('vistorias', vistoriaAtual);
+        document.getElementById('lblAutoSave').textContent = 'Salvo no aparelho às ' + horaCurta();
+        atualizarContadorFila();
+    };
+    if (imediato) return executar();
+    saveTimer = setTimeout(executar, 400);
+    return Promise.resolve();
+}
+
+async function novaVistoria() {
+    if (vistoriaAtual && !confirm('Guardar a vistoria atual na lista e começar uma nova em branco?')) return;
+    if (vistoriaAtual) {
+        await salvar(true);
+        if (vistoriaAtual.status === 'rascunho') {
+            vistoriaAtual.status = 'pendente';
+            await put('vistorias', vistoriaAtual);
+        }
+    }
+    vistoriaAtual = null;
+    localStorage.removeItem('sedam_vistoria_atual_v4');
+    aplicarForm(null);
+    document.getElementById('fld_data_vistoria').value = new Date().toISOString().slice(0, 10);
+    await renderFotos();
+    document.getElementById('lblAutoSave').textContent = 'Rascunho novo — nada salvo ainda';
+    showView('ficha');
+    toast('Nova vistoria iniciada.', 'ok');
+}
+
+async function abrirVistoria(id) {
+    const todas = await getAll('vistorias');
+    const v = todas.find(x => x.id === id);
+    if (!v) return;
+    vistoriaAtual = v;
+    localStorage.setItem('sedam_vistoria_atual_v4', v.id);
+    aplicarForm(v.dados);
+    await renderFotos();
+    document.getElementById('lblAutoSave').textContent = 'Aberta • salva às ' + new Date(v.atualizadaEm).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    showView('ficha');
+}
+
+async function duplicarVistoria(id) {
+    const todas = await getAll('vistorias');
+    const orig = todas.find(x => x.id === id);
+    if (!orig) return;
+    const copia = {
+        id: novoId(),
+        criadaEm: agoraISO(),
+        atualizadaEm: agoraISO(),
+        status: 'rascunho',
+        fotosEnviadas: false,
+        erro: '',
+        dados: JSON.parse(JSON.stringify(orig.dados))
+    };
+    // a copia nasce sem fotos: fotos sao daquela vistoria especifica
+    copia.dados.campos.fld_num_vistoria = '';
+    await put('vistorias', copia);
+    await abrirVistoria(copia.id);
+    toast('Vistoria duplicada sem as fotos. Ajuste o número e o ponto.', 'ok');
+}
+
+async function excluirVistoria(id) {
+    if (!confirm('Excluir esta vistoria e todas as fotos dela deste aparelho? Não dá para desfazer.')) return;
+    const fotos = await fotosDaVistoria(id);
+    for (const f of fotos) await del('fotos', f.id);
+    await del('vistorias', id);
+    if (vistoriaAtual && vistoriaAtual.id === id) {
+        vistoriaAtual = null;
+        localStorage.removeItem('sedam_vistoria_atual_v4');
+        aplicarForm(null);
+        await renderFotos();
+    }
+    await renderListaVistorias();
+    atualizarContadorFila();
+    toast('Vistoria excluída.', 'ok');
+}
+
+/* --------------------------------------------------------- EXPORTAR JSON -- */
+async function montarPacote(v) {
+    const fotos = await fotosDaVistoria(v.id);
+    return {
+        id: v.id,
+        criadaEm: v.criadaEm,
+        atualizadaEm: v.atualizadaEm,
+        status: v.status,
+        origem: 'FICHA_V4_IPHONE',
+        dados: v.dados,
+        totalFotos: fotos.length,
+        fotos: fotos.map(f => ({ id: f.id, ordem: f.ordem, descricao: f.descricao }))
+    };
+}
+
+async function exportarAtual() {
+    await salvar(true);
+    if (!vistoriaAtual) { toast('Não há nada preenchido para exportar ainda.', 'err'); return; }
+    const fotos = await fotosDaVistoria(vistoriaAtual.id);
+    const pacote = await montarPacote(vistoriaAtual);
+    pacote.fotosBase64 = fotos.map(f => ({ id: f.id, ordem: f.ordem, descricao: f.descricao, dataUrl: f.dataUrl }));
+
+    const blob = new Blob([JSON.stringify(pacote, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    const data = (vistoriaAtual.dados.campos.fld_data_vistoria || 'sem-data');
+    const emp  = (vistoriaAtual.dados.campos.fld_empreendimento || 'vistoria').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 40);
+    a.href = url;
+    a.download = 'VISTORIA_SEDAM_' + emp + '_' + data + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast('Arquivo gerado. Salve na pasta do Google Drive pelo app Arquivos.', 'ok');
+}
+
+function baixarArquivo(conteudo, tipo, nomeArquivo) {
+    const blob = new Blob([conteudo], { type: tipo });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = nomeArquivo;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+/* ---------------------- BACKUP TOTAL: TODAS AS VISTORIAS DO APARELHO ----- */
+/* Camada de seguranca extra, independente do IndexedDB. O IndexedDB ja
+   sobrevive a fechar o app/navegador -- isto aqui e' para o cenario de
+   perder, trocar ou restaurar o aparelho antes de sincronizar.            */
+
+async function exportarTudoJSON() {
+    await salvar(true);
+    const todas = await getAll('vistorias');
+    if (!todas.length) { toast('Não há nenhuma vistoria salva neste aparelho ainda.', 'err'); return; }
+
+    const pacote = {
+        geradoEm: agoraISO(),
+        origem: 'BACKUP_TOTAL_FICHA_V4_IPHONE',
+        totalVistorias: todas.length,
+        vistorias: []
+    };
+
+    for (const v of todas) {
+        const fotos = await fotosDaVistoria(v.id);
+        pacote.vistorias.push({
+            id: v.id,
+            criadaEm: v.criadaEm,
+            atualizadaEm: v.atualizadaEm,
+            status: v.status,
+            erro: v.erro || '',
+            dados: v.dados,
+            totalFotos: fotos.length,
+            fotos: fotos.map(f => ({ id: f.id, ordem: f.ordem, descricao: f.descricao, enviada: !!f.enviada, dataUrl: f.dataUrl }))
+        });
+    }
+
+    const nome = 'BACKUP_TOTAL_SEDAM_' + new Date().toISOString().slice(0, 10) + '_' + todas.length + 'vistorias.json';
+    baixarArquivo(JSON.stringify(pacote, null, 2), 'application/json', nome);
+    toast(todas.length + ' vistoria(s) exportada(s) em um único arquivo. Salve no Drive.', 'ok');
+}
+
+async function exportarTudoMarkdown() {
+    await salvar(true);
+    const todas = (await getAll('vistorias')).sort((a, b) => (a.atualizadaEm || '').localeCompare(b.atualizadaEm || ''));
+    if (!todas.length) { toast('Não há nenhuma vistoria salva neste aparelho ainda.', 'err'); return; }
+
+    const linhas = [];
+    linhas.push('# BACKUP LEGÍVEL — VISTORIAS SEDAM-RO / SOLAR');
+    linhas.push('');
+    linhas.push('Gerado em: ' + new Date().toLocaleString('pt-BR'));
+    linhas.push('Total de vistorias neste aparelho: ' + todas.length);
+    linhas.push('');
+    linhas.push('> Este arquivo é só para leitura de emergência (sem fotos). O backup completo, com as');
+    linhas.push('> fotos, é o arquivo .json — use-o para restaurar ou reenviar uma vistoria.');
+    linhas.push('');
+    linhas.push('---');
+
+    for (const v of todas) {
+        const c = v.dados.campos || {};
+        const r = v.dados.radios || {};
+        const x = v.dados.variedades || {};
+        const fotos = await fotosDaVistoria(v.id);
+
+        linhas.push('');
+        linhas.push('## ' + (c.fld_empreendimento || '(empreendimento sem nome)') + ' — ' + (c.fld_data_vistoria || 'sem data'));
+        linhas.push('');
+        linhas.push('- **Status:** ' + v.status + (v.erro ? ' (erro: ' + v.erro + ')' : ''));
+        linhas.push('- **Nº vistoria:** ' + (c.fld_num_vistoria || '—'));
+        linhas.push('- **Interessado:** ' + (c.fld_interessado || '—'));
+        linhas.push('- **Processo SEI:** ' + (c.fld_processo_sei || '—'));
+        linhas.push('- **Município / Localização:** ' + (c.fld_municipio || '—') + ' — ' + (c.fld_localizacao || '—'));
+        linhas.push('- **Técnico:** ' + (c.fld_tecnico || '—'));
+        linhas.push('- **Coordenadas da sede:** ' + (c.fld_coord_sede || '—'));
+        linhas.push('- **Fontes de água:** ' + ((v.dados.fontes || []).join(', ') || '—'));
+        linhas.push('- **Total de fotos neste aparelho:** ' + fotos.length + (fotos.length < MIN_FOTOS ? ' (abaixo do mínimo de ' + MIN_FOTOS + ')' : ''));
+
+        linhas.push('');
+        linhas.push('### Respostas (Sim/Não e escolha única)');
+        Object.keys(r).sort().forEach(k => linhas.push('- `' + k + '`: ' + r[k]));
+
+        const varKeys = Object.keys(x).filter(k => (x[k] || []).length);
+        if (varKeys.length) {
+            linhas.push('');
+            linhas.push('### Variedades marcadas');
+            varKeys.sort().forEach(k => linhas.push('- `' + k + '`: ' + x[k].join(', ')));
+        }
+
+        const obsKeys = Object.keys(c).filter(k => k.indexOf('obs_') === 0 && c[k]);
+        if (obsKeys.length) {
+            linhas.push('');
+            linhas.push('### Observações escritas em campo');
+            obsKeys.sort().forEach(k => { linhas.push(''); linhas.push('**' + k + ':**'); c[k].split(String.fromCharCode(10)).forEach(linha => linhas.push('> ' + linha)); });
+        }
+
+        if (fotos.length) {
+            linhas.push('');
+            linhas.push('### Fotos (descrições — as imagens estão só no .json)');
+            fotos.forEach((f, i) => linhas.push('- Foto ' + String(i + 1).padStart(2, '0') + ': ' + (f.descricao || '(sem descrição)') + (f.enviada ? ' — enviada' : ' — não enviada ainda')));
+        }
+
+        linhas.push('');
+        linhas.push('---');
+    }
+
+    const nome = 'BACKUP_TOTAL_SEDAM_' + new Date().toISOString().slice(0, 10) + '_' + todas.length + 'vistorias.md';
+    baixarArquivo(linhas.join(String.fromCharCode(10)), 'text/markdown;charset=utf-8', nome);
+    toast(todas.length + ' vistoria(s) exportada(s) em Markdown legível.', 'ok');
+}
+
+/* ------------------------------------------------------------ SINCRONIA --- */
+function salvarConfig() {
+    const endpoint = document.getElementById('cfg_endpoint').value.trim();
+    const token    = document.getElementById('cfg_token').value.trim();
+    if (endpoint && !/^https:\/\/script\.google\.com\/.*\/exec$/.test(endpoint)) {
+        if (!confirm('Essa URL não parece a de um Web App do Apps Script (deve terminar em /exec). Salvar assim mesmo?')) return;
+    }
+    localStorage.setItem(CFG_KEY, JSON.stringify({ endpoint, token }));
+    atualizarAvisoEndpoint();
+    toast('Configuração salva neste aparelho.', 'ok');
+}
+
+function atualizarAvisoEndpoint() {
+    const cfg = getCfg();
+    document.getElementById('warnEndpoint').style.display = cfg.endpoint ? 'none' : 'block';
+}
+
+async function postar(payload) {
+    const cfg = getCfg();
+    const resp = await fetch(cfg.endpoint, {
+        method: 'POST',
+        // text/plain evita o preflight CORS que o Apps Script nao responde
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(Object.assign({ token: cfg.token || '' }, payload))
+    });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const texto = await resp.text();
+    let json;
+    try { json = JSON.parse(texto); }
+    catch (e) { throw new Error('Resposta não é JSON: ' + texto.slice(0, 120)); }
+    if (!json.ok) throw new Error(json.erro || 'O script recusou o envio');
+    return json;
+}
+
+async function enviarVistoria(v) {
+    const pacote = await montarPacote(v);
+    await postar({ acao: 'vistoria', vistoria: pacote });
+    log('Vistoria ' + v.id + ' registrada na planilha.');
+}
+
+async function enviarFotosPendentes(v) {
+    const fotos = (await fotosDaVistoria(v.id)).filter(f => !f.enviada);
+    if (!fotos.length) return 0;
+
+    for (let i = 0; i < fotos.length; i += LOTE_FOTOS) {
+        const lote = fotos.slice(i, i + LOTE_FOTOS);
+        await postar({
+            acao: 'fotos',
+            vistoriaId: v.id,
+            fotos: lote.map(f => ({ id: f.id, ordem: f.ordem, descricao: f.descricao, dataUrl: f.dataUrl }))
+        });
+        for (const f of lote) { f.enviada = true; await put('fotos', f); }
+        log('Lote de ' + lote.length + ' foto(s) enviado (' + Math.min(i + LOTE_FOTOS, fotos.length) + '/' + fotos.length + ').');
+    }
+    return fotos.length;
+}
+
+async function sincronizarTudo() {
+    if (sincronizando) { toast('Já existe um envio em andamento.', 'err'); return; }
+
+    const cfg = getCfg();
+    if (!cfg.endpoint) {
+        showView('sync');
+        toast('Configure primeiro a URL do Web App aqui embaixo.', 'err');
+        return;
+    }
+    if (!navigator.onLine) {
+        toast('Sem internet agora. Os dados seguem salvos no aparelho e vão sozinhos quando houver sinal.', 'err');
+        return;
+    }
+
+    await salvar(true);
+    sincronizando = true;
+
+    const todas = await getAll('vistorias');
+    const fila  = todas.filter(v => v.status === 'pendente' || v.status === 'erro' || (v.status === 'enviada' && !v.fotosEnviadas));
+
+    if (!fila.length) { sincronizando = false; toast('Nada pendente para enviar.', 'ok'); return; }
+
+    log('Iniciando envio de ' + fila.length + ' vistoria(s).');
+    let ok = 0, falhou = 0;
+
+    for (const v of fila) {
+        try {
+            if (v.status !== 'enviada') await enviarVistoria(v);
+            await enviarFotosPendentes(v);
+            v.status = 'enviada';
+            v.fotosEnviadas = true;
+            v.erro = '';
+            v.enviadaEm = agoraISO();
+            await put('vistorias', v);
+            ok++;
+        } catch (e) {
+            v.status = 'erro';
+            v.erro = e.message;
+            await put('vistorias', v);
+            log('ERRO em ' + v.id + ': ' + e.message);
+            falhou++;
+        }
+    }
+
+    sincronizando = false;
+    atualizarContadorFila();
+    renderResumoFila();
+    renderListaVistorias();
+
+    if (falhou === 0) toast(ok + ' vistoria(s) enviada(s) com sucesso.', 'ok');
+    else toast(ok + ' enviada(s), ' + falhou + ' com erro. Veja o log na aba Sincronização.', 'err');
+}
+
+/* -------------------------------------------------------------- RENDER ---- */
+function rotuloStatus(s) {
+    return { rascunho: 'Rascunho', pendente: 'Pendente', enviada: 'Enviada', erro: 'Erro' }[s] || s;
+}
+
+async function renderListaVistorias() {
+    const alvo = document.getElementById('listaVistorias');
+    const todas = (await getAll('vistorias')).sort((a, b) => (b.atualizadaEm || '').localeCompare(a.atualizadaEm || ''));
+
+    if (!todas.length) {
+        alvo.innerHTML = '<div class="empty-state">Nenhuma vistoria salva ainda neste aparelho.<br>Preencha a ficha e ela aparece aqui sozinha.</div>';
+        return;
+    }
+
+    const fotosTodas = await getAll('fotos');
+    alvo.innerHTML = '';
+
+    todas.forEach(v => {
+        const nFotos = fotosTodas.filter(f => f.vistoriaId === v.id).length;
+        const nome   = v.dados.campos.fld_empreendimento || '(empreendimento sem nome)';
+        const mun    = v.dados.campos.fld_municipio || 'município não informado';
+        const data   = v.dados.campos.fld_data_vistoria || new Date(v.criadaEm).toLocaleDateString('pt-BR');
+        const atual  = vistoriaAtual && vistoriaAtual.id === v.id;
+
+        const row = document.createElement('div');
+        row.className = 'vistoria-row';
+        row.innerHTML =
+            '<div class="vistoria-row-top">' +
+              '<div>' +
+                '<div class="vistoria-nome">' + escapar(nome) + (atual ? ' • <span style="color:#2b9348">ABERTA</span>' : '') + '</div>' +
+                '<div class="vistoria-meta">' + escapar(mun) + ' • ' + escapar(data) + ' • ' + nFotos + ' foto(s)' +
+                  (nFotos < MIN_FOTOS ? ' <b style="color:#d90429">(faltam ' + (MIN_FOTOS - nFotos) + ')</b>' : '') + '</div>' +
+                (v.erro ? '<div class="vistoria-meta" style="color:#d90429">Erro: ' + escapar(v.erro) + '</div>' : '') +
+              '</div>' +
+              '<span class="chip-status chip-' + v.status + '">' + rotuloStatus(v.status) + '</span>' +
+            '</div>';
+
+        const acoes = document.createElement('div');
+        acoes.className = 'vistoria-actions';
+        acoes.appendChild(botao('ABRIR', () => abrirVistoria(v.id)));
+        acoes.appendChild(botao('DUPLICAR', () => duplicarVistoria(v.id)));
+        acoes.appendChild(botao('EXCLUIR', () => excluirVistoria(v.id), true));
+        row.appendChild(acoes);
+        alvo.appendChild(row);
+    });
+}
+
+function botao(texto, fn, perigo) {
+    const b = document.createElement('button');
+    b.className = 'btn-row-action' + (perigo ? ' danger' : '');
+    b.textContent = texto;
+    b.onclick = fn;
+    return b;
+}
+
+function escapar(s) {
+    return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+async function renderResumoFila() {
+    const todas  = await getAll('vistorias');
+    const fotos  = await getAll('fotos');
+    const cont = s => todas.filter(v => v.status === s).length;
+    document.getElementById('resumoFila').innerHTML =
+        '<b>' + todas.length + '</b> vistoria(s) no aparelho<br>' +
+        '<b>' + cont('rascunho') + '</b> rascunho • <b>' + cont('pendente') + '</b> pendente(s) • ' +
+        '<b>' + cont('enviada') + '</b> enviada(s) • <b style="color:#d90429">' + cont('erro') + '</b> com erro<br>' +
+        '<b>' + fotos.filter(f => !f.enviada).length + '</b> foto(s) ainda não enviada(s)';
+}
+
+async function atualizarContadorFila() {
+    if (!db) return;
+    const todas = await getAll('vistorias');
+    const pend  = todas.filter(v => v.status === 'pendente' || v.status === 'erro').length;
+    document.getElementById('lblOutbox').textContent = 'Fila: ' + pend;
+}
+
+/* ------------------------------------------------------------- REDE ------- */
+function atualizarRede() {
+    const online = navigator.onLine;
+    const badge  = document.getElementById('badgeNetwork');
+    badge.className = 'status-badge ' + (online ? 'online' : 'offline');
+    document.getElementById('txtNet').textContent = online ? 'Online' : 'Offline';
+}
+
+window.addEventListener('online', () => {
+    atualizarRede();
+    const cfg = getCfg();
+    if (cfg.endpoint) {
+        log('Conexão detectada — tentando enviar a fila automaticamente.');
+        sincronizarTudo();
+    }
+});
+window.addEventListener('offline', atualizarRede);
+
+/* O evento 'online' do Safari iOS e' pouco confiavel para uma aba em segundo
+   plano: o app pode ganhar sinal enquanto esta minimizado e o evento nunca
+   dispara. Toda vez que o usuario volta a ver o app (reabre pelo icone,
+   troca de app e volta), checamos a rede de novo -- e' o gatilho que
+   realmente funciona no iPhone. Nao existe "sincronizar sozinho com o app
+   fechado" no Safari (Background Sync API nao e' suportada no iOS); o mais
+   proximo e' isto: sincroniza sempre que o app volta a ficar visivel. */
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible') return;
+    atualizarRede();
+    const cfg = getCfg();
+    if (cfg.endpoint && navigator.onLine && !sincronizando) {
+        sincronizarTudo();
+    }
+});
+
+/* ------------------------------------------- MIGRACAO DA V3 (localStorage)  */
+async function migrarDaV3() {
+    const bruto = localStorage.getItem('sedam_vistoria_offline_v3');
+    if (!bruto || localStorage.getItem('sedam_migracao_v3_feita')) return;
+    try {
+        const antigo = JSON.parse(bruto);
+        const dados = { campos: {}, radios: {}, variedades: {}, fontes: [] };
+        Object.keys(antigo).forEach(k => {
+            if (k.indexOf('fld_') === 0 || k.indexOf('obs_') === 0) dados.campos[k] = antigo[k];
+            else if (k.indexOf('q') === 0) dados.radios[k] = antigo[k];
+        });
+        await put('vistorias', {
+            id: novoId(),
+            criadaEm: agoraISO(),
+            atualizadaEm: agoraISO(),
+            status: 'pendente',
+            fotosEnviadas: false,
+            erro: '',
+            origemMigracao: 'V3_localStorage',
+            dados: dados
+        });
+        localStorage.setItem('sedam_migracao_v3_feita', '1');
+        log('Vistoria da versão 3 importada para o novo banco local.');
+    } catch (e) {
+        console.warn('Migração da V3 não foi possível:', e);
+    }
+}
+
+/* ---------------------------------------------------------------- INICIO -- */
+async function iniciar() {
+    try {
+        db = await abrirDB();
+    } catch (e) {
+        toast('Não consegui abrir o banco local do navegador. Em aba anônima o Safari bloqueia o armazenamento.', 'err');
+        return;
+    }
+
+    await migrarDaV3();
+
+    const cfg = getCfg();
+    document.getElementById('cfg_endpoint').value = cfg.endpoint || '';
+    document.getElementById('cfg_token').value    = cfg.token || '';
+    atualizarAvisoEndpoint();
+
+    const idAtual = localStorage.getItem('sedam_vistoria_atual_v4');
+    if (idAtual) {
+        const todas = await getAll('vistorias');
+        const v = todas.find(x => x.id === idAtual);
+        if (v) {
+            vistoriaAtual = v;
+            aplicarForm(v.dados);
+            document.getElementById('lblAutoSave').textContent =
+                'Recuperada • salva às ' + new Date(v.atualizadaEm).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+    }
+    if (!vistoriaAtual && !document.getElementById('fld_data_vistoria').value) {
+        document.getElementById('fld_data_vistoria').value = new Date().toISOString().slice(0, 10);
+    }
+
+    configurarObservacoesRecolhiveis(); // cobre o caso de 1a abertura, sem vistoria salva
+
+    // auto-save em tudo que for digitado
+    AREA().querySelectorAll('input[type="text"], input[type="date"], textarea').forEach(el => {
+        el.addEventListener('input', () => salvar());
+    });
+    AREA().querySelectorAll('textarea.handwriting-textarea').forEach(ta => {
+        ta.addEventListener('blur', () => atualizarEstadoObservacao(ta));
+    });
+
+    await renderFotos();
+    atualizarRede();
+    atualizarContadorFila();
+
+    // Service Worker: so registra sob https/localhost. Em file:// o app continua
+    // funcionando pelo IndexedDB, apenas sem cache garantido de recarga offline.
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+        navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW não registrado:', e));
+    }
+}
+
+document.addEventListener('DOMContentLoaded', iniciar);
+</script>
+</body>
+</html>

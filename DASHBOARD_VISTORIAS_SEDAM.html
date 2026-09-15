@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Painel SEDAM">
+<meta name="theme-color" content="#1b4332">
+<link rel="apple-touch-icon" href="icone-180.png">
+<title>SEDAM-RO • Painel de Vistorias de Outorga</title>
+<style>
+/* ============================================================================
+   PAINEL DE VISTORIAS - SEDAM-RO
+   Funciona em iPhone, Android e PC / offline (banco do aparelho) e online
+   (planilha via Apps Script). Cores na tela, alto contraste P&B na impressao.
+   ============================================================================ */
+:root{
+  --primary:#1b4332; --primary-dark:#081c15; --primary-light:#2d6a4f;
+  --accent:#d90429; --bg-page:#f4f6f8; --border:#d8e2dc;
+  --text:#111827; --muted:#4b5563; --success:#2b9348; --warning:#e85d04;
+  --touch:48px;
+}
+*,*:before,*:after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg-page); color:var(--text); margin:0; font-size:15px; line-height:1.4;
+}
+.topbar{
+  background:var(--primary); color:#fff; padding:env(safe-area-inset-top,14px) 16px 12px 16px;
+  position:sticky; top:0; z-index:100; box-shadow:0 2px 10px rgba(0,0,0,.15);
+  display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+}
+.topbar h1{font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:.5px; margin:0}
+.topbar .sub{font-size:11.5px; opacity:.9; margin-top:2px}
+.badge{
+  display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:800;
+  padding:4px 10px; border-radius:12px; background:rgba(255,255,255,.2);
+}
+.badge.online{background:var(--success)} .badge.offline{background:var(--warning)}
+
+.wrap{max-width:1200px; margin:14px auto; padding:0 12px}
+
+/* CARTOES DE CONTAGEM */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px}
+@media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{
+  background:#fff; border:1.5px solid var(--border); border-left-width:6px;
+  border-radius:8px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.stat .n{font-size:30px; font-weight:900; line-height:1}
+.stat .r{font-size:11.5px; font-weight:800; text-transform:uppercase; color:var(--muted); margin-top:6px; letter-spacing:.3px}
+.stat.total{border-left-color:var(--primary)}
+.stat.pend{border-left-color:var(--warning)}
+.stat.env{border-left-color:var(--success)}
+.stat.foto{border-left-color:var(--accent)}
+
+/* FILTROS */
+.filtros{
+  background:#fff; border:1.5px solid var(--border); border-radius:8px;
+  padding:14px; margin-bottom:16px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
+}
+@media(max-width:820px){.filtros{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.filtros{grid-template-columns:1fr}}
+.campo{display:flex; flex-direction:column; gap:4px}
+.campo label{font-size:11.5px; font-weight:800; text-transform:uppercase; color:var(--muted)}
+.campo input,.campo select{
+  border:1.5px solid #cbd5e1; border-radius:6px; padding:10px;
+  font-size:16px; min-height:var(--touch); background:#fff; color:var(--text); width:100%;
+}
+
+/* BOTOES */
+.barra{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px}
+.btn{
+  flex:1 1 180px; min-height:var(--touch); border:none; border-radius:8px;
+  font-size:13px; font-weight:800; text-transform:uppercase; color:#fff;
+  cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px;
+}
+.btn-azul{background:#0284c7} .btn-verde{background:var(--primary)} .btn-preto{background:#000}
+.btn:active{opacity:.85}
+
+/* TABELA */
+.tabela-wrap{background:#fff; border:1.5px solid var(--border); border-radius:8px; overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:820px; font-size:13px}
+th{
+  background:#000; color:#fff; font-size:11px; font-weight:900; text-transform:uppercase;
+  text-align:left; padding:10px 12px; position:sticky; top:0; white-space:nowrap;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+td{padding:10px 12px; border-top:1px solid #e5e7eb; vertical-align:top}
+tr:nth-child(even) td{background:#fafafa}
+.chip{
+  font-size:10.5px; font-weight:900; text-transform:uppercase; padding:3px 8px;
+  border-radius:12px; border:1.5px solid; white-space:nowrap; display:inline-block;
+}
+.chip-rascunho{background:#f1f5f9;color:#334155;border-color:#94a3b8}
+.chip-pendente{background:#fff7ed;color:#9a3412;border-color:var(--warning)}
+.chip-enviada{background:#ecfdf5;color:#14532d;border-color:var(--success)}
+.chip-erro{background:#fff1f2;color:#9f1239;border-color:var(--accent)}
+.fonte-nuvem{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase}
+.alerta-foto{color:var(--accent); font-weight:800}
+
+.vazio{text-align:center; padding:44px 20px; color:var(--muted); font-size:14px; line-height:1.6}
+
+.aviso{
+  background:#fffbeb; border:2px solid var(--warning); border-radius:8px;
+  padding:12px 14px; font-size:13px; line-height:1.45; color:#7c2d12; margin-bottom:16px;
+}
+.aviso b{display:block; text-transform:uppercase; font-size:12px; margin-bottom:4px}
+
+/* MODAL DE CONFIGURACAO */
+.overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:500;
+  align-items:center; justify-content:center; padding:16px;
+}
+.overlay.on{display:flex}
+.modal{background:#fff; border-radius:12px; padding:18px; width:100%; max-width:520px}
+.modal h2{font-size:15px; text-transform:uppercase; margin:0 0 12px 0}
+.modal p{font-size:13px; color:var(--muted); line-height:1.5}
+
+/* IMPRESSAO EM P&B */
+@page{size:A4 landscape; margin:10mm}
+@media print{
+  .topbar,.filtros,.barra,.overlay,.aviso,.no-print{display:none !important}
+  body{background:#fff !important; font-size:8.5pt !important}
+  .wrap{max-width:100% !important; margin:0 !important; padding:0 !important}
+  .stats{grid-template-columns:repeat(4,1fr) !important; gap:4mm !important}
+  .stat{border:1.5px solid #000 !important; border-left-width:1.5px !important; box-shadow:none !important; padding:6px !important}
+  .stat .n{font-size:16pt !important}
+  .stat .r{font-size:7.5pt !important; color:#000 !important}
+  .tabela-wrap{border:1.5px solid #000 !important; overflow:visible !important}
+  table{min-width:0 !important; font-size:7.5pt !important}
+  th{background:#000 !important; color:#fff !important; font-size:7.5pt !important; padding:3px 4px !important;
+     -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important}
+  td{padding:3px 4px !important; border-top:.8px solid #000 !important}
+  tr:nth-child(even) td{background:none !important}
+  .chip{border:1px solid #000 !important; background:none !important; color:#000 !important; font-size:7pt !important}
+  tr{break-inside:avoid !important; page-break-inside:avoid !important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>SEDAM-RO • Painel de Vistorias de Outorga</h1>
+    <div class="sub" id="subFonte">Carregando...</div>
+  </div>
+  <span class="badge offline" id="badgeRede">● Offline</span>
+</div>
+
+<div class="wrap">
+
+  <div class="aviso no-print" id="avisoCfg" style="display:none">
+    <b>⚠ Painel em modo local</b>
+    A URL do Web App ainda não foi configurada, então este painel está mostrando apenas
+    as vistorias guardadas <b style="display:inline">neste aparelho</b>. Toque em
+    <b style="display:inline">Configurar nuvem</b> para ver também o que já subiu para a planilha.
+  </div>
+
+  <div class="stats">
+    <div class="stat total"><div class="n" id="nTotal">0</div><div class="r">Vistorias no total</div></div>
+    <div class="stat pend"><div class="n" id="nPend">0</div><div class="r">Pendentes de envio</div></div>
+    <div class="stat env"><div class="n" id="nEnv">0</div><div class="r">Já enviadas</div></div>
+    <div class="stat foto"><div class="n" id="nFoto">0</div><div class="r">Abaixo de 6 fotos</div></div>
+  </div>
+
+  <div class="filtros no-print">
+    <div class="campo">
+      <label>Buscar (empreendimento, interessado, SEI)</label>
+      <input type="search" id="fBusca" placeholder="Digite para filtrar..." oninput="render()">
+    </div>
+    <div class="campo">
+      <label>Município</label>
+      <select id="fMunicipio" onchange="render()"><option value="">Todos</option></select>
+    </div>
+    <div class="campo">
+      <label>Técnico vistoriador</label>
+      <select id="fTecnico" onchange="render()"><option value="">Todos</option></select>
+    </div>
+    <div class="campo">
+      <label>Situação</label>
+      <select id="fStatus" onchange="render()">
+        <option value="">Todas</option>
+        <option value="rascunho">Rascunho</option>
+        <option value="pendente">Pendente</option>
+        <option value="enviada">Enviada</option>
+        <option value="erro">Com erro</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label>Data inicial</label>
+      <input type="date" id="fDe" onchange="render()">
+    </div>
+    <div class="campo">
+      <label>Data final</label>
+      <input type="date" id="fAte" onchange="render()">
+    </div>
+  </div>
+
+  <div class="barra no-print">
+    <button class="btn btn-azul" onclick="carregar()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 4V1L8 5l4 4V6a6 6 0 0 1 6 6c0 1-.26 1.97-.71 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12a8 8 0 0 0-8-8z"/></svg>
+      Atualizar dados
+    </button>
+    <button class="btn btn-verde" onclick="abrirCfg()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19.4 13a7.8 7.8 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.6 7.6 0 0 0-1.7-1L15 3H9l-.3 2.9c-.6.3-1.2.6-1.7 1l-2.5-1-2 3.5L4.6 11a7.8 7.8 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1c.5.4 1.1.7 1.7 1L9 21h6l.3-2.9c.6-.3 1.2-.6 1.7-1l2.5 1 2-3.5L19.4 13zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+      Configurar nuvem
+    </button>
+    <button class="btn btn-preto" onclick="exportarCSV()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      Baixar CSV
+    </button>
+    <button class="btn btn-preto" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 8H5a3 3 0 0 0-3 3v6h4v4h12v-4h4v-6a3 3 0 0 0-3-3zm-3 11H8v-5h8v5zm2-14H6v4h12V5z"/></svg>
+      Imprimir P&B
+    </button>
+  </div>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Situação</th><th>Nº / Data</th><th>Empreendimento</th><th>Município</th>
+          <th>Técnico</th><th>Fontes</th><th>Outorga (34)</th><th>Conclusão (36)</th>
+          <th>Fotos</th><th>Origem</th>
+        </tr>
+      </thead>
+      <tbody id="corpoTabela"></tbody>
+    </table>
+    <div class="vazio" id="vazio" style="display:none"></div>
+  </div>
+</div>
+
+<!-- MODAL DE CONFIGURACAO -->
+<div class="overlay" id="overlayCfg">
+  <div class="modal">
+    <h2>Conectar à planilha na nuvem</h2>
+    <p>Cole aqui a mesma URL e o mesmo token que você configurou na ficha do iPhone.
+       O passo a passo para gerar está no arquivo <b>APPS_SCRIPT_BACKEND.gs</b>.</p>
+    <div class="campo" style="margin:12px 0">
+      <label>URL do Web App (termina em /exec)</label>
+      <input type="url" id="cfgEndpoint" placeholder="https://script.google.com/macros/s/.../exec">
+    </div>
+    <div class="campo" style="margin-bottom:16px">
+      <label>Token</label>
+      <input type="text" id="cfgToken" placeholder="A mesma frase do TOKEN no .gs">
+    </div>
+    <div class="barra" style="margin:0">
+      <button class="btn btn-verde" onclick="salvarCfg()">Salvar e carregar</button>
+      <button class="btn btn-preto" onclick="fecharCfg()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   Duas fontes de dados, sempre combinadas:
+     LOCAL  -> IndexedDB deste aparelho (mesma origem da ficha). Funciona offline.
+     NUVEM  -> planilha, via doGet do Apps Script. Só quando houver internet.
+   Uma vistoria que existe nos dois lados aparece uma vez só (o id manda).
+   ============================================================================ */
+
+var DB_NAME = 'sedam_outorga_v4';
+var CFG_KEY = 'sedam_cfg_sync_v4';
+var MIN_FOTOS = 6;
+var registros = [];
+
+/* --------------------------------------------------------------- helpers -- */
+function cfg(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY) || '{}'); }catch(e){ return {}; } }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+function abrirDB(){
+  return new Promise(function(res){
+    var req = indexedDB.open(DB_NAME);      // sem versao: nao cria nem migra nada
+    req.onsuccess = function(){ res(req.result); };
+    req.onerror   = function(){ res(null); };
+  });
+}
+
+function lerStore(db, nome){
+  return new Promise(function(res){
+    if(!db || !db.objectStoreNames.contains(nome)) return res([]);
+    try{
+      var r = db.transaction(nome,'readonly').objectStore(nome).getAll();
+      r.onsuccess = function(){ res(r.result || []); };
+      r.onerror   = function(){ res([]); };
+    }catch(e){ res([]); }
+  });
+}
+
+/* ------------------------------------------------------------ carregar ---- */
+function montarResumoOutorga(l){
+  var partes = [];
+  if(l['143 Outorga superficial?']) partes.push('Sup: ' + l['143 Outorga superficial?'] + (l['144 Nº outorga superficial'] ? ' (' + l['144 Nº outorga superficial'] + ')' : ''));
+  if(l['145 Outorga subterrânea?']) partes.push('Sub: ' + l['145 Outorga subterrânea?'] + (l['146 Nº outorga subterrânea'] ? ' (' + l['146 Nº outorga subterrânea'] + ')' : ''));
+  if(!partes.length && l['34 Classificação local da outorga (resumo)']) partes.push(l['34 Classificação local da outorga (resumo)']);
+  return partes.join(' | ');
+}
+
+async function carregar(){
+  var sub = document.getElementById('subFonte');
+  sub.textContent = 'Carregando...';
+  registros = [];
+
+  // 1) LOCAL
+  var db = await abrirDB();
+  var locais = await lerStore(db, 'vistorias');
+  var fotos  = await lerStore(db, 'fotos');
+
+  locais.forEach(function(v){
+    var c = (v.dados && v.dados.campos)  || {};
+    var r = (v.dados && v.dados.radios)  || {};
+    registros.push({
+      id: v.id,
+      origem: 'Aparelho',
+      status: v.status || 'rascunho',
+      num: c.fld_num_vistoria || '',
+      data: c.fld_data_vistoria || (v.criadaEm ? v.criadaEm.slice(0,10) : ''),
+      empreendimento: c.fld_empreendimento || '',
+      interessado: c.fld_interessado || '',
+      sei: c.fld_processo_sei || '',
+      municipio: c.fld_municipio || '',
+      tecnico: c.fld_tecnico || '',
+      fontes: ((v.dados && v.dados.fontes) || []).join(', '),
+      outorga: r.q34 || '',
+      conclusao: r.q36 || '',
+      fotos: fotos.filter(function(f){ return f.vistoriaId === v.id; }).length
+    });
+  });
+
+  // 2) NUVEM
+  var c = cfg();
+  document.getElementById('avisoCfg').style.display = c.endpoint ? 'none' : 'block';
+  var daNuvem = 0;
+
+  if(c.endpoint && navigator.onLine){
+    try{
+      var url = c.endpoint + (c.endpoint.indexOf('?') === -1 ? '?' : '&') + 'token=' + encodeURIComponent(c.token || '');
+      var resp = await fetch(url);
+      var json = await resp.json();
+      if(!json.ok) throw new Error(json.erro || 'resposta sem ok');
+
+      json.vistorias.forEach(function(l){
+        if(registros.some(function(x){ return x.id === l['ID']; })) return;  // ja veio do aparelho
+        registros.push({
+          id: l['ID'],
+          origem: 'Planilha',
+          status: 'enviada',
+          num: l['Nº Vistoria'] || '',
+          data: (l['Data Vistoria'] || '').toString().slice(0,10),
+          empreendimento: l['Empreendimento'] || '',
+          interessado: l['Interessado'] || '',
+          sei: l['Processo SEI'] || '',
+          municipio: l['Município'] || '',
+          tecnico: l['Técnico'] || '',
+          fontes: l['Fontes de água'] || '',
+          outorga: montarResumoOutorga(l),
+          conclusao: l['36 Parecer'] || '',
+          fotos: Number(l['37 Total de fotos']) || 0
+        });
+        daNuvem++;
+      });
+    }catch(e){
+      sub.textContent = 'Aparelho: ' + locais.length + ' • nuvem indisponível (' + e.message + ')';
+      preencherSelects(); render(); rede(); return;
+    }
+  }
+
+  sub.textContent = 'Aparelho: ' + locais.length + ' • Planilha: ' + daNuvem +
+                    (c.endpoint ? '' : ' (nuvem não configurada)');
+  preencherSelects();
+  render();
+  rede();
+}
+
+/* ------------------------------------------------------------ filtros ----- */
+function preencherSelects(){
+  [['fMunicipio','municipio'],['fTecnico','tecnico']].forEach(function(par){
+    var sel = document.getElementById(par[0]);
+    var atual = sel.value;
+    var vals = registros.map(function(r){ return r[par[1]]; })
+                        .filter(function(v){ return v; });
+    var unicos = vals.filter(function(v,i){ return vals.indexOf(v) === i; }).sort();
+    sel.innerHTML = '<option value="">Todos</option>';
+    unicos.forEach(function(v){
+      var o = document.createElement('option');
+      o.value = v; o.textContent = v;
+      sel.appendChild(o);
+    });
+    sel.value = atual;
+  });
+}
+
+function filtrar(){
+  var busca = (document.getElementById('fBusca').value || '').toLowerCase();
+  var mun = document.getElementById('fMunicipio').value;
+  var tec = document.getElementById('fTecnico').value;
+  var st  = document.getElementById('fStatus').value;
+  var de  = document.getElementById('fDe').value;
+  var ate = document.getElementById('fAte').value;
+
+  return registros.filter(function(r){
+    if(mun && r.municipio !== mun) return false;
+    if(tec && r.tecnico !== tec) return false;
+    if(st  && r.status !== st) return false;
+    if(de  && (!r.data || r.data < de)) return false;
+    if(ate && (!r.data || r.data > ate)) return false;
+    if(busca){
+      var alvo = (r.empreendimento + ' ' + r.interessado + ' ' + r.sei + ' ' + r.num).toLowerCase();
+      if(alvo.indexOf(busca) === -1) return false;
+    }
+    return true;
+  });
+}
+
+/* ------------------------------------------------------------- render ----- */
+function render(){
+  var lista = filtrar().sort(function(a,b){ return (b.data||'').localeCompare(a.data||''); });
+
+  document.getElementById('nTotal').textContent = lista.length;
+  document.getElementById('nPend').textContent  = lista.filter(function(r){ return r.status==='pendente' || r.status==='erro'; }).length;
+  document.getElementById('nEnv').textContent   = lista.filter(function(r){ return r.status==='enviada'; }).length;
+  document.getElementById('nFoto').textContent  = lista.filter(function(r){ return r.fotos < MIN_FOTOS; }).length;
+
+  var corpo = document.getElementById('corpoTabela');
+  var vazio = document.getElementById('vazio');
+  corpo.innerHTML = '';
+
+  if(!lista.length){
+    vazio.style.display = 'block';
+    vazio.innerHTML = registros.length
+      ? 'Nenhuma vistoria bate com os filtros aplicados.'
+      : 'Nenhuma vistoria encontrada.<br>Se este painel está aberto num aparelho diferente do que fez a coleta, configure a nuvem para puxar da planilha.';
+    return;
+  }
+  vazio.style.display = 'none';
+
+  lista.forEach(function(r){
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><span class="chip chip-'+r.status+'">'+esc(rotulo(r.status))+'</span></td>'+
+      '<td><b>'+esc(r.num || '—')+'</b><br><span style="font-size:11.5px;color:#4b5563">'+esc(r.data || 'sem data')+'</span></td>'+
+      '<td><b>'+esc(r.empreendimento || '(sem nome)')+'</b><br><span style="font-size:11.5px;color:#4b5563">'+esc(r.interessado)+'</span></td>'+
+      '<td>'+esc(r.municipio)+'</td>'+
+      '<td>'+esc(r.tecnico)+'</td>'+
+      '<td>'+esc(r.fontes || '—')+'</td>'+
+      '<td>'+esc(r.outorga || '—')+'</td>'+
+      '<td>'+esc(r.conclusao || '—')+'</td>'+
+      '<td>'+(r.fotos < MIN_FOTOS
+                ? '<span class="alerta-foto">'+r.fotos+' / '+MIN_FOTOS+'</span>'
+                : r.fotos+' fotos')+'</td>'+
+      '<td><span class="fonte-nuvem">'+esc(r.origem)+'</span></td>';
+    corpo.appendChild(tr);
+  });
+}
+
+function rotulo(s){
+  return {rascunho:'Rascunho', pendente:'Pendente', enviada:'Enviada', erro:'Erro'}[s] || s;
+}
+
+/* --------------------------------------------------------------- CSV ------ */
+function exportarCSV(){
+  var lista = filtrar();
+  if(!lista.length){ alert('Não há linhas para exportar com os filtros atuais.'); return; }
+
+  var cols = ['id','status','num','data','empreendimento','interessado','sei','municipio','tecnico','fontes','outorga','conclusao','fotos','origem'];
+  var cab  = ['ID','Situação','Nº Vistoria','Data','Empreendimento','Interessado','Processo SEI','Município','Técnico','Fontes','Outorga (34)','Conclusão (36)','Fotos','Origem'];
+
+  var linhas = [cab.join(';')];
+  lista.forEach(function(r){
+    linhas.push(cols.map(function(c){
+      return '"' + String(r[c]==null?'':r[c]).replace(/"/g,'""') + '"';
+    }).join(';'));
+  });
+
+  // BOM para o Excel em portugues abrir os acentos certos
+  var blob = new Blob(['﻿' + linhas.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'painel_vistorias_sedam_' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ------------------------------------------------------------- config ----- */
+function abrirCfg(){
+  var c = cfg();
+  document.getElementById('cfgEndpoint').value = c.endpoint || '';
+  document.getElementById('cfgToken').value = c.token || '';
+  document.getElementById('overlayCfg').classList.add('on');
+}
+function fecharCfg(){ document.getElementById('overlayCfg').classList.remove('on'); }
+function salvarCfg(){
+  localStorage.setItem(CFG_KEY, JSON.stringify({
+    endpoint: document.getElementById('cfgEndpoint').value.trim(),
+    token: document.getElementById('cfgToken').value.trim()
+  }));
+  fecharCfg();
+  carregar();
+}
+
+/* --------------------------------------------------------------- rede ----- */
+function rede(){
+  var b = document.getElementById('badgeRede');
+  b.className = 'badge ' + (navigator.onLine ? 'online' : 'offline');
+  b.textContent = navigator.onLine ? '● Online' : '● Offline';
+}
+window.addEventListener('online',  function(){ rede(); carregar(); });
+window.addEventListener('offline', rede);
+
+document.addEventListener('DOMContentLoaded', function(){ rede(); carregar(); });
+</script>
+</body>
+</html>
