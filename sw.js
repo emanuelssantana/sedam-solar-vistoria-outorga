@@ -9,7 +9,7 @@
    do cache comum do Safari. Os DADOS seguem seguros no IndexedDB nos dois casos.
    ============================================================================ */
 
-const CACHE = 'sedam-outorga-v4-001';
+const CACHE = 'sedam-outorga-v4-002';
 
 const ARQUIVOS = [
   './',

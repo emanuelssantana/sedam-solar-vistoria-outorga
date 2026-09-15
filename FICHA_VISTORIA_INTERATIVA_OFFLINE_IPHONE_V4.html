@@ -366,8 +366,12 @@
            igual ao portal SOLAR (perguntaId33, opcoes 49/50/51). E um <label> que
            envolve o <input>, entao funciona por toque, por teclado e por leitor de
            tela -- e o navegador marca/desmarca sozinho, sem depender de JavaScript. */
+        /* Cada uma das 3 categorias tem cor e icone proprios, ja visiveis em repouso
+           (borda esquerda grossa + fundo do icone), para ficar claro de longe que sao
+           3 grupos de perguntas DIFERENTES -- nao 3 variantes do mesmo botao. */
         .water-source-card {
             border: 2px solid #cbd5e1;
+            border-left-width: 6px;
             border-radius: 8px;
             padding: 12px;
             cursor: pointer;
@@ -383,15 +387,27 @@
             transition: all 0.2s ease;
             user-select: none;
         }
-        .water-source-card.active {
-            border-color: #0284c7;
-            background-color: #e0f2fe;
-            color: #0369a1;
-            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
-        }
-        .water-source-card svg { width: 26px; height: 26px; flex-shrink: 0; }
+        .water-source-card svg { width: 22px; height: 22px; flex-shrink: 0; padding: 6px; border-radius: 8px; box-sizing: content-box; }
         .ws-texto { line-height: 1.25; }
-        .ws-sub { font-size: 11px; font-weight: 600; opacity: 0.8; text-transform: none; }
+        .ws-sub { font-size: 11px; font-weight: 600; opacity: 0.85; text-transform: none; display: block; margin-top: 2px; }
+
+        /* SUPERFICIAL = azul agua corrente */
+        .ws-superficial { border-left-color: #0284c7; }
+        .ws-superficial svg { background: #e0f2fe; color: #0284c7; }
+        .ws-superficial.active { border-color: #0284c7; background-color: #e0f2fe; color: #075985; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25); }
+        .ws-superficial.active svg { background: #0284c7; color: #ffffff; }
+
+        /* SUBTERRANEA = ambar/terra (poco, perfuracao) */
+        .ws-subterranea { border-left-color: #b45309; }
+        .ws-subterranea svg { background: #fef3c7; color: #b45309; }
+        .ws-subterranea.active { border-color: #b45309; background-color: #fef3c7; color: #78350f; box-shadow: 0 2px 8px rgba(180, 83, 9, 0.25); }
+        .ws-subterranea.active svg { background: #b45309; color: #ffffff; }
+
+        /* PUBLICO = indigo/roxo (concessionaria, rede) */
+        .ws-publico { border-left-color: #4338ca; }
+        .ws-publico svg { background: #e0e7ff; color: #4338ca; }
+        .ws-publico.active { border-color: #4338ca; background-color: #e0e7ff; color: #312e81; box-shadow: 0 2px 8px rgba(67, 56, 202, 0.25); }
+        .ws-publico.active svg { background: #4338ca; color: #ffffff; }
 
         /* O quadradinho em si: 26px, borda grossa, visivel sob sol forte */
         .ws-check {
@@ -1402,22 +1418,22 @@
                     <span>20. FONTES DE ABASTECIMENTO DE ÁGUA</span>
                 </div>
                 <div class="question-card-body">
-                    <div class="question-desc-text">Múltipla escolha: pode marcar 1, 2 ou as 3 fontes ao mesmo tempo. Só abrem as perguntas da fonte que você marcar — igual ao portal SOLAR (opções 49, 50 e 51).</div>
+                    <div class="question-desc-text">São 3 categorias <b>independentes</b>, cada uma com seu próprio jogo de perguntas — a maioria das propriedades usa só 1, mas pode ser mais de uma ao mesmo tempo. Marque as que existirem no local; só abrem as perguntas da(s) categoria(s) marcada(s), igual ao portal SOLAR (opções 49, 50 e 51).</div>
                     <div class="water-sources-selector">
-                        <label class="water-source-card" id="card_superficial">
+                        <label class="water-source-card ws-superficial" id="card_superficial">
                             <input type="checkbox" class="ws-check" id="chk_superficial" onchange="toggleWaterSource('superficial', this)" aria-label="Captação superficial (opção 49 do portal SOLAR)">
                             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0-4c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1V8z"/></svg>
-                            <span class="ws-texto">CAPTAÇÃO SUPERFICIAL<br><span class="ws-sub">rio / igarapé — opção 49</span></span>
+                            <span class="ws-texto">CAPTAÇÃO SUPERFICIAL<br><span class="ws-sub">Rio, igarapé, represa ou nascente — libera 6 perguntas sobre o corpo hídrico</span></span>
                         </label>
-                        <label class="water-source-card" id="card_subterranea">
+                        <label class="water-source-card ws-subterranea" id="card_subterranea">
                             <input type="checkbox" class="ws-check" id="chk_subterranea" onchange="toggleWaterSource('subterranea', this)" aria-label="Captação subterrânea (opção 50 do portal SOLAR)">
                             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
-                            <span class="ws-texto">CAPTAÇÃO SUBTERRÂNEA<br><span class="ws-sub">poço — opção 50</span></span>
+                            <span class="ws-texto">CAPTAÇÃO SUBTERRÂNEA<br><span class="ws-sub">Poço tubular ou amazônico — libera 9 perguntas sobre o poço e a bomba</span></span>
                         </label>
-                        <label class="water-source-card" id="card_publico">
+                        <label class="water-source-card ws-publico" id="card_publico">
                             <input type="checkbox" class="ws-check" id="chk_publico" onchange="toggleWaterSource('publico', this)" aria-label="Abastecimento público (opção 51 do portal SOLAR)">
                             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2zm-6-5c.55 0 1 .45 1 1v4h-2V6c0-.55.45-1 1-1zm-2 15h4v2h-4z"/></svg>
-                            <span class="ws-texto">ABASTECIMENTO PÚBLICO<br><span class="ws-sub">CAERD / SAAE — opção 51</span></span>
+                            <span class="ws-texto">ABASTECIMENTO PÚBLICO<br><span class="ws-sub">CAERD / SAAE — sem perguntas técnicas extras, só concessionária e matrícula</span></span>
                         </label>
                     </div>
                     <div class="varieties-title">OUTRAS FONTES DECLARADAS</div>
