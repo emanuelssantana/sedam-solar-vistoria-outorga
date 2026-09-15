@@ -2,19 +2,110 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SEDAM Outorga">
+<meta name="theme-color" content="#1b4332">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icone-180.png">
 <title>SEDAM-RO • Vistoria de Outorga</title>
-<meta http-equiv="refresh" content="0; url=FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html">
 <style>
-  body{font-family:-apple-system,sans-serif;background:#f4f6f8;color:#111827;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:24px}
-  a{color:#1b4332;font-weight:800}
+  :root{ --primary:#1b4332; --primary-dark:#081c15; --border:#d8e2dc; --muted:#4b5563; }
+  *{box-sizing:border-box}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:#f4f6f8; color:#111827; margin:0; min-height:100vh;
+  }
+  .topo{
+    background:var(--primary); color:#fff;
+    padding:env(safe-area-inset-top,20px) 20px 20px 20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .topo svg{flex-shrink:0}
+  .topo h1{font-size:16px; font-weight:900; text-transform:uppercase; letter-spacing:.4px; margin:0}
+  .topo p{font-size:12px; opacity:.9; margin:2px 0 0 0}
+  .wrap{max-width:520px; margin:0 auto; padding:18px}
+  .menu-item{
+    display:flex; align-items:center; gap:14px;
+    background:#fff; border:1.5px solid var(--border); border-radius:10px;
+    padding:16px; margin-bottom:14px; text-decoration:none; color:inherit;
+    box-shadow:0 1px 4px rgba(0,0,0,.05);
+  }
+  .menu-item:active{background:#f0f4f2}
+  .menu-icone{
+    width:44px; height:44px; border-radius:10px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:#fff;
+  }
+  .menu-texto b{display:block; font-size:14.5px; font-weight:800; text-transform:uppercase}
+  .menu-texto span{display:block; font-size:12.5px; color:var(--muted); margin-top:2px; line-height:1.35}
+  .secao-titulo{
+    font-size:11.5px; font-weight:900; text-transform:uppercase; letter-spacing:.4px;
+    color:var(--muted); margin:22px 0 10px 4px;
+  }
+  .rodape{ text-align:center; font-size:11px; color:#9ca3af; margin-top:24px; padding-bottom:20px; }
+  .rodape a{color:var(--muted)}
 </style>
 </head>
 <body>
-  <div>
-    <p>Abrindo a ficha de vistoria...</p>
-    <p>Se não abrir sozinho, toque aqui: <a href="FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html">Ficha de Vistoria</a></p>
-    <p><a href="DASHBOARD_VISTORIAS_SEDAM.html">Ir para o Painel de Vistorias</a></p>
+
+  <div class="topo">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2C8 6 6 9.5 6 13a6 6 0 0 0 12 0c0-3.5-2-7-6-11z"/></svg>
+    <div>
+      <h1>SEDAM-RO • Outorga</h1>
+      <p>Vistoria de campo — offline no iPhone</p>
+    </div>
   </div>
+
+  <div class="wrap">
+
+    <div class="secao-titulo">Em campo</div>
+
+    <a class="menu-item" href="FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html">
+      <div class="menu-icone" style="background:#1b4332">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      </div>
+      <div class="menu-texto">
+        <b>Ficha de Vistoria</b>
+        <span>Preencher agora — funciona sem internet, salva sozinho no aparelho</span>
+      </div>
+    </a>
+
+    <div class="secao-titulo">No escritório</div>
+
+    <a class="menu-item" href="DASHBOARD_VISTORIAS_SEDAM.html">
+      <div class="menu-icone" style="background:#0284c7">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-2 4H7V5h10v2zM7 11h10v2H7v-2zm0 4h7v2H7v-2z"/></svg>
+      </div>
+      <div class="menu-texto">
+        <b>Painel de Vistorias</b>
+        <span>Ver todas as vistorias, filtrar por município/técnico, exportar CSV</span>
+      </div>
+    </a>
+
+    <div class="secao-titulo">Sobre este sistema</div>
+
+    <a class="menu-item" href="https://github.com/emanuelssantana/sedam-solar-vistoria-outorga" target="_blank" rel="noopener">
+      <div class="menu-icone" style="background:#111827">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0112 6.8c.85 0 1.71.11 2.5.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0022 12c0-5.52-4.48-10-10-10z"/></svg>
+      </div>
+      <div class="menu-texto">
+        <b>Código-fonte (GitHub)</b>
+        <span>Repositório público — sem dados de vistoria nem senhas dentro</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="rodape">
+    SEDAM-RO / SOLAR · projeto interno · atualizado 15/09/2026
+  </div>
+
+  <script>
+    // registra o Service Worker tambem a partir da home, para o app ja
+    // funcionar offline mesmo se o usuario entrar por aqui primeiro
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    }
+  </script>
 </body>
 </html>
