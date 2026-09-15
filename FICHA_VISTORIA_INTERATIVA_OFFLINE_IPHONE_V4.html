@@ -401,6 +401,39 @@
         .ws-texto { line-height: 1.25; }
         .ws-sub { font-size: 11px; font-weight: 600; opacity: 0.85; text-transform: none; display: block; margin-top: 2px; }
 
+        /* Resposta imediata ao marcar uma fonte no Bloco 0: as perguntas liberadas
+           ficam la no Bloco 4, longe da tela; sem isso o toque parece nao ter efeito. */
+        .ws-liberadas {
+            margin: 12px 0 4px 0;
+            padding: 10px 12px;
+            border: 1.5px dashed #0369a1;
+            border-radius: 8px;
+            background: #f0f9ff;
+            color: #0c4a6e;
+            font-size: 12.5px;
+            line-height: 1.4;
+        }
+        .ws-liberadas b { font-weight: 800; }
+        .btn-ws-ir {
+            display: block;
+            width: 100%;
+            min-height: 44px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #0369a1;
+            color: #ffffff;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        /* a barra do topo e sticky e cresce com o entalhe do iPhone no modo tela de inicio */
+        #block_q35, #block_subterranea, #block_superficial, #block_publico {
+            scroll-margin-top: calc(72px + env(safe-area-inset-top, 0px));
+        }
+
         /* SUPERFICIAL = azul agua corrente */
         .ws-superficial { border-left-color: #0284c7; }
         .ws-superficial svg { background: #e0f2fe; color: #0284c7; }
@@ -1025,24 +1058,65 @@
             <div class="content-columns-print">
 
             <!-- ============================================================ -->
+            <!-- BLOCO 0: FONTES DE AGUA -- DEFINE A FICHA (item 20)          -->
+            <!-- Vem antes de tudo porque e' ele que decide quais perguntas   -->
+            <!-- aparecem no Bloco 4 (opcoes 49/50/51 do portal SOLAR).        -->
+            <!-- ============================================================ -->
+            <div class="section-banner" id="sec-bloco0" style="background-color:#0369a1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                BLOCO 0 • FONTES DE ÁGUA — DEFINE A FICHA
+            </div>
+
+            <div class="config-warning" style="background-color:#ecfdf5;border-color:#16a34a;color:#14532d">
+                <b>⚠ Comece por aqui — esta escolha monta a ficha</b>
+                Marque 1, 2 ou as 3 fontes de água que existem no local. Cada uma libera o seu
+                próprio jogo de perguntas lá no <b style="display:inline">Bloco 4</b>, do mesmo
+                jeito que o portal SOLAR. Os Blocos 1, 2, 3 e 5 são fixos e aparecem sempre.
+            </div>
+
+            <!-- 20 - MULTIPLA ESCOLHA QUE COMANDA OS BLOCOS CONDICIONAIS -->
+            <div class="question-card">
+                <div class="question-card-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    <span>20. FONTES DE ABASTECIMENTO DE ÁGUA</span>
+                </div>
+                <div class="question-card-body">
+                    <div class="question-desc-text">São 3 categorias <b>independentes</b>, cada uma com seu próprio jogo de perguntas — a maioria das propriedades usa só 1, mas pode ser mais de uma ao mesmo tempo. Marque as que existirem no local; só abrem as perguntas da(s) categoria(s) marcada(s), igual ao portal SOLAR (opções 49, 50 e 51).</div>
+                    <div class="water-sources-selector">
+                        <label class="water-source-card ws-superficial" id="card_superficial">
+                            <input type="checkbox" class="ws-check" id="chk_superficial" onchange="toggleWaterSource('superficial', this)" aria-label="Captação superficial (opção 49 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0-4c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1V8z"/></svg>
+                            <span class="ws-texto">CAPTAÇÃO SUPERFICIAL<br><span class="ws-sub">Rio, igarapé, represa ou nascente — libera 6 perguntas sobre o corpo hídrico</span></span>
+                        </label>
+                        <label class="water-source-card ws-subterranea" id="card_subterranea">
+                            <input type="checkbox" class="ws-check" id="chk_subterranea" onchange="toggleWaterSource('subterranea', this)" aria-label="Captação subterrânea (opção 50 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                            <span class="ws-texto">CAPTAÇÃO SUBTERRÂNEA<br><span class="ws-sub">Poço tubular ou amazônico — libera 9 perguntas sobre o poço e a bomba</span></span>
+                        </label>
+                        <label class="water-source-card ws-publico" id="card_publico">
+                            <input type="checkbox" class="ws-check" id="chk_publico" onchange="toggleWaterSource('publico', this)" aria-label="Abastecimento público (opção 51 do portal SOLAR)">
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2zm-6-5c.55 0 1 .45 1 1v4h-2V6c0-.55.45-1 1-1zm-2 15h4v2h-4z"/></svg>
+                            <span class="ws-texto">ABASTECIMENTO PÚBLICO<br><span class="ws-sub">CAERD / SAAE — sem perguntas técnicas extras, só concessionária e matrícula</span></span>
+                        </label>
+                    </div>
+                    <div class="ws-liberadas no-print" id="wsLiberadas" aria-live="polite"></div>
+                    <div class="varieties-title">OUTRAS FONTES DECLARADAS</div>
+                    <div class="varieties-grid">
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Caminhão-pipa" onchange="toggleVariety(this)"> Caminhão-pipa</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Água de chuva" onchange="toggleVariety(this)"> Água de chuva (cisterna)</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Nascente" onchange="toggleVariety(this)"> Nascente / olho d'água</label>
+                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Lagoa/Represa" onchange="toggleVariety(this)"> Lagoa / represa / açude</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============================================================ -->
             <!-- BLOCO 1: INTERFERENCIA DIRETA E RESTRICOES LEGAIS (01 a 08)  -->
             <!-- ============================================================ -->
             <div class="section-banner" id="sec-bloco1">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
                 BLOCO 1 • INTERFERÊNCIA E RESTRIÇÕES LEGAIS
-            </div>
-
-            <!-- AVISO DE ABERTURA: explica a dinamica do formulario ANTES de qualquer
-                 pergunta, porque e' o item 20 (la no Bloco 4) que decide quais perguntas
-                 aparecem mais adiante -- o usuario precisa saber disso desde o inicio. -->
-            <div class="config-warning" style="background-color:#ecfdf5;border-color:#16a34a;color:#14532d;margin-bottom:14px">
-                <b>⚠ ESTA FICHA É DINÂMICA — leia antes de começar</b>
-                Lá no <b style="display:inline">Bloco 4, item 20</b>, você vai marcar 1, 2 ou as 3
-                categorias de fonte de água (Captação Superficial / Subterrânea / Abastecimento
-                Público). <b style="display:inline">É essa marcação que decide quais perguntas
-                aparecem</b> — cada categoria libera um jogo diferente e específico de perguntas,
-                do mesmo jeito que acontece no portal SOLAR. Os Blocos 1, 2, 3 e 5 abaixo são fixos
-                e aparecem sempre, independente do que você marcar lá no item 20.
             </div>
 
             <!-- 01 -->
@@ -1428,46 +1502,11 @@
             </div>
 
             <!-- ============================================================ -->
-            <!-- BLOCO 4: CAPTACAO E OUTORGA (20 a 34)                        -->
+            <!-- BLOCO 4: CAPTACAO E OUTORGA (SOLAR-35, 21 a 34; o 20 esta no Bloco 0) -->
             <!-- ============================================================ -->
             <div class="section-banner" id="sec-bloco4" style="background-color: #0369a1;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
                 BLOCO 4 • CAPTAÇÃO DE ÁGUA E OUTORGA
-            </div>
-
-            <!-- 20 - MULTIPLA ESCOLHA QUE COMANDA OS BLOCOS CONDICIONAIS -->
-            <div class="question-card">
-                <div class="question-card-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                    <span>20. FONTES DE ABASTECIMENTO DE ÁGUA</span>
-                </div>
-                <div class="question-card-body">
-                    <div class="question-desc-text">São 3 categorias <b>independentes</b>, cada uma com seu próprio jogo de perguntas — a maioria das propriedades usa só 1, mas pode ser mais de uma ao mesmo tempo. Marque as que existirem no local; só abrem as perguntas da(s) categoria(s) marcada(s), igual ao portal SOLAR (opções 49, 50 e 51).</div>
-                    <div class="water-sources-selector">
-                        <label class="water-source-card ws-superficial" id="card_superficial">
-                            <input type="checkbox" class="ws-check" id="chk_superficial" onchange="toggleWaterSource('superficial', this)" aria-label="Captação superficial (opção 49 do portal SOLAR)">
-                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.5 12c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1v-2zm0-4c1.93 0 2.5 1 4.5 1s2.57-1 4.5-1 2.5 1 4.5 1 2.57-1 4.5-1v2c-1.93 0-2.5 1-4.5 1s-2.57-1-4.5-1-2.5 1-4.5 1-2.57-1-4.5-1V8z"/></svg>
-                            <span class="ws-texto">CAPTAÇÃO SUPERFICIAL<br><span class="ws-sub">Rio, igarapé, represa ou nascente — libera 6 perguntas sobre o corpo hídrico</span></span>
-                        </label>
-                        <label class="water-source-card ws-subterranea" id="card_subterranea">
-                            <input type="checkbox" class="ws-check" id="chk_subterranea" onchange="toggleWaterSource('subterranea', this)" aria-label="Captação subterrânea (opção 50 do portal SOLAR)">
-                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
-                            <span class="ws-texto">CAPTAÇÃO SUBTERRÂNEA<br><span class="ws-sub">Poço tubular ou amazônico — libera 9 perguntas sobre o poço e a bomba</span></span>
-                        </label>
-                        <label class="water-source-card ws-publico" id="card_publico">
-                            <input type="checkbox" class="ws-check" id="chk_publico" onchange="toggleWaterSource('publico', this)" aria-label="Abastecimento público (opção 51 do portal SOLAR)">
-                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 10h-2V6c0-1.66-1.34-3-3-3s-3 1.34-3 3v4H8c-1.1 0-2 .9-2 2v2h14v-2c0-1.1-.9-2-2-2zm-6-5c.55 0 1 .45 1 1v4h-2V6c0-.55.45-1 1-1zm-2 15h4v2h-4z"/></svg>
-                            <span class="ws-texto">ABASTECIMENTO PÚBLICO<br><span class="ws-sub">CAERD / SAAE — sem perguntas técnicas extras, só concessionária e matrícula</span></span>
-                        </label>
-                    </div>
-                    <div class="varieties-title">OUTRAS FONTES DECLARADAS</div>
-                    <div class="varieties-grid">
-                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Caminhão-pipa" onchange="toggleVariety(this)"> Caminhão-pipa</label>
-                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Água de chuva" onchange="toggleVariety(this)"> Água de chuva (cisterna)</label>
-                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Nascente" onchange="toggleVariety(this)"> Nascente / olho d'água</label>
-                        <label class="variety-touch-item"><input type="checkbox" name="v_q20" value="Lagoa/Represa" onchange="toggleVariety(this)"> Lagoa / represa / açude</label>
-                    </div>
-                </div>
             </div>
 
             <!-- SOLAR-35 (extra, fora da numeracao local 1-37) - PERGUNTA COMPARTILHADA (dependencia de 49 e de 50 no portal SOLAR) -->
@@ -2167,6 +2206,7 @@ function aplicarForm(dados) {
         document.getElementById('block_' + f).classList.toggle('visible', ativo);
     });
     aplicarRegraQ35();
+    atualizarResumoFontes();
     configurarObservacoesRecolhiveis();
 }
 
@@ -2223,6 +2263,7 @@ function toggleWaterSource(tipo, input) {
     document.getElementById('card_' + tipo).classList.toggle('active', ativo);
     document.getElementById('block_' + tipo).classList.toggle('visible', ativo);
     aplicarRegraQ35();
+    atualizarResumoFontes();
     salvar();
 }
 
@@ -2234,6 +2275,33 @@ function aplicarRegraQ35() {
     const abre = document.getElementById('chk_superficial').checked
               || document.getElementById('chk_subterranea').checked;
     document.getElementById('block_q35').classList.toggle('visible', abre);
+}
+
+/* O Bloco 0 fica no topo, mas as perguntas que ele libera ficam no Bloco 4.
+   Esta caixa confirma, junto aos cartoes, o que abriu e onde. */
+function atualizarResumoFontes() {
+    const caixa = document.getElementById('wsLiberadas');
+    if (!caixa) return;
+    const DESCR = {
+        subterranea: '<b>Captação Subterrânea</b> (itens 21 a 29)',
+        superficial: '<b>Captação Superficial</b> (itens 30 a 33)',
+        publico:     '<b>Abastecimento Público</b> (concessionária e matrícula)'
+    };
+    const marcadas = ['subterranea', 'superficial', 'publico']
+        .filter(f => document.getElementById('chk_' + f).checked);
+    if (!marcadas.length) {
+        caixa.innerHTML = 'Nenhuma fonte marcada ainda — o Bloco 4 fica só com as perguntas gerais.';
+        return;
+    }
+    caixa.innerHTML = '✓ Liberado no Bloco 4: ' + marcadas.map(f => DESCR[f]).join(' + ') + '.'
+        + '<button type="button" class="btn-ws-ir" onclick="irParaPerguntasLiberadas()">Ver as perguntas liberadas ↓</button>';
+}
+
+function irParaPerguntasLiberadas() {
+    const alvo = ['block_q35', 'block_subterranea', 'block_superficial', 'block_publico']
+        .map(id => document.getElementById(id))
+        .find(el => el && el.classList.contains('visible'));
+    if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function showView(nome) {
@@ -2307,6 +2375,7 @@ window.addEventListener('afterprint', () => {
    Cores escolhidas para ficarem visiveis no fundo preto do titulo. */
 function colorirIconesPorBloco() {
     const CORES_POR_BLOCO_ID = {
+        'sec-bloco0': '#38bdf8',   // azul  -- fontes de agua (define a ficha)
         'sec-bloco1': '#4ade80',   // verde -- restricoes legais/ambientais
         'sec-bloco2': '#fbbf24',   // ambar -- meio fisico e localizacao
         'sec-bloco3': '#fb923c',   // coral -- operacao e impactos
@@ -3031,6 +3100,7 @@ async function iniciar() {
     }
 
     configurarObservacoesRecolhiveis(); // cobre o caso de 1a abertura, sem vistoria salva
+    atualizarResumoFontes();
     colorirIconesPorBloco();
 
     // auto-save em tudo que for digitado
