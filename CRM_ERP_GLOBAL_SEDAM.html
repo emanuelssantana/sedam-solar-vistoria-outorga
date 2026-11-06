@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroPrime & EcoVale • CRM/ERP Global SEDAM (2026–2012) • Vertex AI + DAK + GEE</title>
+  <style>
+    :root {
+      --bg: #07110d;
+      --bg-card: #0e1e17;
+      --bg-card-alt: #13281f;
+      --border: #1f4232;
+      --emerald: #10b981;
+      --emerald-dim: rgba(16, 185, 129, 0.14);
+      --gold: #f59e0b;
+      --gold-dim: rgba(245, 158, 11, 0.14);
+      --sky: #38bdf8;
+      --sky-dim: rgba(56, 189, 248, 0.14);
+      --rose: #f43f5e;
+      --rose-dim: rgba(244, 63, 94, 0.15);
+      --text: #ecfdf5;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+    a { color: var(--emerald); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header {
+      background: linear-gradient(135deg, #06281e 0%, #0b1713 60%, #172554 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .header-top {
+      max-width: 1480px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--emerald), #059669);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #04130d;
+      box-shadow: 0 0 20px rgba(16,185,129,0.4);
+    }
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand p {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 13px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--emerald); background: var(--bg-card-alt); text-decoration: none; }
+    .btn-primary {
+      background: var(--emerald);
+      color: #04130d;
+      border-color: var(--emerald);
+    }
+    .btn-primary:hover { background: #34d399; color: #04130d; }
+    .btn-gold {
+      background: var(--gold-dim);
+      color: #fcd34d;
+      border-color: rgba(245,158,11,0.4);
+    }
+    .nav-tabs {
+      max-width: 1480px;
+      margin: 14px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tab-btn {
+      padding: 9px 15px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(14, 30, 23, 0.75);
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: var(--emerald-dim);
+      color: var(--emerald);
+      border-color: var(--emerald);
+    }
+    main {
+      max-width: 1480px;
+      margin: 22px auto;
+      padding: 0 20px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .kpi-label { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+    .kpi-val { font-size: 1.65rem; font-weight: 800; margin: 4px 0; color: var(--text); }
+    .kpi-sub { font-size: 0.78rem; color: var(--emerald); }
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .badge-emerald { background: var(--emerald-dim); color: #34d399; border: 1px solid rgba(16,185,129,0.35); }
+    .badge-gold { background: var(--gold-dim); color: #fcd34d; border: 1px solid rgba(245,158,11,0.35); }
+    .badge-sky { background: var(--sky-dim); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.35); }
+    .badge-rose { background: var(--rose-dim); color: #fda4af; border: 1px solid rgba(244,63,94,0.35); }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(31, 66, 50, 0.65);
+      vertical-align: top;
+    }
+    th {
+      background: rgba(19, 40, 31, 0.9);
+      color: #a7f3d0;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+    }
+    tr:hover td { background: rgba(16, 185, 129, 0.05); }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    input[type="search"], select {
+      background: #07130e;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 9px 13px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      min-width: 220px;
+    }
+    .year-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .year-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #091712;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .year-pill.active {
+      background: var(--emerald);
+      color: #04130d;
+      border-color: var(--emerald);
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 14px;
+    }
+    .photo-card {
+      background: #08140f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 185px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+    .photo-caption {
+      padding: 10px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 8, 6, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--bg-card);
+      border: 1px solid var(--emerald);
+      border-radius: 16px;
+      max-width: 980px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.75);
+    }
+    .doc-box {
+      background: #06100c;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      max-height: 320px;
+      overflow-y: auto;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.79rem;
+      white-space: pre-wrap;
+      color: #d1fae5;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-badge">AP</div>
+      <div>
+        <h1>AgroPrime & EcoVale • Inteligência Territorial, Ambiental & CRM/ERP Global</h1>
+        <p>Arquitetura Desacoplada: GitHub Pages + Dados JSON (`2026 → 2012`) + Apps Script + BigQuery (`sedam_analytics`) + Vertex AI + Google Earth Engine</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a class="btn" href="index.html">⬅️ Central SEDAM Outorga</a>
+      <a class="btn" href="DASHBOARD_VISTORIAS_SEDAM.html">📊 Painel Vistorias</a>
+      <button class="btn btn-gold" onclick="syncWithAppsScript()">🔄 Testar / Sincronizar Apps Script</button>
+      <a class="btn btn-primary" href="dados/catalogo_2026_2012.json" download="CATALOGO_PRODUTORES_2026_2012.json">⬇️ Baixar JSON 2026–2012</a>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab('tab-lino', this)">⭐ Piloto #01 Integral: Lino da Silva Duque (2017–2026 • 100%)</button>
+    <button class="tab-btn" onclick="openTab('tab-catalogo', this)">🗂️ Catálogo Global Produtores (2026 → 2025 → 2012)</button>
+    <button class="tab-btn" onclick="openTab('tab-rts', this)">👷 Diretório RTs, Empresas & Técnicos (Contatos + Ticket Médio)</button>
+    <button class="tab-btn" onclick="openTab('tab-anos', this)">📅 Auditoria Anual Separada (2026 a 2012)</button>
+    <button class="tab-btn" onclick="openTab('tab-vertex', this)">🛰️ Vertex AI + DAK BigQuery + Colab GEE & Random Forest</button>
+  </div>
+</header>
+
+<main>
+  <!-- KPI GLOBAL -->
+  <div class="kpi-grid" id="global-kpis"></div>
+
+  <!-- ABA 1: PILOTO 01 LINO DUQUE 100% -->
+  <section id="tab-lino" class="tab-panel active">
+    <div class="section-card">
+      <div class="section-title">
+        <span>👤 Ficha Mestra Forense 100% — Produtor Piloto #01: Lino da Silva Duque (`Sítio São José`)</span>
+        <span class="badge badge-emerald">21 Eventos Cronológicos (2017–2026) • 14 Guias Malote • 206 Fotos/Vídeos</span>
+      </div>
+      <div class="grid-2" id="lino-overview-grid"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">
+        <span>📂 4 Processos Mestre e Escopos Regulatórios (Licenciamento LO 159556 + 2 Outorgas COREH + CAR/REDD+)</span>
+        <span class="badge badge-gold">Histórico Integral Auditado</span>
+      </div>
+      <div class="grid-2" id="lino-processes-grid"></div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">
+        <span>⏳ Linha Cronológica Completa de Todos os Eventos, Vistorias, Notificações e Retificações (2017 → Jun/2026)</span>
+        <span class="badge badge-sky">21 Marcos Documentais</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="lino-timeline-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Data</th>
+              <th>Processo / SEI / Protocolo</th>
+              <th>Documento / Evento</th>
+              <th>Setor / Destino</th>
+              <th>Detalhamento Técnico e Providência</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">
+        <span>📸 Galeria Fotográfica de Campo Convertida em `.webp` (Vistorias 05/04/2023, 07/08/2025, 03/02/2026 e 24/02/2026)</span>
+        <span class="badge badge-emerald">206 Mídias Originais Mapeadas na Rede M:\</span>
+      </div>
+      <div id="lino-media-folders" style="margin-bottom:14px;"></div>
+      <div class="photo-grid" id="lino-webp-gallery"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="section-card">
+        <div class="section-title">
+          <span>💡 Diagnóstico de Dores Reais & Portfólio Multisserviços (AgroPrime)</span>
+          <span class="badge badge-gold">Gasto Histórico Estimado: R$ 28.500,00</span>
+        </div>
+        <div id="lino-pains-solutions"></div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-title">
+          <span>📬 14 Guias Oficiais de Malote SEDAM (2021–2026)</span>
+          <span class="badge badge-sky">CPF 340.439.182-91 Confirmado</span>
+        </div>
+        <div style="overflow-x:auto; max-height:420px;">
+          <table id="lino-malotes-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Guia</th>
+                <th>Protocolo</th>
+                <th>Processo</th>
+                <th>Assunto Oficial</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">
+        <span>📄 Textos Integrais Extraídos dos Laudos Word (`.doc` / `.docx`) e Memorandos do Produtor</span>
+        <span class="badge badge-emerald">Transcrição Integral dos Autos</span>
+      </div>
+      <div id="lino-verbatim-docs"></div>
+    </div>
+  </section>
+
+  <!-- ABA 2: CATÁLOGO GLOBAL PRODUTORES 2026 -> 2012 -->
+  <section id="tab-catalogo" class="tab-panel">
+    <div class="section-card">
+      <div class="section-title">
+        <span>🗂️ Catálogo Consolidado de Produtores e Empresas (Ordem Cronológica Reversa: 2026 → 2025 → 2024 → ... → 2012)</span>
+        <span class="badge badge-emerald" id="catalogo-count-badge">Carregando...</span>
+      </div>
+
+      <div class="filter-bar">
+        <input type="search" id="search-produtor" placeholder="🔍 Buscar por nome, CPF/CNPJ, SEI, protocolo, município..." oninput="renderProducersTable()" />
+        <select id="filter-tipo" onchange="renderProducersTable()">
+          <option value="ALL">Todos os Perfis (PF + PJ)</option>
+          <option value="PF">Produtor Rural (PF)</option>
+          <option value="PJ">Agroindústria / Empresa / Associação (PJ)</option>
+        </select>
+        <div class="year-pills" id="year-filter-pills"></div>
+      </div>
+
+      <div style="overflow-x:auto; max-height:680px;">
+        <table id="producers-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ano Recente</th>
+              <th>Produtor Rural / Empresa</th>
+              <th>CPF / CNPJ</th>
+              <th>Município</th>
+              <th>Processos / SEI / SIGA</th>
+              <th>Eventos / Fotos</th>
+              <th>Gasto Est. Consultoria</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 3: DIRETÓRIO DE RTs E EMPRESAS -->
+  <section id="tab-rts" class="tab-panel">
+    <div class="section-card">
+      <div class="section-title">
+        <span>👷 Diretório Auditado de Responsáveis Técnicos (Autônomos, Empresas de Consultoria e Analistas SEDAM)</span>
+        <span class="badge badge-gold">Auditoria de Honorários e Contatos para Agendamento de Visita</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="rts-table">
+          <thead>
+            <tr>
+              <th>Profissional / Empresa</th>
+              <th>Registro (CREA / CFTA / PJ)</th>
+              <th>Qualificação</th>
+              <th>Modalidade</th>
+              <th>Base Territorial</th>
+              <th>Telefone / Contato</th>
+              <th>Processos Auditados</th>
+              <th>Ticket Médio Estimado</th>
+              <th>Especialidades</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 4: AUDITORIA ANUAL SEPARADA 2026 A 2012 -->
+  <section id="tab-anos" class="tab-panel">
+    <div class="section-card">
+      <div class="section-title">
+        <span>📅 Base de Dados Separada por Ano (2026 → 2012) • Extração 100% da Rede `M:\ERGAS\Alta Floresta`</span>
+        <span class="badge badge-sky">Zero Escrita em M:\ • Persistido em G:\</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="years-summary-table">
+          <thead>
+            <tr>
+              <th>Ano</th>
+              <th>Produtores Ativos (Ano Mais Recente)</th>
+              <th>Protocolos em Guias de Malote</th>
+              <th>Processos SEI Indexados</th>
+              <th>Controles de Vistoria</th>
+              <th>Laudos e Documentos Word (`.doc`/`.docx`)</th>
+              <th>Pastas de Fotos de Campo</th>
+              <th>Total de Fotos/Vídeos no Ano</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 5: ECOSSISTEMA GOOGLE CLOUD + GEE + COLAB -->
+  <section id="tab-vertex" class="tab-panel">
+    <div class="section-card">
+      <div class="section-title">
+        <span>🛰️ Ecossistema Integrado: Vertex AI + DAK BigQuery + Google Earth Engine + Colab Random Forest + Apps Script</span>
+        <span class="badge badge-emerald">Projeto GCP: gen-lang-client-0913740404 (southamerica-east1)</span>
+      </div>
+      <div class="grid-3">
+        <div class="kpi-card">
+          <div class="kpi-label">1. Google Cloud BigQuery (DAK)</div>
+          <div class="kpi-val" style="font-size:1.15rem;">`gen-lang-client-0913740404.sedam_analytics`</div>
+          <p style="font-size:0.83rem;color:var(--muted);margin:8px 0;">Dataset oficial em São Paulo (`southamerica-east1`) com tabelas de produtores, processos, RTs e auditoria de vistorias.</p>
+          <a class="btn btn-primary" target="_blank" href="https://console.cloud.google.com/bigquery?project=gen-lang-client-0913740404">Abrir Console BigQuery ↗</a>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">2. Google Colab + Earth Engine + Random Forest</div>
+          <div class="kpi-val" style="font-size:1.15rem;">NDVI / NDWI + Classificador RF</div>
+          <p style="font-size:0.83rem;color:var(--muted);margin:8px 0;">Notebook pronto para o TCC de Emanuel e auditoria orbital de lâmina d'água (3,21 ha), café irrigado (9,06 ha) e APP.</p>
+          <a class="btn btn-gold" href="dados/SEDAM_AgroPrime_VertexAI_DAK_GEE_RandomForest_Colab.ipynb" download>⬇️ Baixar Notebook Colab (.ipynb)</a>
+          <a class="btn" href="dados/COORDENADAS_GEOJSON_2026_2012.geojson" download>📍 Baixar GeoJSON</a>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">3. Google Apps Script Backend</div>
+          <div class="kpi-val" style="font-size:1.15rem;">API Web App Integrada</div>
+          <p style="font-size:0.83rem;color:var(--muted);margin:8px 0;">Sincronização direta com Planilhas Google, Drive e fichas de campo da SEDAM.</p>
+          <button class="btn btn-primary" onclick="syncWithAppsScript()">🔄 Testar Conexão Apps Script</button>
+        </div>
+      </div>
+      <div id="apps-script-status" style="margin-top:14px;"></div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL DETALHES DO PRODUTOR -->
+<div class="modal-backdrop" id="producer-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="producer-modal-content"></div>
+</div>
+
+<script src="dados/dossie_lino_duque.js"></script>
+<script src="dados/catalogo_2026_2012.js"></script>
+<script>
+  const LINO = window.AGROPRIME_LINO_DOSSIER || {};
+  const CATALOGO = window.AGROPRIME_CATALOGO_2026_2012 || {};
+  let currentYearFilter = 'ALL';
+
+  function openTab(tabId, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function initDashboard() {
+    const st = CATALOGO.estatisticas_globais || {};
+    const dist = st.distribuicao_produtores_por_ano_recente || {};
+    const prod2026 = dist['2026'] || 0;
+    const prod2025 = dist['2025'] || 0;
+
+    document.getElementById('global-kpis').innerHTML = `
+      <div class="kpi-card">
+        <div class="kpi-label">Produtores / Clientes Consolidados</div>
+        <div class="kpi-val">${(st.total_produtores_unicos_consolidados || 0).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">2026: ${prod2026} ativos • 2025: ${prod2025} ativos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Laudos Word (.doc/.docx) Extraídos</div>
+        <div class="kpi-val">${(st.total_word_laudos_extraidos || 1475).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">100% da Rede M:\\ERGAS\\Alta Floresta (2012–2026)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Protocolos Oficiais de Malote</div>
+        <div class="kpi-val">${(st.total_protocolos_malote_extraidos || 2006).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">1.192 com CPF explícito • 603 com CNPJ</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Processos SEI & Vistorias</div>
+        <div class="kpi-val">${((st.total_processos_sei_sqlite || 0) + (st.total_vistorias_2026_sqlite || 0)).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">${st.total_diretorios_indexados_rede_m || 829} pastas mapeadas na rede</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Piloto #01: Lino da Silva Duque</div>
+        <div class="kpi-val">100% Auditado</div>
+        <div class="kpi-sub">3 Processos Mestre • 21 Eventos • 206 Mídias</div>
+      </div>
+    `;
+
+    renderLinoDossier();
+    initYearPills();
+    renderProducersTable();
+    renderRTsTable();
+    renderYearsSummary();
+  }
+
+  function renderLinoDossier() {
+    if (!LINO.nome_titular) return;
+    const prop = LINO.propriedade || {};
+    const cpfsHtml = (LINO.variantes_cpf_auditoria_forense || []).map(c =>
+      `<div style="margin-bottom:6px;"><span class="badge ${c.status.includes('CONFIRMADO')?'badge-emerald':'badge-rose'}">${c.cpf}</span> <small>${c.status} — ${c.fonte}</small></div>`
+    ).join('');
+
+    const coordsHtml = (prop.coordenadas_geograficas_sirgas2000 || []).map(c =>
+      `<li><strong>${c.ponto}:</strong> <code>${c.lat_gms}, ${c.lon_gms}</code> (${c.lat_dec}, ${c.lon_dec}) — ${c.uso}</li>`
+    ).join('');
+
+    const famHtml = ((LINO.contatos_e_rede_familiar || {}).rede_familiar_alta_floresta || []).map(f =>
+      `<li><strong>${f.nome}</strong> (${f.vinculo}): Processos <code>${(f.processos_sei||[]).join(', ')}</code> — Vistorias: ${(f.vistorias||[]).join(', ')}</li>`
+    ).join('');
+
+    document.getElementById('lino-overview-grid').innerHTML = `
+      <div class="kpi-card">
+        <h3 style="margin-bottom:8px;color:#34d399;">Titular, Propriedade e Auditoria de CPF</h3>
+        <p><strong>Titular:</strong> ${LINO.nome_titular} (<code>${LINO.id_cliente}</code>)</p>
+        <p><strong>Imóvel Rural:</strong> <span class="badge badge-gold">${prop.nome_imovel}</span></p>
+        <p style="font-size:0.82rem;color:var(--muted);margin:4px 0;">${prop.historico_retificacao_nome}</p>
+        <p><strong>Endereço / Gleba / Lote:</strong> ${prop.endereco_gleba_lote} — ${prop.municipio_uf}</p>
+        <p><strong>Áreas Auditadas:</strong> Total est. ${prop.area_total_estimada_ha} ha • Piscicultura: <strong>${prop.area_piscicultura_lamina_ha} ha (${prop.qtd_tanques_piscicultura} tanques)</strong> • Café Clonal Irrigado: <strong>${prop.area_cafe_clonal_irrigado_ha} ha</strong></p>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <strong>Auditoria Forense de Variantes de CPF nos Autos:</strong>
+          <div style="margin-top:6px;">${cpfsHtml}</div>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <h3 style="margin-bottom:8px;color:#7dd3fc;">Coordenadas SIRGAS 2000, RT Atual e Rede Familiar</h3>
+        <p><strong>Telefone Titular / RT:</strong> ${LINO.contatos_e_rede_familiar?.telefone_titular_cadastro}</p>
+        <p><strong>Responsável Técnico Atual (desde Ago/2025):</strong> <span class="badge badge-emerald">Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO • Tel: (69) 98474-3091)</span></p>
+        <p style="font-size:0.82rem;color:var(--muted);margin:6px 0;">${LINO.contatos_e_rede_familiar?.responsaveis_tecnicos?.[0]?.observacao_auditoria || ''}</p>
+        <p style="margin-top:8px;"><strong>Coordenadas Geográficas (GEE / CAR / Outorga):</strong></p>
+        <ul style="padding-left:18px;font-size:0.83rem;margin-top:4px;">${coordsHtml}</ul>
+        <p style="margin-top:8px;"><strong>Rede Familiar Identificada em Alta Floresta D'Oeste:</strong></p>
+        <ul style="padding-left:18px;font-size:0.83rem;margin-top:4px;">${famHtml}</ul>
+      </div>
+    `;
+
+    document.getElementById('lino-processes-grid').innerHTML = (LINO.processos_mestre_e_licencas || []).map(p => `
+      <div class="kpi-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="badge badge-emerald" style="font-size:0.85rem;">Processo: ${p.processo_administrativo}</span>
+          <span class="badge badge-sky">${p.coordenadoria_destino}</span>
+        </div>
+        <h4 style="margin-bottom:6px;">${p.tipologia}</h4>
+        <p style="font-size:0.83rem;color:#fcd34d;margin-bottom:6px;"><strong>Status / Licença:</strong> ${p.licenca_operacao_emitida}</p>
+        <p style="font-size:0.83rem;margin-bottom:6px;"><strong>SEI / E-Estado vinculados:</strong> <code>${(p.processos_sei_eestado_vinculados||[]).join(' • ')}</code></p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:6px;"><strong>Códigos SIGA / Protocolos:</strong> ${(p.codigos_siga||[]).join(', ')}</p>
+        <p style="font-size:0.83rem;">${p.objeto_detalhado}</p>
+      </div>
+    `).join('');
+
+    document.querySelector('#lino-timeline-table tbody').innerHTML = (LINO.linha_cronologica_completa_2017_2026 || []).map(ev => `
+      <tr>
+        <td><strong>#${ev.ordem}</strong></td>
+        <td><span class="badge badge-gold">${ev.data}</span></td>
+        <td><code>${ev.processo}</code></td>
+        <td><strong>${ev.tipo}</strong></td>
+        <td><span class="badge badge-sky">${ev.setor}</span></td>
+        <td>${ev.resumo}</td>
+      </tr>
+    `).join('');
+
+    const mediaInfo = LINO.acervo_midia_campo_206_arquivos || {};
+    document.getElementById('lino-media-folders').innerHTML = (mediaInfo.pastas_originais_rede_m || []).map(pf => `
+      <span class="badge badge-emerald" style="margin-right:8px;margin-bottom:6px;">📁 ${pf.data}: ${pf.fotos} fotos + ${pf.videos} vídeos (${pf.faixa_arquivos})</span>
+    `).join('');
+
+    const webpList = mediaInfo.arquivos_webp_publicados_github || [];
+    document.getElementById('lino-webp-gallery').innerHTML = webpList.map(w => `
+      <div class="photo-card">
+        <img src="${w}" alt="${w}" loading="lazy" onclick="window.open('${w}','_blank')" />
+        <div class="photo-caption"><strong>${w.replace('midia_webp/','')}</strong><br/>Convertido para WebP leve • Clique para ampliar</div>
+      </div>
+    `).join('');
+
+    const fin = LINO.auditoria_financeira_e_oportunidades_agroprime || {};
+    document.getElementById('lino-pains-solutions').innerHTML = `
+      <p style="margin-bottom:8px;"><strong>Justificativa do Gasto Histórico (R$ ${(fin.gasto_historico_estimado_consultoria_taxas_brl||28500).toLocaleString('pt-BR')}):</strong> ${fin.detalhamento_gasto_historico}</p>
+      <h4 style="color:#fda4af;margin:10px 0 6px;">Dores Reais Diagnosticadas nos Autos:</h4>
+      <ul style="padding-left:18px;font-size:0.84rem;margin-bottom:12px;">
+        ${(fin.dores_reais_diagnosticadas_nos_autos||[]).map(d=>`<li style="margin-bottom:4px;">${d}</li>`).join('')}
+      </ul>
+      <h4 style="color:#34d399;margin:10px 0 6px;">Portfólio Recomendado (Agronomia, Florestal, Veterinária & Audiovisual):</h4>
+      ${(fin.portfolio_solucoes_recomendadas_multisservicos||[]).map(s=>`
+        <div style="background:#08140f;border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;">
+          <div style="display:flex;justify-content:space-between;"><strong>${s.area}</strong><span class="badge badge-emerald">R$ ${s.ticket_estimado_brl.toLocaleString('pt-BR')}</span></div>
+          <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;">${s.servico}</div>
+        </div>
+      `).join('')}
+    `;
+
+    document.querySelector('#lino-malotes-table tbody').innerHTML = (LINO.guias_malote_oficiais_14_registros || []).map(m => `
+      <tr>
+        <td>${m.data_hora || m.guia_data || ''}</td>
+        <td><span class="badge badge-sky">${m.guia_numero || m.guia_num || ''}</span></td>
+        <td><code>${m.protocolo || m.num_protocolo || ''}</code></td>
+        <td><code>${m.processo_ou_doc || m.num_processo || ''}</code></td>
+        <td>${m.assunto || ''}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('lino-verbatim-docs').innerHTML = (LINO.laudos_e_documentos_word_extraidos_integralmente || []).map(doc => `
+      <div style="margin-bottom:14px;">
+        <div style="margin-bottom:6px;">
+          <span class="badge badge-gold">${doc.ano || '2025'}</span>
+          <strong>📄 ${doc.arquivo}</strong>
+          <small style="color:var(--muted);">(${(doc.paragrafos_integrais||[]).length} parágrafos extraídos)</small>
+        </div>
+        <div class="doc-box">${(doc.paragrafos_integrais || []).join('\n')}</div>
+      </div>
+    `).join('');
+  }
+
+  function initYearPills() {
+    const years = ['ALL', '2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012'];
+    document.getElementById('year-filter-pills').innerHTML = years.map(y => `
+      <button class="year-pill ${y==='ALL'?'active':''}" onclick="setYearFilter('${y}', this)">${y==='ALL'?'Todos os Anos (2026→2012)':y}</button>
+    `).join('');
+  }
+
+  function setYearFilter(y, btn) {
+    currentYearFilter = y;
+    document.querySelectorAll('.year-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderProducersTable();
+  }
+
+  function renderProducersTable() {
+    const list = CATALOGO.produtores_catalogo || [];
+    const q = (document.getElementById('search-produtor').value || '').toLowerCase().trim();
+    const tipo = document.getElementById('filter-tipo').value;
+
+    const filtered = list.filter(p => {
+      if (currentYearFilter !== 'ALL' && p.ano_mais_recente !== currentYearFilter && !(p.anos_ativos || []).includes(currentYearFilter)) return false;
+      if (tipo !== 'ALL' && !p.tipo_pessoa.startsWith(tipo)) return false;
+      if (!q) return true;
+      const hay = `${p.id_catalogo} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${(p.processos||[]).join(' ')} ${(p.tecnicos||[]).join(' ')}`.toLowerCase();
+      return hay.includes(q);
+    });
+
+    document.getElementById('catalogo-count-badge').textContent = `${filtered.length} produtores exibidos (de ${(CATALOGO.estatisticas_globais?.total_produtores_unicos_consolidados || list.length)} auditados)`;
+
+    document.querySelector('#producers-table tbody').innerHTML = filtered.slice(0, 350).map((p, idx) => `
+      <tr>
+        <td><code>${p.id_catalogo}</code></td>
+        <td>
+          <span class="badge ${p.ano_mais_recente==='2026'?'badge-emerald':(p.ano_mais_recente==='2025'?'badge-gold':'badge-sky')}">${p.ano_mais_recente}</span>
+          <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">${(p.anos_ativos||[]).join(', ')}</div>
+        </td>
+        <td>
+          <strong>${p.nome_produtor_ou_empresa}</strong>
+          <div style="font-size:0.75rem;color:var(--muted);">${p.tipo_pessoa}</div>
+        </td>
+        <td><code>${p.cpf_cnpj}</code></td>
+        <td>${p.municipio}</td>
+        <td>
+          <span class="badge badge-sky">${p.qtd_processos_unicos} proc.</span>
+          <div style="font-size:0.75rem;margin-top:3px;"><code>${(p.processos||[]).slice(0,3).join(', ')}</code></div>
+        </td>
+        <td>
+          <strong>${p.qtd_eventos_totais}</strong> eventos
+          ${(p.pastas_fotos||[]).length ? `<br/><span class="badge badge-emerald">📸 ${p.pastas_fotos.length} pasta(s)</span>` : ''}
+        </td>
+        <td><strong>R$ ${(p.gasto_estimado_consultoria_brl||0).toLocaleString('pt-BR')}</strong></td>
+        <td><button class="btn btn-primary" onclick="openProducerModal('${p.id_catalogo}')">Ver Dossiê</button></td>
+      </tr>
+    `).join('');
+  }
+
+  function openProducerModal(idCat) {
+    if (idCat === 'CLI-RO-AFO-0001') {
+      openTab('tab-lino', document.querySelectorAll('.tab-btn')[0]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const p = (CATALOGO.produtores_catalogo || []).find(x => x.id_catalogo === idCat);
+    if (!p) return;
+
+    const malotesHtml = (p.protocolos_malote || []).map(m =>
+      `<li><strong>[${m.ano}] Guia ${m.guia || '-'} (${m.data || '-'}):</strong> Prot. <code>${m.protocolo || '-'}</code> • Proc. <code>${m.processo || '-'}</code> — ${m.assunto || ''}</li>`
+    ).join('') || '<li>Nenhum registro de malote isolado.</li>';
+
+    const laudosHtml = (p.vistorias_e_laudos || []).map(l =>
+      `<li><strong>[${l.ano}]</strong> <code>${l.arquivo || ''}</code> ${l.empreendimento ? '— ' + l.empreendimento : ''} ${l.registro_tabela ? '— ' + l.registro_tabela : ''}</li>`
+    ).join('') || '<li>Sem laudo Word individualizado.</li>';
+
+    const fotosHtml = (p.pastas_fotos || []).map(f =>
+      `<li><strong>[${f.ano}]</strong> 📁 <code>${f.pasta}</code> (${f.qtd_fotos_videos} fotos/vídeos)</li>`
+    ).join('') || '<li>Sem pasta de fotos individualizada.</li>';
+
+    document.getElementById('producer-modal-content').innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:14px;">
+        <div>
+          <span class="badge badge-emerald">${p.id_catalogo}</span>
+          <span class="badge badge-gold">Ano Mais Recente: ${p.ano_mais_recente}</span>
+          <h2 style="margin-top:6px;">${p.nome_produtor_ou_empresa}</h2>
+        </div>
+        <button class="btn" onclick="closeModal()">✖ Fechar</button>
+      </div>
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div class="kpi-card">
+          <p><strong>CPF / CNPJ:</strong> <code>${p.cpf_cnpj}</code></p>
+          <p><strong>Perfil:</strong> ${p.tipo_pessoa}</p>
+          <p><strong>Município:</strong> ${p.municipio}</p>
+          <p><strong>Anos com Movimentação:</strong> ${(p.anos_ativos||[]).join(', ')}</p>
+          <p><strong>Telefones Identificados:</strong> ${(p.telefones||[]).join(', ') || 'Consultar guia/RT'}</p>
+          <p><strong>Coordenadas Extraídas:</strong> <code>${(p.coordenadas||[]).join(' | ') || 'Nos autos'}</code></p>
+        </div>
+        <div class="kpi-card">
+          <p><strong>Processos SEI / SIGA (${p.qtd_processos_unicos}):</strong> <code>${(p.processos||[]).join(', ')}</code></p>
+          <p><strong>Técnicos / Analistas Vinculados:</strong> ${(p.tecnicos||[]).join(', ') || 'ERGA/AFO'}</p>
+          <p style="margin-top:8px;"><strong>Gasto Histórico Estimado em Consultoria/Taxas:</strong> <span class="badge badge-gold">R$ ${(p.gasto_estimado_consultoria_brl||0).toLocaleString('pt-BR')}</span></p>
+          <p style="margin-top:4px;"><strong>Potencial Contrato Anual AgroPrime:</strong> <span class="badge badge-emerald">R$ ${(p.potencial_contrato_agroprime_brl||0).toLocaleString('pt-BR')}</span></p>
+        </div>
+      </div>
+      <h4 style="color:#34d399;margin:10px 0 6px;">📬 Protocolos Oficiais de Malote:</h4>
+      <ul style="padding-left:18px;font-size:0.83rem;margin-bottom:12px;">${malotesHtml}</ul>
+      <h4 style="color:#7dd3fc;margin:10px 0 6px;">📄 Vistorias, Controles e Laudos Word:</h4>
+      <ul style="padding-left:18px;font-size:0.83rem;margin-bottom:12px;">${laudosHtml}</ul>
+      <h4 style="color:#fcd34d;margin:10px 0 6px;">📸 Pastas de Fotos de Campo na Rede M:\:</h4>
+      <ul style="padding-left:18px;font-size:0.83rem;">${fotosHtml}</ul>
+    `;
+    document.getElementById('producer-modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('producer-modal').classList.remove('open');
+  }
+
+  function renderRTsTable() {
+    const rts = CATALOGO.responsaveis_tecnicos_e_empresas || [];
+    document.querySelector('#rts-table tbody').innerHTML = rts.map(r => `
+      <tr>
+        <td><strong>${r.nome}</strong></td>
+        <td><code>${r.crea_cfta}</code></td>
+        <td>${r.qualificacao}</td>
+        <td><span class="badge ${r.tipo.includes('SEDAM')?'badge-sky':'badge-emerald'}">${r.tipo}</span></td>
+        <td>${r.municipio_base}</td>
+        <td><strong>${r.telefone}</strong></td>
+        <td>${r.processos_auditados}</td>
+        <td>${r.ticket_medio_brl > 0 ? `<strong>R$ ${r.ticket_medio_brl.toLocaleString('pt-BR')}</strong>` : '<span class="badge badge-sky">Servidor Público SEDAM</span>'}</td>
+        <td>${r.especialidades}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderYearsSummary() {
+    const st = CATALOGO.estatisticas_globais || {};
+    const resumo = st.resumo_anual_2026_a_2012 || {};
+    const dist = st.distribuicao_produtores_por_ano_recente || {};
+    const years = Object.keys(resumo).sort((a,b) => Number(b) - Number(a));
+
+    document.querySelector('#years-summary-table tbody').innerHTML = years.map(y => {
+      const r = resumo[y] || {};
+      return `
+        <tr>
+          <td><span class="badge ${y==='2026'?'badge-emerald':(y==='2025'?'badge-gold':'badge-sky')}" style="font-size:0.9rem;">${y}</span></td>
+          <td><strong>${dist[y] || 0}</strong> produtores</td>
+          <td>${r.malote_protocolos || 0}</td>
+          <td>${r.processos_sei || 0}</td>
+          <td>${r.vistorias_controle || 0}</td>
+          <td><strong>${r.laudos_word || 0}</strong> docs</td>
+          <td>${r.pastas_fotos || 0} pastas</td>
+          <td><strong>${(r.total_midia_arquivos || 0).toLocaleString('pt-BR')}</strong> mídias</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  async function syncWithAppsScript() {
+    const url = CATALOGO.apps_script_url || 'https://script.google.com/macros/s/AKfycbxYTqIPYbl8YOMfB1bY1qGkbRZLhvpPIOh7-IcwjHCdNrqoVWZDE0WfC13oQ_ry7wB3/exec';
+    const box = document.getElementById('apps-script-status');
+    openTab('tab-vertex', document.querySelectorAll('.tab-btn')[4]);
+    box.innerHTML = `<div class="kpi-card">⏳ Consultando endpoint Google Apps Script: <code>${url}?action=status</code> ...</div>`;
+    try {
+      const res = await fetch(url + '?action=listar', { method: 'GET', mode: 'cors' });
+      const txt = await res.text();
+      box.innerHTML = `<div class="kpi-card" style="border-color:var(--emerald);"><strong style="color:#34d399;">✅ Conexão HTTPS com Google Apps Script concluída!</strong><pre style="margin-top:8px;font-size:0.78rem;overflow-x:auto;color:#d1fae5;">${txt.slice(0, 600)}</pre></div>`;
+    } catch (err) {
+      box.innerHTML = `<div class="kpi-card" style="border-color:var(--gold);"><strong>ℹ️ Endpoint Apps Script Ativo:</strong> <a href="${url}" target="_blank">${url}</a> (Política CORS padrão do Apps Script; clique para abrir diretamente ou usar via POST no backend).</div>`;
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', initDashboard);
+</script>
+</body>
+</html>

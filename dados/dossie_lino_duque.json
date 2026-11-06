@@ -1,0 +1,2564 @@
+{
+  "id_cliente": "CLI-RO-AFO-0001",
+  "nome_titular": "Lino da Silva Duque",
+  "cpf_principal_confirmado": "340.439.182-91",
+  "variantes_cpf_auditoria_forense": [
+    {
+      "cpf": "340.439.182-91",
+      "status": "OFICIAL CONFIRMADO",
+      "fonte": "14 Guias Oficiais de Malote SEDAM (2021 a 2026) + Receita/CADR"
+    },
+    {
+      "cpf": "340.430.182-91",
+      "status": "DIVERGÊNCIA / ERRO DIGITAÇÃO",
+      "fonte": "MEMO Nº 070/2022 ERGA/SEDAM/AFO (14/07/2022 - Outorga Irrigação Café)"
+    },
+    {
+      "cpf": "340.439.482-91",
+      "status": "DIVERGÊNCIA / ERRO DIGITAÇÃO",
+      "fonte": "MEMO Nº 128/2024/COLMAM (20/03/2024 - Licenciamento Piscicultura)"
+    },
+    {
+      "cpf": "340.439.287-91",
+      "status": "DIVERGÊNCIA / ERRO DIGITAÇÃO",
+      "fonte": "RTVA Renovação Outorga Irrigação Café Clonal (07/08/2025)"
+    }
+  ],
+  "propriedade": {
+    "nome_imovel": "Sítio São José",
+    "historico_retificacao_nome": "Protocolou retificação oficial de nomenclatura do imóvel rural em 23/12/2025 (Prot. 1801.10178/2025 - Guia 0024582025) e em 13/01/2026 (Prots. 1801.00182/2026 e 1801.00184/2026 - Guia 0000472026) nos processos de Licenciamento e Outorga.",
+    "endereco_gleba_lote": "Linha P-156 (Vicinal 156), Km 12,5 / Km 13 / Km 14, Lado Norte/Sul, Zona Rural — Lote 45-REM, Gleba 01, Setor Rio Branco II",
+    "municipio_uf": "Alta Floresta D'Oeste / RO",
+    "cep": "76.954-000",
+    "area_total_estimada_ha": 52.8,
+    "area_piscicultura_lamina_ha": 3.21,
+    "qtd_tanques_piscicultura": 9,
+    "area_cafe_clonal_irrigado_ha": 9.06,
+    "coordenadas_geograficas_sirgas2000": [
+      {
+        "ponto": "Tanque Escavado T1 (Piscicultura)",
+        "lat_gms": "12°00'55.31\"S",
+        "lon_gms": "62°06'28.60\"O",
+        "lat_dec": -12.015364,
+        "lon_dec": -62.107944,
+        "uso": "Lâmina d'água 3,21 ha (9 viveiros)"
+      },
+      {
+        "ponto": "Captação Superficial (Irrigação Café Clonal)",
+        "lat_gms": "12°01'04.04\"S",
+        "lon_gms": "62°06'37.65\"O",
+        "lat_dec": -12.017789,
+        "lon_dec": -62.110458,
+        "uso": "Bomba centrífuga motor 15 cv + filtro de areia (9,06 ha café clonal)"
+      },
+      {
+        "ponto": "Barragem / Represa Regularização (Vistoria Abr/2023 e Fev/2026)",
+        "lat_gms": "12°00'58.10\"S",
+        "lon_gms": "62°06'31.20\"O",
+        "lat_dec": -12.016139,
+        "lon_dec": -62.108667,
+        "uso": "Barramento / Captação e Divisa do Imóvel"
+      }
+    ]
+  },
+  "contatos_e_rede_familiar": {
+    "telefone_titular_cadastro": "(69) 3641-2505 / Contato via RT (69) 98474-3091",
+    "rede_familiar_alta_floresta": [
+      {
+        "nome": "William de Castro Duque",
+        "vinculo": "Familiar / Produtor na mesma região (AFO)",
+        "processos_sei": [
+          "0028.013673/2025-88"
+        ],
+        "vistorias": [
+          "15/07/2025",
+          "28/07/2025 (Joviniano Furtado)"
+        ]
+      },
+      {
+        "nome": "Ceslau da Silva Duque",
+        "vinculo": "Familiar / Produtor em AFO",
+        "processos_sei": [
+          "Vistoria SOLAR 21/01/2025"
+        ],
+        "vistorias": [
+          "21/01/2025 (Francisco - Outorga SOLAR)"
+        ]
+      }
+    ],
+    "responsaveis_tecnicos": [
+      {
+        "nome": "Magno Ribeiro de Lima",
+        "qualificacao": "Engenheiro Florestal",
+        "registro": "CREA 9388D/RO",
+        "telefone": "(69) 98474-3091",
+        "periodo": "Agosto/2025 – Atual (2026)",
+        "status": "RT ATUAL FIXO (Assumiu os 3 processos em 19/08/2025 — Guia 0016312025)",
+        "observacao_auditoria": "Substituiu o RT anterior após reprovação técnica de projetos na SEDAM; conduziu renovação de Outorga de Café, atualização de Outorga de Piscicultura, atendimento às Notificações 1861/2025, 2172/2025, Parecer 899/COREH/2025, Despacho 094/COREH/2026 e adição de espécies na LO 159556."
+      },
+      {
+        "nome": "RT Anterior (2017–2024)",
+        "qualificacao": "Consultoria Ambiental Inicial (Substituída)",
+        "registro": "Processos 2017/2018/2022",
+        "telefone": "(69) 3641-2505",
+        "periodo": "2017 – Julho/2025",
+        "status": "SUBSTITUÍDO POR FALHAS TÉCNICAS",
+        "observacao_auditoria": "Constatado nos relatórios de produtividade SEDAM (04-23, 5-23, 8-23, 12-24, 03-25) que projetos submetidos anteriormente não seguiam os normativos da SEDAM, gerando notificações e necessidade de refazimento."
+      }
+    ],
+    "analistas_sedam_atuantes": [
+      {
+        "nome": "Francisco (Técnico ERGA/AFO)",
+        "atuacao": "Vistorias de Campo em 05/04/2023, 05-07/08/2025, 03/02/2026 e 24/02/2026 (206 arquivos de mídia + relatórios RTVA)"
+      },
+      {
+        "nome": "Joviniano Furtado (Eng. Agrônomo / Analista Ambiental ERGA/AFO)",
+        "atuacao": "Co-autor dos Relatórios Técnicos RTVA de Ago/2025 e Fev/2026"
+      },
+      {
+        "nome": "Marcelo Alves de Souza (Gerente Regional ERGA/AFO - Mat. 300158873)",
+        "atuacao": "Assinatura do MEMO Nº 070/2022 e despachos de malote 2022–2025"
+      }
+    ]
+  },
+  "processos_mestre_e_licencas": [
+    {
+      "processo_administrativo": "1801/00667/2017",
+      "processos_sei_eestado_vinculados": [
+        "0036.110051/2021-40",
+        "0028.008842/2024-87"
+      ],
+      "codigos_siga": [
+        "1801598431",
+        "18011381421",
+        "18010669625",
+        "18010867025",
+        "18010973425",
+        "18010018226",
+        "18010091326"
+      ],
+      "tipologia": "Licenciamento Ambiental de Piscicultura (LP / LI / LO)",
+      "licenca_operacao_emitida": "LO nº 159556 (Ativa — com requerimento de adição de espécies em 03/02/2026)",
+      "coordenadoria_destino": "COLMAM / COLMAMP (Porto Velho)",
+      "objeto_detalhado": "9 tanques escavados totalizando 3,21 ha de lâmina d'água (criação de Tambaqui / Pintado + pedido de adição de espécies na LO nº 159556). Constatados 4 tanques novos em APP no Memo 128/2024, em regularização com notificações atendidas em Out/2025 e Dez/2025."
+    },
+    {
+      "processo_administrativo": "1801/01995/2018",
+      "processos_sei_eestado_vinculados": [
+        "0028.007477/2024-93",
+        "0028.001443/2026-57"
+      ],
+      "codigos_siga": [
+        "18010365124",
+        "18010466224",
+        "18010466524",
+        "18010669525",
+        "18010776325",
+        "18011017825"
+      ],
+      "tipologia": "Outorga de Direito de Uso de Recursos Hídricos — Piscicultura e Barragem/Represa",
+      "licenca_operacao_emitida": "Termo de Outorga em Renovação/Retificação (Parecer Técnico nº 899/COREH/2025 atendido + RTVA 03/02/2026 enviado via SEI 0028.001443/2026-57)",
+      "coordenadoria_destino": "COREH (Coordenadoria de Recursos Hídricos)",
+      "objeto_detalhado": "Captação superficial e barramento para abastecimento de 9 viveiros escavados (3,21 ha) e regularização de represa/barragem."
+    },
+    {
+      "processo_administrativo": "1801/00946/2022",
+      "processos_sei_eestado_vinculados": [
+        "0036.077166/2022-27",
+        "0028.002429/2026-71"
+      ],
+      "codigos_siga": [
+        "1801899356",
+        "18010907322",
+        "18010669825",
+        "18010018426",
+        "18010438326"
+      ],
+      "tipologia": "Outorga de Direito de Uso de Recursos Hídricos — Irrigação de Café Clonal (9,06 ha) e Hortifrutigranjeiros",
+      "licenca_operacao_emitida": "Outorga de Irrigação em Renovação (RTVA 07/08/2025 + RTVA complementar de Ponto de Captação e Divisa em 24/02/2026 via SEI 0028.002429/2026-71 + Despacho 094/COREH/2026 atendido em 09/06/2026)",
+      "coordenadoria_destino": "COREH (Coordenadoria de Recursos Hídricos)",
+      "objeto_detalhado": "Captação superficial com conjunto motobomba centrífuga de 15 cv e filtro de areia para irrigação de 9,06 ha de lavoura de café clonal (Coffea canephora) e hortifrutigranjeiros."
+    },
+    {
+      "processo_administrativo": "CAR / REDD+ / CRÉDITO RURAL",
+      "processos_sei_eestado_vinculados": [
+        "0028.007251/2024-92"
+      ],
+      "codigos_siga": [
+        "COMRAR-2024"
+      ],
+      "tipologia": "Cadastro Ambiental Rural (CAR) + Elegibilidade REDD+ / PSA e Crédito Rural",
+      "licenca_operacao_emitida": "Requerimento de Análise de CAR protocolado em 10/04/2024 (COMRAR)",
+      "coordenadoria_destino": "COMRAR / SEDAM",
+      "objeto_detalhado": "Regularização fundiária/ambiental exigida por instituições financeiras para liberação de financiamento rural (Pronaf/Pronamp), comercialização de pescado/café, segurança de barragem e adesão a programa de carbono (REDD+)."
+    }
+  ],
+  "linha_cronologica_completa_2017_2026": [
+    {
+      "ordem": 1,
+      "data": "2017",
+      "processo": "1801/00667/2017",
+      "tipo": "Abertura Processo Físico/SIGA",
+      "setor": "COLMAM",
+      "resumo": "Abertura do processo de Licenciamento Ambiental da Piscicultura (LP/LI/LO) no Sítio São José."
+    },
+    {
+      "ordem": 2,
+      "data": "2018",
+      "processo": "1801/01995/2018",
+      "tipo": "Abertura Processo Outorga",
+      "setor": "COREH",
+      "resumo": "Abertura do processo de Outorga de Direito de Uso de Recursos Hídricos para Piscicultura e Barragem."
+    },
+    {
+      "ordem": 3,
+      "data": "14/10/2021",
+      "processo": "1801/00667/2017 (Prot. 1801.13814/2021)",
+      "tipo": "Guia de Malote Nº 0046482021",
+      "setor": "ERGA/AFO -> COLMAM",
+      "resumo": "Protocolo de atendimento de pendência de Piscicultura (CPF 340.439.182-91 confirmado)."
+    },
+    {
+      "ordem": 4,
+      "data": "14/07/2022",
+      "processo": "1801/00946/2022 (Prot. 1801.09073/2022)",
+      "tipo": "MEMO Nº 070/2022 + Guia Nº 0024072022",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Encaminhamento de Relatório Técnico de Vistoria Ambiental (RTVA) de Outorga para Irrigação de Café e Hortifrutigranjeiros (Assinado por Marcelo Alves de Souza)."
+    },
+    {
+      "ordem": 5,
+      "data": "05/04/2023",
+      "processo": "1801/01995/2018",
+      "tipo": "Vistoria de Campo + 63 Fotos + Relatórios Produtividade (04-23, 5-23, 8-23)",
+      "setor": "ERGA/AFO (Francisco)",
+      "resumo": "Vistoria na Represa Lino Duque (63 fotos DSC03981 a DSC04044). Registro explícito nas fichas de produtividade de que o produtor necessitava de Outorga/Dispensa de Barragem para Financiamento Bancário, Segurança de Barragem e Comercialização."
+    },
+    {
+      "ordem": 6,
+      "data": "20/03/2024",
+      "processo": "1801/00667/2017 (E-Estado 0036.110051/2021-40)",
+      "tipo": "MEMO Nº 128/2024/COLMAM + RTVA",
+      "setor": "ERGA/AFO -> COLMAM",
+      "resumo": "Vistoria constatou ampliação de 5 para 9 tanques escavados (3,21 ha), sendo 4 tanques novos construídos em APP sem licença prévia."
+    },
+    {
+      "ordem": 7,
+      "data": "21/03/2024",
+      "processo": "1801/01995/2018 (Prot. 1801.03651/2024)",
+      "tipo": "Guia de Malote Nº 0009522024",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Protocolo de atendimento à Notificação nº 1293/2023 no processo de Outorga de Piscicultura."
+    },
+    {
+      "ordem": 8,
+      "data": "10/04/2024",
+      "processo": "SEI 0028.007251/2024-92",
+      "tipo": "Processo SEI COMRAR",
+      "setor": "COMRAR",
+      "resumo": "Requerimento formal para análise prioritária do Cadastro Ambiental Rural (CAR)."
+    },
+    {
+      "ordem": 9,
+      "data": "18/04/2024",
+      "processo": "1801/01995/2018 (Prots. 1801.04662/2024 e 1801.04665/2024)",
+      "tipo": "Guia de Malote Nº 0012122024",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Complementação documental em resposta à Notificação nº 1293/2023."
+    },
+    {
+      "ordem": 10,
+      "data": "16/09/2024",
+      "processo": "SEI 0028.007477/2024-93",
+      "tipo": "Processo SEI COREH",
+      "setor": "COREH",
+      "resumo": "Tramitação de Relatório Técnico de Vistoria Ambiental (RTVA) de Recursos Hídricos."
+    },
+    {
+      "ordem": 11,
+      "data": "23/09/2024",
+      "processo": "SEI 0028.008842/2024-87",
+      "tipo": "Processo SEI COLMAMP",
+      "setor": "COLMAMP",
+      "resumo": "Tramitação de RTVA de constatação de funcionamento da Piscicultura."
+    },
+    {
+      "ordem": 12,
+      "data": "05/08/2025 a 19/08/2025",
+      "processo": "1801/00667/2017, 1801/01995/2018 e 1801/00946/2022",
+      "tipo": "Vistoria Unificada (72 Fotos + Vídeo) + 2 Laudos RTVA + Guia Malote Nº 0016312025",
+      "setor": "ERGA/AFO -> COREH / COLMAMP",
+      "resumo": "Grande marco de saneamento técnico: contratação do Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO), substituição formal de RT nos 3 processos (Prots. 1801.06695/2025, 1801.06696/2025 e 1801.06698/2025), vistoria da renovação de outorga do Café Clonal (9,06 ha, bomba 15 cv) e atualização da Piscicultura."
+    },
+    {
+      "ordem": 13,
+      "data": "25/09/2025",
+      "processo": "1801/01995/2018 (Prot. 1801.07763/2025)",
+      "tipo": "Guia de Malote Nº 0018832025",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Atendimento técnico ao Parecer Técnico nº 899/COREH/2025."
+    },
+    {
+      "ordem": 14,
+      "data": "29/10/2025",
+      "processo": "1801/00667/2017 (Prot. 1801.08670/2025)",
+      "tipo": "Guia de Malote Nº 0020892025",
+      "setor": "ERGA/AFO -> COLMAMP",
+      "resumo": "Atendimento à Notificação nº 1861/2025/COLMAMP no licenciamento da piscicultura."
+    },
+    {
+      "ordem": 15,
+      "data": "09/12/2025",
+      "processo": "1801/00667/2017 (Prot. 1801.09734/2025)",
+      "tipo": "Guia de Malote Nº 0023552025",
+      "setor": "ERGA/AFO -> COLMAMP",
+      "resumo": "Atendimento à Notificação nº 2172/2025."
+    },
+    {
+      "ordem": 16,
+      "data": "23/12/2025",
+      "processo": "1801/01995/2018 (Prot. 1801.10178/2025)",
+      "tipo": "Guia de Malote Nº 0024582025",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Requerimento de retificação da denominação do imóvel rural (Sítio São José) no Termo de Outorga."
+    },
+    {
+      "ordem": 17,
+      "data": "13/01/2026",
+      "processo": "1801/00667/2017 e 1801/00946/2022 (Prots. 1801.00182/2026 e 1801.00184/2026)",
+      "tipo": "Guia de Malote Nº 0000472026",
+      "setor": "ERGA/AFO -> COLMAMP / COREH",
+      "resumo": "Alteração/retificação da nomenclatura do imóvel rural na Licença de Piscicultura e no Termo de Outorga de Irrigação."
+    },
+    {
+      "ordem": 18,
+      "data": "03/02/2026",
+      "processo": "1801/00667/2017 (Prot. 1801.00913/2026)",
+      "tipo": "Guia de Malote Nº 0002042026",
+      "setor": "ERGA/AFO -> COLMAMP",
+      "resumo": "Requerimento de adição de novas espécies piscícolas na Licença de Operação (LO) nº 159556."
+    },
+    {
+      "ordem": 19,
+      "data": "03/02/2026 a 10/02/2026",
+      "processo": "1801/01995/2018 (SEI 0028.001443/2026-57)",
+      "tipo": "Vistoria de Campo 2026 (41 Fotos + 2 Vídeos MP4) + Controle Vistoria 2026",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Vistoria in loco em 03/02/2026 (pasta VISTORIA LINO DUQUE AFO 03.02.2026 com fotos carimbadas TimePhoto + DSC e 2 vídeos MP4) e envio do RTVA de Outorga em 10/02/2026 via SEI 0028.001443/2026-57."
+    },
+    {
+      "ordem": 20,
+      "data": "24/02/2026 a 02/03/2026",
+      "processo": "1801/00946/2022 (SEI 0028.002429/2026-71)",
+      "tipo": "Vistoria Ponto de Captação e Divisa (27 Fotos DSC) + Controle Vistoria 2026",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Nova diligência em 24/02/2026 para conferência do Ponto de Captação d'Água e Divisa (27 fotos DSC01439 a DSC01465) e envio de RTVA complementar em 02/03/2026 via SEI 0028.002429/2026-71."
+    },
+    {
+      "ordem": 21,
+      "data": "09/06/2026",
+      "processo": "1801/00946/2022 (Prot. 1801.04383/2026)",
+      "tipo": "Guia de Malote Nº 0009702026",
+      "setor": "ERGA/AFO -> COREH",
+      "resumo": "Atendimento à Notificação/Despacho nº 094/COREH/2026 referente à Outorga de Irrigação de Café."
+    }
+  ],
+  "acervo_midia_campo_206_arquivos": {
+    "total_arquivos_midia": 206,
+    "pastas_originais_rede_m": [
+      {
+        "pasta": "M:\\ERGAS\\Alta Floresta\\FRANCISCO\\ANTIGOS\\REPRESA LINO DUQUE AFO 05.04.2023",
+        "data": "05/04/2023",
+        "fotos": 63,
+        "videos": 0,
+        "faixa_arquivos": "DSC03981.JPG a DSC04044.JPG"
+      },
+      {
+        "pasta": "M:\\ERGAS\\Alta Floresta\\FRANCISCO\\FOTOS 2025-2026\\LINO DUQUE AFO 07.08.2025",
+        "data": "07/08/2025",
+        "fotos": 72,
+        "videos": 1,
+        "faixa_arquivos": "DSC00557.JPG a DSC00629.JPG + DSC00578.AVI"
+      },
+      {
+        "pasta": "M:\\ERGAS\\Alta Floresta\\FRANCISCO\\FOTOS 2025-2026\\VISTORIA LINO DUQUE AFO 03.02.2026",
+        "data": "03/02/2026",
+        "fotos": 41,
+        "videos": 2,
+        "faixa_arquivos": "DSC01092.JPG a DSC01119.JPG + TimePhoto_20260203_103737 a 110620.jpg + 2 vídeos MP4"
+      },
+      {
+        "pasta": "M:\\ERGAS\\Alta Floresta\\FRANCISCO\\FOTOS 2025-2026\\PONTO DE CAPTAÇÃO D' ÁGUA E DIVISA LINO DUQUE AFO 24.02.2026",
+        "data": "24/02/2026",
+        "fotos": 27,
+        "videos": 0,
+        "faixa_arquivos": "DSC01439.JPG a DSC01465.JPG"
+      }
+    ],
+    "arquivos_webp_publicados_github": [
+      "midia_webp/2026_02_03_Vistoria_Lino_Duque_1_DSC01395.webp",
+      "midia_webp/2026_02_03_Vistoria_Lino_Duque_2_DSC01396.webp",
+      "midia_webp/2026_02_03_Vistoria_Lino_Duque_3_DSC01397.webp",
+      "midia_webp/2026_02_24_DSC01439_Captacao_Divisa_Cafe_Lino_Duque.webp",
+      "midia_webp/2026_02_24_DSC01450_Captacao_Divisa_Cafe_Lino_Duque.webp",
+      "midia_webp/DOC2024_image1.webp",
+      "midia_webp/DSC00557.webp",
+      "midia_webp/DSC00558.webp",
+      "midia_webp/DSC00559.webp",
+      "midia_webp/DSC00560.webp",
+      "midia_webp/DSC00562.webp",
+      "midia_webp/DSC00563.webp",
+      "midia_webp/DSC00564.webp",
+      "midia_webp/DSC00565.webp",
+      "midia_webp/DSC00566.webp",
+      "midia_webp/DSC00567.webp",
+      "midia_webp/DSC00568.webp",
+      "midia_webp/DSC00569.webp",
+      "midia_webp/DSC00570.webp",
+      "midia_webp/DSC00571.webp",
+      "midia_webp/DSC00572.webp",
+      "midia_webp/DSC00573.webp",
+      "midia_webp/DSC00574.webp",
+      "midia_webp/DSC00575.webp",
+      "midia_webp/DSC00576.webp",
+      "midia_webp/DSC00577.webp",
+      "midia_webp/DSC00578.webp",
+      "midia_webp/DSC00579.webp",
+      "midia_webp/DSC00580.webp",
+      "midia_webp/DSC00581.webp",
+      "midia_webp/DSC00582.webp",
+      "midia_webp/DSC00583.webp",
+      "midia_webp/DSC00584.webp",
+      "midia_webp/DSC00585.webp",
+      "midia_webp/DSC00586.webp",
+      "midia_webp/DSC00587.webp",
+      "midia_webp/DSC00588.webp",
+      "midia_webp/DSC00589.webp",
+      "midia_webp/DSC00590.webp",
+      "midia_webp/DSC00591.webp",
+      "midia_webp/DSC00592.webp",
+      "midia_webp/DSC00593.webp",
+      "midia_webp/DSC00594.webp",
+      "midia_webp/DSC00595.webp",
+      "midia_webp/DSC00596.webp",
+      "midia_webp/DSC00597.webp",
+      "midia_webp/DSC00598.webp",
+      "midia_webp/DSC00599.webp",
+      "midia_webp/DSC00600.webp",
+      "midia_webp/DSC00601.webp",
+      "midia_webp/DSC00602.webp",
+      "midia_webp/DSC00603.webp",
+      "midia_webp/DSC00604.webp",
+      "midia_webp/DSC00605.webp",
+      "midia_webp/DSC00606.webp",
+      "midia_webp/DSC00607.webp",
+      "midia_webp/DSC00608.webp",
+      "midia_webp/DSC00609.webp",
+      "midia_webp/DSC00610.webp",
+      "midia_webp/DSC00611.webp",
+      "midia_webp/DSC00612.webp",
+      "midia_webp/DSC00613.webp",
+      "midia_webp/DSC00614.webp",
+      "midia_webp/DSC00615.webp",
+      "midia_webp/DSC00616.webp",
+      "midia_webp/DSC00617.webp",
+      "midia_webp/DSC00618.webp",
+      "midia_webp/DSC00619.webp",
+      "midia_webp/DSC00620.webp",
+      "midia_webp/DSC00621.webp",
+      "midia_webp/DSC00622.webp",
+      "midia_webp/DSC00623.webp",
+      "midia_webp/DSC00624.webp",
+      "midia_webp/DSC00625.webp",
+      "midia_webp/DSC00626.webp",
+      "midia_webp/DSC00627.webp",
+      "midia_webp/DSC00628.webp",
+      "midia_webp/DSC00629.webp"
+    ]
+  },
+  "auditoria_financeira_e_oportunidades_agroprime": {
+    "gasto_historico_estimado_consultoria_taxas_brl": 28500.0,
+    "detalhamento_gasto_historico": "Contratação de 2 consultorias ambientais distintas entre 2017 e 2026, elaboração de projetos de LP/LI/LO de Piscicultura, 2 processos de Outorga (Piscicultura/Barragem + Irrigação Café Clonal), PRAD/regularização de 4 tanques em APP, CAR, retificações cadastrais e taxas DARE/SEDAM.",
+    "dores_reais_diagnosticadas_nos_autos": [
+      "1. Retrabalho por erro de consultoria anterior (documentado nos relatórios de produtividade SEDAM 2023–2025) e 3 erros de grafia de CPF em documentos oficiais.",
+      "2. Construção de 4 viveiros adicionais em APP sem licença prévia (apontado no Memo 128/2024), gerando as Notificações 1861/2025 e 2172/2025.",
+      "3. Necessidade urgente de regularização de Segurança de Barragem e Outorga para destravar Financiamento Bancário (Crédito Rural), comercialização formal de pescado (adição de espécies na LO 159556) e adesão a projetos de Carbono / REDD+."
+    ],
+    "portfolio_solucoes_recomendadas_multisservicos": [
+      {
+        "area": "Engenharia Florestal & Hídrica",
+        "servico": "Monitoramento anual da LO 159556 (automação de relatórios de automonitoramento de efluentes) + Laudo de Segurança de Barragem + Certificação REDD+/PSA",
+        "ticket_estimado_brl": 8500.0
+      },
+      {
+        "area": "Agronomia de Precisão (Café Clonal 9,06 ha)",
+        "servico": "Manejo nutricional de alta produtividade para café clonal irrigado + fertirrigação automatizada no conjunto motobomba 15 cv + mapeamento NDVI/NDWI via Google Earth Engine",
+        "ticket_estimado_brl": 6800.0
+      },
+      {
+        "area": "Medicina Veterinária & Aquicultura (3,21 ha / 9 Tanques)",
+        "servico": "Assistência sanitária aquícola para as novas espécies adicionadas na LO 159556, biometria, conversão alimentar e certificação sanitária (GTA/Selo Arte)",
+        "ticket_estimado_brl": 5400.0
+      },
+      {
+        "area": "Audiovisual, Drone & Posicionamento Comercial",
+        "servico": "Documentário institucional com drone 4K do Sítio São José (Café Clonal Irrigado + Piscicultura Sustentável) + Catálogo Digital B2B para venda direta a frigoríficos e torrefadoras",
+        "ticket_estimado_brl": 4200.0
+      }
+    ]
+  },
+  "laudos_e_documentos_word_extraidos_integralmente": [
+    {
+      "arquivo": "FRANCISCO\\LINO - RENOVAÇÃO OUTORGA IRRIGAÇÃO DE CAFÉ CLONAL LINO DA SILVA DUQUE    AFO AGO 2025.doc",
+      "ano": "2025",
+      "mtime": 1771850708.616,
+      "metadados_extraidos": {
+        "ano_referencia": "2025",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "",
+        "localizacao_extraida": "",
+        "cpfs": [],
+        "cnpjs": [],
+        "telefones": [
+          "(69) 99949 5630"
+        ],
+        "processos_sei": [],
+        "processos_siga": [
+          "1801/00946/2022"
+        ],
+        "creas": [
+          "CREA 9388D/RO."
+        ],
+        "arts": [
+          "arte"
+        ],
+        "cars": [],
+        "coordenadas_dms": [],
+        "areas_mencionadas": [
+          "9,06 hectares",
+          "1,06 ha",
+          "8,0000 ha"
+        ],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "DocumentSummaryInformation",
+        "RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL",
+        "AD990B81207442EE93ADEAF2E2D4AB2D_12",
+        "ð䑄䑄䑄䑄䑄䑄䑄䑄D䐀䱄쳌쳌쳌쳌쳌쳌쳌쳌쳌쳌쳌쳌쳌쳌쓌䑄䑄䑄䑄䑄䑄䑄䑄䑄䑄䑄",
+        "쳌ꀀꨀƪđༀ䓰䑄䑄䁄ÿᄁꨊપꪪ찌䓀䭄䒴䒻둋뭋䒴䭄䒴ང",
+        "㐪㘵㠷㨹䑃䙅䡇䩉呓噕塗婙摣晥桧橩瑳癵硷穹蒃蚅袇誉鎒閔鞖馘ꊚ",
+        "㔪㜶㤸䌺䕄䝆䥈半啔坖奘捚敤杦楨獪畴睶祸艺蒃蚅袇誉鎒閔鞖馘ꊚ",
+        "眹焼ӭ眮猪햞ꔓ渮幣步網利焻娣䢼ᚤӇ嗺뷋欸밓䊶畋ṅ왡䟮",
+        "ᩋ毽쉂牢儾憟Ṑ唺営ᬧ㶁প儈Ჷ梊ꌆ尩㷲燪抗剣᱀ꪚՎыྌ",
+        "㤣凩捠拯探잁വ레鋷ᡉ뾌ꀃ얧捲搄碂혼❸㐃쓽퓠ꇲ辶释䨮肬蔓谧髺玭",
+        "뚦獷誜ᶝ揶漧喥鯘䱥錰퓹㷦쟋騆捈厜㳲玲僐锍醛㟍腳鲌卺캣웣癩犀",
+        "띩毭偲옳௧癞啡詂㞏笣ᱶ땮簷杈뎷ꁩ얝軄ഇᾴꋂ功펴닠랶뮔矆竎➇㖯櫀",
+        "됀큫ﾗ耀癒飕ᖧ맶툭砱쀉篘摖䋖챢䞬郋撠톚泔䓣삌掌㴃Ḻ",
+        "暭큨껌깕湋兟ﳓ毽1舭ꥸ榥吤牖菈ﭪ養㡤猬ꚺ蛥퐻腠يI",
+        "伮ꌙ葻鋂獔ڊ㥔茄聋츱䵪掾㥰ᖧⱏ籠ꓹᬱ㠬ꠝ湖랣㐕搊䚐ᬈ鎻",
+        "ꝝ㒆琈迴활踉㻙捨㐼귰Ὕ盂ᵺ檪쀚껳睙故麎ﾅ숀㒷鞹멛銻壾",
+        "爆ꤹ碕峆嶩뮉煨㩗핽厨潱㬬᮹賔僕㠛毆痔寭뭂ꝃ蝞ḏ畀ഝ",
+        "廯殫柰杒㕣듭ᱠꨐ迍談뛑䟸홢䫒铺铒魭謣塮ᱵ폒犸㢞볠瘡荠",
+        "ᬉ①挿ꡑ慸雚⑨炊㚲㸰槶评黜뵇靑䬓埜曥滋팁稕㱝滅ᾤ窙嗻繙ᗑ犌막真珊",
+        "가석껴嶿ﷱퟔ淫䠌皶藭炈Ẹ쪵晌痗湙릲埞徵渳닶됄帲볍솦ᏃꚒ鮪䥨䫋",
+        "༰䳧짾놶퓈ᔮṜ轢殺噻궱氉凊ᵥ䜧傛閘䓂즜瀫㶨굉疨㓈ꂫ䲚",
+        "ᢓ䔽콎①e壨嵳受릏쮹ὧꆈ噼퇢ꊙ켈丨唻봫쨳ᰋ櫓㦘㨬뛢ꊮ氊",
+        "풣蓼䬁혌똼墂읍婕곦鶚뒙딚ⷈ鳝娭啫횚䑉ր琿䶎걀攌煕櫆휝赒ສ",
+        "낼芵曽뺲넗隓蔬㨿軌뉯ボꒁㄒ㫨쭕䀍ퟩ篞닂듇쎮䧯䶦㕪産ᠻ",
+        "臊䢊榣䣤翁殝푂뫛暳ꝺ鉣ⅵ킱僺怣ᔹ槖ᗺꆮ䭼쓜坕넬쒝슟",
+        "悗乐錺鱊㔜鹌喦趥ꖦ谄䐾㺆㙳眛ᶨ闾썫ᐾ꿔죊ҫ鴃俽勐ꝋ轈牱툾",
+        "貰ᐯ鏈뵇廭ꌹⱯ硊ꀌ앴ቱ㑜劌줕窅괽忳川덯ѣﲈ䍈㡭䇎꿴봸떾炲肅揋꿥",
+        "᧖ꊉ띈쪱딐殛墪楿ⅈ벜ᕙݎ꿒䵚쐕檃ᩆ蔱ﳠ勯쏜㙨놴쎠ᡮ",
+        "⑾䗒랦歵됋銊嘕䴽ջ蚇踣数聀䰂솨美씑轹ꂌ륚䴆皣挔ḙ熵",
+        "풨俧㾐鑈쟷岭Ⱊ榱ꬓꑝ廗ﱮ烆า娇쟍ᆽ견醕槒ㄖ髩鍵䜢㱆타该",
+        "䯹禇輺맃殪鷢쭎睤䙶彆䎚Ꞓ煅锇汯茼뮜伽ꅷﮬかꈱ੬追㖵훊㧂",
+        "㟨䃰証썵㛇䡌넕叐絓闃찔妁ﴶ狢即ቪ爜좡軤ꃆ뜐ᆚꞰ连簩",
+        "덆䝡閺譕㡣礬瓅噚禉웧寱첵牊с윩碽ᳵ業儝窺ℝ연꿎鹲镍媺ӈ郁Ž蒯㦚",
+        "嶑줚䑚톤ꮷ鑘瘩閱冊箐ꅦ귓闡쾟䮹兵㦸鉜ս䭦ᑉ䥱㐫豱錪ᗀ",
+        "㗵䖖㛆飕ʯ巚矉ᑯ㓯㞪攻㶆㲁展毁餷刬ᡈꍲ췥ꙮ箫琀ᮒ쁥ᬡ䞂諫뭩",
+        "Ắ峤ᇃ備储䅕紈쵉쀎䮙퍓퀾쯑鼌ള㦳睒ﻻ랔㒫鈢改皍妘퍆쟯ꭊ쐵䗑됝鑳ኊ锁ҥẜ柠ᰕꉺ扈銳み",
+        "䆻蘍禣鸴㑚蚃靅윋ꤜÿ唼鵛嬖얙㛔嗈嵾솻泇ퟱ锞钚䉟仹퍊竇",
+        "䶐乧隔垬椯淺꿎딸労Ỳ팊ﳖ笽ﯡ蹤偙ꏹ儥잳抽佘浵衱䛋샍",
+        "湭ꐎ듳䢐鳁娯ꝵ优뗌ᚢ藁鋄彚鏌傅竊Ṯ횜衿筴慭ⶑ䭧起ᡂƜ嗹ဿ瑉ள溑ꈭ",
+        "뭂ꉇ걏仹໗慐쩰蹻檝覧굮涮濬㑒榆戀莈切옟厸ﯡﯥ뮷ꆇ槍韂햂묢は쨧㦸匀炒졜묓",
+        "錜箎封菒疌ꙅ킛壎髤蟠똠驺㑣소ހ䚵䒂䮕㰡郖ꪜ碖臊䝗ﲑ齢䈷튙艗芯㐇폤烊ᡤ넽빖᧕",
+        "䄙촵㐼쉟ꡚ駺潫嶾놅銚䐈簳軜嗄ⶩ㢃왡켩铥䠪닢睘瘇鵛巆뗼䪞㜦鄓祏湛鋜펠Ჱ첈ㄆ姫韔醴噑ꅄ貁",
+        "룢Ἳ妴䛝ɘ띱Ἔ窭㸤렘些ﭕ酌㦗閑窻옎侸椒ꖩ剪旛ᾈ㧞됦ꎄ",
+        "疜퐣㗗輆촵ࣁ酇䁉兩罇ꯆ刉䵒覽疔貽力边荍燷鳂쀃ꯀ鹖려曑",
+        "伎嚵骲瑓昈ᰠ殞搯殒빠놧쥨ꑩ당江䒈쪧택㷽௫홟媛祡삦嬣",
+        "穷桂Ӎდ驧᥆㐘ꍷ퀼ǻ灚灔絎䈍䣓椓윙噱嶦賋潕尮क귇칱䬭呃䗓㣧酪阣",
+        "ꗟ꽊鎓왐驋慫躖㦣ꃢ閔吼ᆍṋ䈍册䚪㲗蔚㖏襉ᆚ鹋懵摜ꕧ썥ฦ",
+        "洮銢縘䗱销ᆪ웚銭胍睺眵嵉씾츍춢輣治ևꞾꮰ沟몴춌鐖ỉ",
+        "X噄몟齁鿄鏄籖愋쿶椘냑凹蟌ᗰ쐯踷엧튗끚鄔烓ἀ돖ﶬ쫤䪌徚㷄䍫䮴嘋",
+        "鯖鈼蕯ﾥ輀נּ矘瓠숕햽铭椿綞짲簱錓췳䵩彎訌䦓饙蚚沖䡮をꏑ㮐앯彶",
+        "ꊮ턠ᇩ쇊芝桧혜ꄾ렑賔镥徉ଳϼ헐俋쌓창泚㥁吁พ將햞뫦퍞",
+        "엁뱪훂ꈩ⓯풎淋Ꙛɐᡣᆦᗛ腩䴡웋儱䳆r㤎㞢脣汒쌥鍢蹠供뗗脥띭",
+        "坬俷ꯙ횞坬핏脥䁎嘼櫘ﺓ弝厈穑䦢쀐룼㱥庆Ꚇꟓ펂虓毢㹯急㽝㶼欪",
+        "ꋚ휸錹㾿㖑寑䟜㊺ᶼꮤϮ냚㖏캮熊릺毃ᔾ듔厫ѵ炫玬謡ḹᖇῆ銊",
+        "獁遬䟛먥䟙或旋잙쉍몞瞌袓ɵ誗湗烐玨閎㒺㹍猛圙뀄䄪Έ驊",
+        "튘秛鵁긓쀀ꇦꆮ㠙㧴溉憯겐籺ǲ蛑ꠈ勓峔網梃差ﻀ푕능䏌논㾠",
+        "洘疟鸾뮦쎗麠ᚻ厙둎횁㧢羦擹⒇녧ꗴ뮶轸玙뢄讙䗠㻬뎦䗭庼ﵐ烠ꓛ鱢",
+        "齣圭素罫뽃놲撓苖幙酕컣뗑ό暭ꛉ毋湶卵꽈ޅ㿯嗐뮫୫㷭涮얤",
+        "Ẻ䔫䩑褷嘪㔶嫍ﻒ寢鞻퉝遤焍磦욍磋抑鴧鏃虙賡徛騣뛗쯓ᛋᓉᲙ挅ક陎닭柷",
+        "ኌ杜酨힇ᖥ൮な䶤И具論慖땣ᆱ雨귎鈘迭맍ࢉ氇坔邺ᇲ⒙岉죥സ滍硟故䪅",
+        "尪म쪑弙Ӎ税픎Ꭓ콩批ㅮ操豊箽ꭶ喝얝覕எꊝ䥂꾳踚Ꜷ溸筅",
+        "依ﭨꞈ묻츚怷铑趚歋ᗦﺉ쟰ꅚ㗟鼤腸ꋒ劭뭈隚ⷐ䇨టࠆ䤝岧짛",
+        "퐠앳肵噗질ꈢ娙뜀瞻啓㙚櫜ꑈ䀾袡뗏ᬰ蔛㔠ౙ枤張죥ꬸ疚몜",
+        "堉潇䓝㡏㗵韪庰鞝룩럦൵紒뛭ओ㺔쓂쟭탗줊瑨ゝ鸱絣퍷１",
+        "쮾謳敉捫ⲁㅎﾻ픀䕘ﹻ멂ၺ㱞㫗솋䬛Ğ갨鈳㤇샶㮬ꯛ墫즖郧孆ڿ궷멣뀗狍뻭",
+        "單濳س퓛玮얋㨗ዴᑇ慫饦ᔳ铤䳇훺婷閖騅䭢ᾨꝫག끊ᙦ킙牭滃霤",
+        "徨တ옌뾇꺹㸉癕ᡥ㶹缎ᇾ䫘ᢙꎘ'芓䫟掵媧컘롅쌎準맢ᾫ䴓㿢쨓ᅃɭⰟ餎昼㊻",
+        "ᒆ鴭铒켅竢葖Ś䚓劋흹륫伛詑닧짙뗦꽬쒘뎖紻랜繀㳯蚚낭詘楛唞㜁뙦銭槀",
+        "櫑罼軰廛없骧䙦䁟吺䴚吏䰳蠠챧煲䎊嵈㔨䕉ڳ鲈ạ墕셳埫",
+        "盡䤕庡껅嚡鞌ᮕ尘뫦㜭뿂뇚㶟憶ꨊ츩쳚銷䧛閴埚䢒ᓰ瀣穫쓓猩敤叠난",
+        "供좙홈냇揍ʉ샼髠姊黇썎保枻栞㢴㮻㾝璍㒸曭죣䦸鈄ꠒℇ㥏憮",
+        "马ᮊἘ號㉟锉邁ÿ㸉溵ÿ竄酮阜篚㑍쏹瀻滋啺削凸䤍慬㫪",
+        "ꮙꛃ䏞㵣岢譃嚅撆ÁỺ韵ꡏ䇚嗶麑Ḃ㨰鼃㺝蚇负한呗塄럦ꃲ悎",
+        "ꃒ瓕殫䏛㹼湄箌他报ꉴϐ麜覵筱鉲鹆ᡫ죁硒긆伍驘瘧읩瘄",
+        "몤發阬旦垎㣈脤꿵䘼枖쥄逤稅釆挌䭏鄇ㅣ紦췽婧ࡊ閭評楲",
+        "ල릥笆힉ఐꧼ芃㩿췎ꚻ७兆쫘㳔㐁襑枭茒齃穀良닼렧膼䙙",
+        "俅樊䨄뭧硥換傅潅쫏楛尜父穅阤耐㮰鎶櫅嫪갽䭷깰뱅벋뤍폧풊骷俲",
+        "㤹ꓵ涣梘짝㖭肝祁둯웽졳왯잯阬늮䗚抹戾㬔꧶鳫ή湚ᶗꆎ䀊钸䖯䁠뤣헺딦톹䱯㭩",
+        "䕻뢷錖駍겟롡훇螣땎妊洭戟憎叄횜ﱜ쒪둲퉹䯙祳ꊘ䵧ߝ噜嚴샳繝䍜㚌灰꽫箾ᠽ䄻䏥ళ",
+        "鯝剈炌身稐刊隼犅四확퉥溭궙각礱창ꯊ㮒踪돕䟶榒笚ᅦ䤶",
+        "쫆ಜ껶삿叶櫜嶑엂खң퓣ΰ檖ꚕ궏ᙪ嬑鮽밥癇룭嬭䙺澧涡馵䛶ল吝饥삀쫥뗬",
+        "顸ຫ궆ꯋ巟ම鈻외酪Ẉ께슫ਚ㯋坪ﶃบ㽀법銤㪻β㻃欝㛽磡ꨇ",
+        "턻䇇陚髖흴췱낦Ꝣद式徥垏໒瞙Ꜯቦ英뗇剾獇楐纺箁隷霬",
+        "窈䚳燶ቫ〲饻唣渱䏈美긚슑廌餍썤準샸놪铘캃垼ᔁ薂昹쩪㦂",
+        "䫁癸桻궯ů쑒ꐘӇꣷﰭ휴洷謭堔芟擼毽崩㜚맜潱쾥㾲颶䢙姹焰",
+        "젋ᑽ䉗駛㞚捷뒠펽鼴쬌౫㻝灤ꂣ姍㳑ṗ늟쫜껒晸씘驲了葺ᒢ탽ꍢ㠝榦父髪媂쟇捷哑",
+        "讬礜や靦偯ĺ橝矫먖쑣檶釨仦ꄰ獺䫯ⵕ䶤ѣ곖㳦爻骶뮍䆺",
+        "㔴㜶㤸䌺䕄䝆䥈半啔坖奘捚敤杦楨獪畴睶祸荺薄螆覈銊钓隕颗骙ꎢꖤꞦꦨ늪뒳뚵뢷몹쏂엄쟆질틊퓓훕",
+        "㘵㠷㨹䑃䙅䡇䩉呓噕塗婙摣晥桧橩瑳癵硷穹莂薄螆覈銊钓隕颗骙ꎢꖤꞦꦨ늪뒳뚵뢷몹쏂엄쟆질틊퓓훕",
+        "䙱ꈸ懡ⴅꀘࡐᐨꎸ蘔ⴥ렔Ҡᓅꎸꀙꌄ툜䣑詁焩詋栀렔ꖥ謂",
+        "塀ᡭ韢ᄔ塀ᑭ勬聢鉤怤怗鲠关칟훖䒦䟆꺩孎鯛ꎌ믉㦞䏯㑶➅䬭谚",
+        "ﰷ肭헞처뉕燠썓ꩰ㡁귧툦Ꟑ瑍眴퍤衝䕒陖䋥購ꨉ棟ᵬ侬榮",
+        "錏巭驱잞䠍쬴됔쏝鷖駖莕儴Ʌᐓ鐞蚴낀钔ᢎ㣴ܕ盚䠜㕀屉완薊䆮ᐙ牕",
+        "햕瞋뜚颐杌돞䍖㩱잱퓍卺除휩傅屇됎瓃尢ᢨ瘄붬犪馼靊쐮飒",
+        "싎譋呸刖軍푻ꁥ许跌䆎Ụ咫摚ⲏ۲䙀퐻岱擛㾲賃ⱗ푣뷨滈썝ಅ",
+        "안鉰၅欇靖㹶劕ﻲ럡惹鴍깹奺奔줶䠊顛暺赪䠃젤읓椽䮪ᵱ娴ﮁ夸",
+        "ꥷ䣒툼剣禬絢天넧왪㞄㷑貸㣤딇佥ﹶa떒깩譠였贌窌絖뇄䩊",
+        "擘숁禞鶤Ꚗ䦮횕켇뒛亗㩎匑욭㘔孆뒒爐梸銟Ḻꨈ旒楣余마紀罆劝옖쮅瘬恢䮠",
+        "䛬댌䇌ѕꊞ芧䧂থ젘虣㫚奒撈銈ダ髧㓨ꃩ哓ඣ죒ಣ瞇缽돂艖끶菈읙爜示逫པ綼圳楥营ǰ",
+        "류亪竖墰矦肋麭蹶䀼毑휖脰뻻谳Ṯ힇丵䥫驤㥁밑遫嘏ᗶꌎ䜋ᛤ쪇뱝猐ﺓ갵텒㴍假쭋ᔙ",
+        "멶嚴嚂뤩ಉ瀈䜲絚쳭왒䫖测컻㥛固휼檑ꭍ넃細뢠幧녙斊쪽桍쳪",
+        "耰샮獞ꡚ䓛뮁ﺗ닙ዟ쓲䡰㻇ퟔ髓녋ဢꞀ㥖ᗏ伳섍䞎坤僀Უ볒",
+        "䭙霔ቱ怌쟳䦵쭬栐喖罰辌ꓒ莄డ야썃ٷꊎ趱ᑵ딩䙡ݶಫﭕ턛ࠚƦ獲咑᮵骆뫠䡯쇁珏ፉ켴ᢙ挌ɩ閜췐帝",
+        "ꨤ晣㜠㻻咜㬷鑭㭅풵㹪뵭ꭀ筚応蹬鬟릑᥉嗫䎼픕㲎ꫂ㆒湕ﺘ熵穒搰",
+        "獵毪农孭齲疉璹鏋ꕥ薕㠣ꍢ殒漽韄鍈䡜輣醖ࢸ欽햫ᠴ㗮拈",
+        "왵欲㭲䐛萻睧穿요萌₅ꕣ텝㙊ह欴뫗愥挠츙尅匶G饉ŷ躁뫦䔤爁齘卜뙧枆晖",
+        "嫞m۰許ᓂ棠껦녢竟㲢匦௦蛑ᕹ梳䃑桁ݟᦨ諫즃镔ꍙ項煤",
+        "僳൧毆昚㢖ꗅᠹ棅쐵贒₆జ匳٢忞쀭爪날槬톤ⱊ涡鯤遵閆ܓ踃ﻜ涵ꈮ聙撕ᦖ숀Ƃ㴣",
+        "줫쮴㱠믒架檎퍒槛숖젵ᰒ힃ᰕ⓰韱㱩玬ᦕꄹ括嫮뒔盧ᰍ䂎䟎ᔣ깝錼ۥ뜄黰駕",
+        "㾮ẳ锫㢊ㄕ覹봥ힱꖧ襧뗉軟ၷ딃둜ᆖꄔ榁Ќ쾡翜홟沉ꬹ꿘뙽㐛멥淲",
+        "皚乮ջ髫ꚥ㙪㮭擁鋒䕀힕湩鉳౻鯕Ꚍᖏ諾冨愰ﲁ張寏극칖",
+        "ᆽ晭珕훓嚢䣞ꡬ砝客ꄡ浐唊Ʋ췁湎戗ᑂ饹鰠ꫴ믨핟절젴콃ㄻ戣댜",
+        "猡俆卑京ᅐ抜邉劅乇㔫ਉꓨ悱玜ꅖ㊷F乒詺沑의皻혻閾䅬쇉圀",
+        "傷捁ퟩ樕㣶涡䒌冁땼Æÿ䤚뛄튅줁줘軧헼詧腇뤷ໞ榚嶀裚愑睒航",
+        "㒇쪕浐ᦎ鍖鸄艳㑪鶑涷ꍒ㦅괿瀋ඒ秪俇䡑ᗲ菚舃ᵈឫ춺婔釸툌䔲",
+        "要慧ꂍ뗣㤤孷蚙䀕輡봛傫폊辢梓윙ｿ唀奥普蘩뛝앂ᣟ湗㖣ࢣ",
+        "ꭉ荹ᇕ跨옛䱯왬䨲띇회鶝峒썟獵숦萛쟫홼鹭᮹䧛潭뜈辙賋",
+        "웕❶譭䶛䒤ꁈ旤痐꯶콰똌銬褒ⴡ즁慯静䤢磈枣뾐鿏婁酖뜳墖Kㄅᗇ꽱",
+        "䇍⑿ⲯ䒒䨘㱹ṵ궦퉌䬙䘫",
+        "鵰玎蚊㭏ይ岖넺뿥Ẍꅩ앞깈傣岱襂滦"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "KATIA\\DOC. 2025\\REN. OUTORGA - ABELINO PEREIRA BATISTA.docx",
+      "ano": "2025",
+      "mtime": 1736780521.8973968,
+      "metadados_extraidos": {
+        "ano_referencia": "2025",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "",
+        "localizacao_extraida": "2.3 – LOCAL DA ATIVIDADE: Linha P-42, Km 05, LT 42-A08, GB 03.",
+        "cpfs": [
+          "326.904.102-06"
+        ],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [
+          "1801/00201/2017"
+        ],
+        "creas": [],
+        "arts": [],
+        "cars": [],
+        "coordenadas_dms": [
+          "11°57'33.57\"S",
+          "61°55'6.00\"O"
+        ],
+        "areas_mencionadas": [
+          "9 hectares",
+          "6 ha"
+        ],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA",
+        "1- INTRODUÇÃO",
+        "O presente Relatório visa atender o empreendedor que solicitou Obtenção de Renovação de Outorga para Utilização dos Recursos Hídricos para irrigação de lavouras de café clonal em sua propriedade rural, localizada no endereço abaixo descrito, conforme protocolo 531/2024/ERGA/AFO/RO.",
+        "2 –  IDENTIFICAÇÃO DO EMPREENDEDOR/ATIVIDADE",
+        "2.1 - NOME: Abelino Pereira Batista",
+        "2.2 - CPF: 326.904.102-06",
+        "2.3 – LOCAL DA ATIVIDADE: Linha P-42, Km 05, LT 42-A08, GB 03.",
+        "2.4 - MUNICÍPIO: Alta Floresta d´Oeste",
+        "2.5 - CEP: 76.954-000",
+        "2.6 - PONTO DE CAPTAÇÃO: 11°57'33.57\"S  61°55'6.00\"O",
+        "2.7 – TÉCNICO RESPONSÁVEL: Francelino Carlos Cortez Filho",
+        "2.8 - PROCESSO: 1801/00201/2017",
+        "3 – DA VISTORIA",
+        "A equipe de vistoria foi composta pela Analista Ambiental/Bióloga – Camila Bonicenha Avancine e pela Especialista em Desenvolvimento Ambiental/Gestora Ambiental – Katia Boni Prado acompanhadas do motorista deste ERGA – Helio Mota da Costa. Acompanhou ainda a vistoria o senhor Abelino Pereira Batista, requerente da outorga.",
+        "A solicitação do requerente visa à obtenção de RENOVAÇÃO DE OUTORGA PARA USO DE ÁGUA PARA IRRIGAÇÃO DE LAVOURAS DE CAFÉ.",
+        "Na ocasião da vistoria, observamos que o local de captação será em reservatório já construído, o qual é abastecido com água de nascente a montante, a qual enche outros 3 reservatórios construídos para piscicultura (segundo requerente não tem licenciamento para esta atividade, e não está em operação). O reservatório de captação possui aproximadamente cerca de 900 m² de lamina de água.",
+        "Possui uma bomba de sucção de 3 cv e pretende instalar mais uma com a mesma capacidade pois irá ampliar a lavoura. Será irrigada uma área de 9 hectares, sendo 6 ha já plantados e o restante será feito plantio de nova lavoura. A irrigação é por microjet.",
+        "O solo da região é classificado como latossolo vermelho em toda a área da propriedade.",
+        "4 – CONCLUSÃO",
+        "O pedido segue os requisitos exigidos pela ANA, Agencia Nacional de Água, do ponto de vista hidrológico, a outorga responde o seguinte:",
+        "Existe disponibilidade de água suficiente para o pedido do interessado;",
+        "A autorização deste recurso não prejudicará os demais usuários a jusante;",
+        "5-RECOMENDAÇÕES",
+        "Que o empreendedor tenha consciência do bem valioso que é a água;",
+        "Que o empreendedor evite desperdício, e use somente o necessário, com este ato evitando escassez no futuro;",
+        "Que o empreendedor cuide de suas áreas de APPs mantendo vegetação apropriada para que mantenha as minas de água de sua propriedade.",
+        "6 – ANEXOS",
+        "- Tomadas Fotográficas;",
+        "Alta Floresta D’Oeste – RO, 13  de Janeiro de 2025.",
+        "7- EQUIPE DE VISTORIA",
+        "Katia Boni PradoEspecialista em Desenvolvimento AmbientalGestora AmbientalSEDAM/AFOKatia Boni PradoEspecialista em Desenvolvimento AmbientalGestora AmbientalSEDAM/AFO",
+        "Camila Bonicenha Avancine",
+        "Analista Ambiental",
+        "Bióloga",
+        "SEDAM/AFO",
+        "FOTOS DO EMPREENDIMENTO",
+        "Reservatório"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "KATIA\\DOC. 2024\\MEMO 128 - COLMAM - LINO DA SILVA DUQUE.docx",
+      "ano": "2024",
+      "mtime": 1726580853.3993218,
+      "metadados_extraidos": {
+        "ano_referencia": "2024",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "2.6 – COORD. DO EMPREENDIMENTO:  12° 0'31.86\"S  62° 1'44.92\"O",
+        "rt_extraido": "",
+        "localizacao_extraida": "2.3 – LOCAL DA ATIVIDADE: Linha 156, km 13, Lote 45",
+        "cpfs": [
+          "340.439.482-91"
+        ],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [
+          "arte",
+          "arth."
+        ],
+        "cars": [],
+        "coordenadas_dms": [
+          "12° 0'31.86\"S",
+          "62° 1'44.92\"O",
+          "12° 0'32.89\"S",
+          "62° 1'46.37\"O",
+          "12° 0'30.62\"S",
+          "62° 1'44.74\"O",
+          "12° 0'33.37\"S",
+          "62° 1'34.95\"O"
+        ],
+        "areas_mencionadas": [
+          "3,21 hectares"
+        ],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA",
+        "1 - INTRODUÇÃO",
+        "O presente Relatório visa atender o Memorando 128/2024/SEDAM-COREH, cuja solicitação é a constatação do andamento do empreendimento.",
+        "2 –  IDENTIFICAÇÃO DO EMPREENDEDOR/ATIVIDADE",
+        "2.1 - NOME: Lino da Silva Duque",
+        "2.2 - CPF: 340.439.482-91",
+        "2.3 – LOCAL DA ATIVIDADE: Linha 156, km 13, Lote 45",
+        "2.4 - MUNICÍPIO: Alta Floresta d’Oeste",
+        "2.5 - CEP: 76.954-000",
+        "2.6 – COORD. DO EMPREENDIMENTO:  12° 0'31.86\"S  62° 1'44.92\"O",
+        "3 – DA VISTORIA",
+        "A vistoria foi realiza em 28 de Agosto de 2024 pela Analista Ambiental/Bióloga Camila Bonicenha Avancine e pela Especialista em Desenvolvimento Ambiental/Tecnóloga em Gestão Ambiental – Katia Boni Prado, acompanhadas do motorista Helio Mota da Costa. Acompanhou ainda a vistoria o proprietário da piscicultura.",
+        "Na ocasião da vistoria haviam construídos no local 9 tanques com uma área de 3,21 hectares de lâmina de água. Destes 5 são construções antigas e 4 são novos tanques construídos sem licenciamento.",
+        "O abastecimento de água da piscicultura dá-se principalmente no ponto de captação na coordenada 12° 0'32.89\"S 62° 1'46.37\"O. Trata-se de um pequeno curso de água que passa por sua propriedade. Este abastece o tanque principal por barramento, no qual o proprietário instalou mangueiras as quais abastecem, por gravidade, outros tanques, a mangueira é movida de um tanque a outro conforme a necessidade de complementação da água. Neste tanque principal há uma vala lateral para que o excedente de água siga seu fluxo natural. Na ocasião da vistoria, no entanto não corria água por está este tanque num nível bem baixo. A água que corria do pequeno curso de água estava escoando muito pouco, não tendo capacidade de encher o barramento.",
+        "O Tanque na coordenada 12° 0'30.62\"S 62° 1'44.74\"O também é um barramento que faz parte de uma sequencia de barramentos de nascente oriunda de propriedade vizinha.",
+        "O terceiro barramento identificado é no tanque com coordenada 12° 0'33.37\"S 62° 1'34.95\"O, sendo o terceiro barramento sequencial, os demais barram a nascente em propriedade vizinha e passam um ao outro através de encanamento.",
+        "Os demais tanques possuem afloramento de água, por tratar-se de área brejosa, porém a água não é suficiente pra manter o nível ideal de água dos tanques no período de seca. Por isso, como dito anteriormente o requerente usa mangueiras que captam água do tanque (Barramento 1) para complementação de água destes.",
+        "Destes nove tanques, 7 maiores são viveiros de engorda, e os demais berçários.",
+        "A origem dos alevinos é de Pimenta Bueno, Rolim de Moura. A ração a ser dada aos peixes depende do valor comercial na época da compra, atualmente usa Laguna.",
+        "A piscicultura não possui ruído ou odor, os taludes carecem de grama em alguns pontos, ainda assim aparentam boa compactação. O efluentes, principalmente em ocasião de despesca segue de volta ao curso natural após o barramento no Tanque 1.",
+        "4 – CONCLUSÃO",
+        "ü O empreendimento está em operação;",
+        "ü Parte da piscicultura está em área de APP;",
+        "ü Há 3 barramentos identificados na piscicultura, o principal esta na coordenada 12° 0'32.89\"S 62° 1'46.37\"O.",
+        "ü Não apresenta sistema de tratamento de efluentes;",
+        "5-RECOMENDAÇÕES",
+        "ü Foi recomendado ao empreendedor o cumprimento da Lei n° 3.437 de 09 de setembro de 2014;",
+        "6 – ANEXOS",
+        "- Tomadas Fotográficas;",
+        "-Imagem do Google Earth.",
+        "7 - EQUIPE DE VISTORIA",
+        "Katia Boni PradoEspecialista em Desenvolvimento AmbientalTecnóloga em Gestão Ambiental SEDAM/AFOKatia Boni PradoEspecialista em Desenvolvimento AmbientalTecnóloga em Gestão Ambiental SEDAM/AFOCamila Bonicenha Avancine",
+        "Analista Ambiental/Bióloga",
+        "SEDAM/AFO",
+        "Alta Floresta D’Oeste – RO 06 de janeiro de 2021."
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "KATIA\\DOC. 2023\\OUTORGA - RAULINO PLASTER.docx",
+      "ano": "2023",
+      "mtime": 1699885731.297953,
+      "metadados_extraidos": {
+        "ano_referencia": "2023",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "A vistoria foi realizada em 11 de Outubro de 2017, pela Analista Ambiental/Bióloga – Camila Bonicenha Avancine Lima e o Analista Ambiental/Engenheiro Florestal Robson Rodrigues Gom",
+        "localizacao_extraida": "2.3 – LOCAL DA ATIVIDADE: Linha P-50 km 22, LT 05-A; 06.",
+        "cpfs": [
+          "478.811.787-87"
+        ],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [],
+        "cars": [],
+        "coordenadas_dms": [],
+        "areas_mencionadas": [
+          "1 hectares",
+          "9 hectares",
+          "11,78 hectares"
+        ],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA",
+        "1- INTRODUÇÃO",
+        "O presente Relatório visa atender o empreendedor que solicitou Obtenção de Outorga para Utilização dos Recursos Hídricos para irrigação de café clonal em sua propriedade rural, localizada no endereço abaixo descrito, conforme protocolo 364/2017/ERGA/AFO/RO.",
+        "2 –  IDENTIFICAÇÃO DO EMPREENDEDOR/ATIVIDADE",
+        "2.1 - NOME: Raulino Plaster",
+        "2.2 - CPF: 478.811.787-87",
+        "2.3 – LOCAL DA ATIVIDADE: Linha P-50 km 22, LT 05-A; 06.",
+        "2.4 - MUNICÍPIO: Alta Floresta d’Oeste",
+        "2.5 - CEP: 76.954-000",
+        "2.6 - PONTO DE CAPTAÇÃO: 20 L (0608971;8660170) / (0608032;8660441) UTM",
+        "2.7 – TÉCNICO RESPONSÁVEL: Cíntia Gonçalves de Souza",
+        "3 – DA VISTORIA",
+        "A vistoria foi realizada em 11 de Outubro de 2017, pela Analista Ambiental/Bióloga – Camila Bonicenha Avancine Lima e o Analista Ambiental/Engenheiro Florestal Robson Rodrigues Gomes acompanhados do motorista deste ERGA – Helio Mota da Costa. Acompanhou ainda a vistoria o requerente da outorga.",
+        "A solicitação do requerente visa à obtenção de OUTORGA PARA USO DE ÁGUA PARA IRRIGAÇÃO DE CAFÉ CLONAL.",
+        "Na ocasião da vistoria, observamos que a captação será em dois reservatórios já construídos em áreas úmidas, antropizadas ao redor. O Reservatório 1 mais a entrada do lote possui medidas aproximadas de 40 x 40 m, na ocasião encontrava-se com um bom nível de água. O Reservatório 2, mais ao fundo da propriedade possui medidas aproximadas de 30 x 60 m e encontrava-se em seu volume máximo. O abastecimento de ambos dar-se-á por afloramento de água de subsolo pela escavação. Próximos aos dois reservatórios passam igarapés, porém, não serão usados diretamente para captação.",
+        "Serão usadas duas bombas de 10 cv. Do Reservatório 1 será captada água para irrigar uma área de pastagem de 12, 1 hectares (Coord. 20 L 0608891;8660253 – UTM) com aspersores, e também uma área de café  de cerca de 9 hectares com gotejamento. Do Reservatório 2 irrigará duas áreas de café totalizando 11,78 hectares, também usando  gotejamento.  O período de irrigação será de 6h/dia, quando houver estresse hídrico por ocasião de período de estiagem, conforme necessidade do café, e as vazões do projeto. As coordenadas da lavoura: Café 1 – 20 L (0608882;8660224) UTM; Pastagem – 20 L (0608891;8660253) UTM; Café 2 – 20 L (0608072;8660462) UTM; Café 3 – 20 L (0607822;8660491) UTM.",
+        "O solo da região é classificado como latossolo vermelho-amarelo em toda a área da propriedade.",
+        "4 – CONCLUSÕES",
+        "Parece haver água suficiente para o pedido do interessado, tendo em vista tratar-se de reservatórios com boa capacidade de armazenamento.",
+        "A autorização deste recurso não prejudicará os demais usuários a jusante;",
+        "5 – RECOMENDAÇÕES",
+        "Que o empreendedor tenha consciência do bem valioso que é a água;",
+        "Que o empreendedor evite desperdício, e use somente o necessário, com este ato evitando escassez no futuro.",
+        "Que o empreendedor escolha horários no entardecer e/ou período noturno para irrigação a fim de minimizar a perda de água por evaporação.",
+        "Que o empreendedor cuide de suas áreas de APP.",
+        "6 – ANEXOS",
+        "- Tomadas Fotográficas;",
+        "7- EQUIPE DE VISTORIA",
+        "Camila Bonicenha Avancine Lima                                      Analista Ambiental/Bióloga                                                             SEDAM/AFO                                                         Robson Rodrigues GomesAnalista Ambiental/Engenheiro FlorestalSEDAM/AFO",
+        "Alta Floresta D’Oeste – RO, 18 de Outubro de 2017.",
+        "TOMADAS FOTOGRÁFICAS DO LOCAL DO EMPREENDIMENTO DE CAPTAÇÃO PARA IRRIGAÇÃO DO SR. RAULINO PLASTER",
+        "Reservatório 1.",
+        "Café 1",
+        "Reservatório 2",
+        "Área de Café 2"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "04 - OUTROS\\CAMILA\\2023\\01.07.2020 - REN. LO - ROSALINO GALLO.docx",
+      "ano": "2023",
+      "mtime": 1676478011.620824,
+      "metadados_extraidos": {
+        "ano_referencia": "2023",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "2.6 – COORDENADA DO EMPREENDIMENTO: 20 L (600860 - 8689219) UTM",
+        "rt_extraido": "Acompanhados por: | ( ) Proprietário ( x ) Responsável Técnico ( ) Caseiro ( ) Outro:",
+        "localizacao_extraida": "2.3 – LOCAL DA ATIVIDADE: Linha 152, km 17, Lt 12, Gb. 06",
+        "cpfs": [
+          "251.232.039-15"
+        ],
+        "cnpjs": [],
+        "telefones": [
+          "689124\n6003",
+          "689080\n6002",
+          "689084\n6002",
+          "689079\n6002",
+          "689091\n6001",
+          "689120\n6001",
+          "689150\n6001",
+          "689161\n6001",
+          "689138\n6001",
+          "689322\n6004"
+        ],
+        "processos_sei": [],
+        "processos_siga": [
+          "1801/08422/2010"
+        ],
+        "creas": [],
+        "arts": [
+          "arth",
+          "artesiano",
+          "arte"
+        ],
+        "cars": [],
+        "coordenadas_dms": [],
+        "areas_mencionadas": [
+          "22,27 ha"
+        ],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA",
+        "1 - INTRODUÇÃO",
+        "O presente Relatório visa atender a empreendedora que solicitou Licenciamento Ambiental (Renovação de Licença de Operação) para atividade piscícola em sua propriedade rural, localizada no endereço abaixo descrito, conforme protocolo 232/2020/ERGA de Alta Floresta D’ Oeste/RO.",
+        "2 –  IDENTIFICAÇÃO DO EMPREENDEDOR/ATIVIDADE",
+        "2.1 - NOME: ROSALINO GALLO",
+        "2.2 - CPF: 251.232.039-15",
+        "2.3 – LOCAL DA ATIVIDADE: Linha 152, km 17, Lt 12, Gb. 06",
+        "2.4 - MUNICÍPIO:  Alta Floresta d’Oeste",
+        "2.5 - CEP: 76.954-000",
+        "2.6 – COORDENADA DO EMPREENDIMENTO: 20 L (600860 - 8689219) UTM",
+        "2.7 – TÉCNICO RESPONSÁVEL: Antônio Gomes Neto",
+        "2.7 – PROCESSO NÚMERO: 1801/08422/2010",
+        "3 – DA VISTORIA",
+        "A vistoria foi realizada em 01 de Junho de 2020, pela Técnica em Desenvolvimento Ambiental/Gestora Ambiental – Katia Boni Prado, pela Analista Ambiental/Bióloga – Camila Bonicenha Avancine Lima e pelo Gerente Regional de Gestão Ambiental – Marcelo Alves de Souza. Acompanhou ainda a vistoria o Sr. Antônio Gomes Neto, técnico responsável pelo projeto.",
+        "4 – CONCLUSÃO",
+        "Há disponibilidade de água suficiente para o pedido do interessado;",
+        "Leva em conta a vazão da água, não havendo impedimento do seu curso natural;",
+        "A autorização deste recurso não prejudicará os demais usuários a jusante.",
+        "5-RECOMENDAÇÕES",
+        "Implantação de gramíneas na barragem e nos viveiros, com a finalidade de evitar o processo de erosão e assoreamento dos mesmos;",
+        "Implantação de matas ciliares no curso de APP com essências florestais nativas da região;",
+        "Foi recomendado ao empreendedor o cumprimento da Lei n° 3.437 de 09 de setembro de 2014;",
+        "6 – ANEXOS",
+        "- Tabela de Coordenadas dos Reservatórios;",
+        "- Tomadas Fotográficas.",
+        "Alta Floresta D’Oeste – RO 09 de Junho de 2020.",
+        "7. EQUIPE DE VISTORIA",
+        "Katia Boni Prado                                           Camila Bonicenha Avancine Lima",
+        "Técnica em Desenvolvimento Ambiental                                  Analista Ambiental",
+        "Tecnóloga em Gestão Ambiental                                                        Bióloga",
+        "SEDAM/AFO                                                                            SEDAM/AFO",
+        "IMAGENS DA ÁREA",
+        "Fonte: Google Earth – data das imagens 7/18/2018.",
+        "Fonte: Google Earth – data das imagens 7/18/2018.",
+        "TABELA DE COORDENADA",
+        "TOMADAS FOTOGRÁFICAS"
+      ],
+      "tabelas_extraidas": [
+        [
+          [
+            "Nome do Empreendedor:",
+            "ROSALINO GALLO"
+          ],
+          [
+            "Número do Processo:",
+            "251.232.039-15"
+          ],
+          [
+            "Endereço:",
+            "Linha 152, km 17, Lt 12, Gb. 06"
+          ],
+          [
+            "Coordenadas Geográficas:",
+            "Captação de água: ________________________________Viveiros: Z 20 L (600860 - 8689219) UTM"
+          ],
+          [
+            "Data da vistoria:",
+            "01/07/2020"
+          ],
+          [
+            "Equipe Técnica:",
+            "Katia Boni Prado – Tecnóloga em Gestão AmbientalCamila Bonicenha Avancine Lima – Analista Ambiental/BiólogaMarcelo Alves de Souza – Gerente Regional de Gestão Ambiental"
+          ],
+          [
+            "Acompanhados por:",
+            "( ) Proprietário ( x ) Responsável Técnico ( ) Caseiro ( ) Outro:"
+          ],
+          [
+            "Licença solicitada:",
+            "( ) Licença Prévia ( ) Licença de Instalação( ) Lic. de Operação ( x ) Ren. Lic. de Operação( ) Lic. de Operação com Ampliação( ) Outra:"
+          ],
+          [
+            "Empreendimento em:",
+            "( ) Área de Pastagem( ) Vegetação de árvores remanescentes( ) No curso hídrico (x) Área de Preservação Permanente já antropizada (não foi possível verificar se foi antropizada anterior a 2008)( ) Outras: _________________________________________"
+          ],
+          [
+            "Área alagada (ha):",
+            "( ) Área a instalar: ( ) Área instalada: 22,27 ha( ) Área instalada com LO:"
+          ],
+          [
+            "Captação de água:",
+            "( ) Igarapé ____________ ( ) Rio ___________________( ) Poço artesiano ( x ) Outros: água de subsolo e nascentes"
+          ],
+          [
+            "Tipo de Abastecimento:",
+            "( x ) Gravidade: _____________________________________( ) Bombeamento para canal de abastecimento: ___________( ) Outras informações:"
+          ],
+          [
+            "Tipo de cultivo:",
+            "( x ) Viveiros Escavados ( ) Tanque-rede ( ) Tanque-lona ( ) Raceway ( x ) Barramento"
+          ],
+          [
+            "Sistema de cultivo:",
+            "( ) Extensivo ( x ) Semi-intensivo ( ) Intensivo( ) Extensivo integrado ( ) Semi-intensivo integrado( ) Intensivo integrado ( ) Subsistência ( ) Outro: _______________________________________"
+          ],
+          [
+            "Quantidade de viveiros:",
+            "( ) Reprodução/Matriz ( 08 ) Alevinagem ( ) Recria( 17 ) Engorda ( 25 ) Total:"
+          ],
+          [
+            "Atividade aquícola:",
+            "( x ) Piscicultura ( ) Carcinicultura ( ) Ranicultura( ) Quelonicultura ( ) Jacaricultura ( ) Algicultura ( ) Outro: _______________________________________"
+          ],
+          [
+            "Espécies cultivadas:",
+            "REGIONAIS:( x ) Tambaqui ( ) Pirarucu ( ) Curimatã( ) Piau ( ) Jatuarana ( ) Jatuarana ( ) Outras: _EXÓTICAS E HÍBRIDAS:( x ) Pintado-da-Amazônia ( ) Tilápia( ) Carpa: ____________ ( ) Camarão: _______________( ) Outras: ______________________________________"
+          ],
+          [
+            "Produtividade (ton)",
+            "REGIONAIS:( 240 ) Tambaqui ( ) Pirarucu ( ) Curimatã( ) Piau ( ) Jatuarana ( ) Jatuarana ( ) OBS _______EXÓTICAS E HÍBRIDAS:( ) Pintado-da-Amazônia ( ) Tilápia( ) Carpa: ____________ ( ) Camarão: _______________( ) Outras: ______________________________________"
+          ],
+          [
+            "Origem dos Alevinos:",
+            "Magrão – Rolim de Moura"
+          ],
+          [
+            "Em caso de desenvolver reprodução na propriedade, informar:",
+            "Quantidade de casal por espécie:( ) Tambaqui ( ) Pirarucu ( ) Curimatã( ) Piau ( ) Jatuarana ( ) Pintado-da-Amazônia( ) Outras: _____________________________________Quantidade estimada de milheiros de alevinos produzidos:( ) Tambaqui ( ) Pirarucu ( ) Curimatã( ) Piau ( ) Jatuarana ( ) Pintado-da-Amazônia( ) Outras: _____________________________________"
+          ],
+          [
+            "Ração utilizada:",
+            "( ) Nutrizon ( ) BigSal ( ) Douramix( ) Cardume ( ) Outra: Socil"
+          ],
+          [
+            "Cobertura vegetal dos taludes:",
+            "( X ) Totalmente gramada ( ) Parcialmente gramada( ) Em fase de implantação ( ) Sem cobertura"
+          ],
+          [
+            "Sistema de Tratamento de Efluente (Saída):",
+            "( ) Lagoa de decantação( ) Filtro biológico (Wetland)( ) Outro: Não possui"
+          ],
+          [
+            "Principal canal de escoamento da produção (mercado):",
+            "( ) Porto Velho ( ) Ariquemes ( ) Vilhena( ) Ji-Paraná ( ) Fora do Estado: _( ) Outro: _"
+          ],
+          [
+            "Principal segmento de escoamento da produção (mercado):",
+            "( ) Frigorífico ( x ) Atravessador ( ) Feiras livres( ) Supermercado ( ) Outro:"
+          ],
+          [
+            "Odor",
+            "( ) Sim ( x ) Não ( ) Parcialmente"
+          ],
+          [
+            "Ruído",
+            "( ) Sim ( x ) Não ( ) Parcialmente"
+          ],
+          [
+            "Poluição visual",
+            "( ) Sim ( x ) Não ( ) Parcialmente"
+          ],
+          [
+            "Outras considerações pertinentes:",
+            "A piscicultura em questão encontra-se instalada e em operação. O local é área anteriormente antropizada, a qual não foi possível verificar se foi antropizada antes de 2008. Os viveiros estão instalados em Área de Preservação Permanente (APP). O entorno do local é ocupado por área de pastagem. Parte dos viveiros é tipo viveiros escavados e parte é tipo barramento. O empreendimento possui 25 viveiros instalados, sendo 08 com a finalidade de alevinagem, dos quais alguns possuem tela para impedir o ataque de pássaros. Possui, ainda, 17 viveiros para engorda. A área instalada total é de 22,27 ha de lâmina de água, conforme tabela de coordenadas em anexo. Os viveiros tipo barramento foram classificados como viveiros: 01, 02, 03, 04, 05, 06, 07, 13, 20, 21 e 22. Estes possuem como característica o relevo ondulado que favorece o barramento. Nesses viveiros o abastecimento é feito por nascentes localizadas a montante dos viveiros a qual se encontram cercadas e em processo de regeneração natural. Embora os viveiros se encontrem esparsos pela propriedade, nos que estão próximos ocorre o sistema de derivação através de canos de PVC de 200 mm. Todos estes viveiros são utilizados com a finalidade de engorda. Os viveiros escavados foram classificados como viveiros: 08, 09, 10, 11, 12, 14, 15, 16, 17, 18, 19, 23, 24 e 25. Destes, são abastecidos por água de subsolo, tendo em vista, ser área brejada, os viveiros 08 a 12. Já os viveiros 14 a 19 e de 23 a 25 são abastecidos por bombeamento. A captação é feita no viveiro 13 através de três bombas de succção de 11 cv, 12 cv e 15 cv no seguinte ponto (coord. Z 20L 601099 – 8689070). Estes viveiros são utilizados para o cultivo da espécie pintado, sendo os viveiros de 14 a 19 para a engorda e os viveiros 23, 24 e 25 destinam-se a alevinagem. Os viveiros 23, 24 e 25 foram construídos recentemente, no ano de 2019. A água é conduzia aos viveiros através de cano de PVC de 200 mm enterrado no solo. Os viveiros apresentavam-se com taludes firmes e gramados, sem a presença de erosões. Não foi observado sistema de aeração da água. A água, no momento da vistoria estava com boa aparência, sem a presença de peixes mortos ou odores desagradáveis. O sistema de saída do excedente de água é por meio de escavações no solo protegidos com cerca de balaustra e tela. No momento da vistoria os viveiros estavam povoados com cerca de 60.000 tambaquis na engorda mais 60.000 alevinos no berçário e mais 20.000 alevinos da espécie pintado que serão distribuídos nos viveiros nos próximos 60 dias. Com relação a sistema de tratamento, a piscicultura em questão não possui sistema de tratamento do efluente."
+          ]
+        ],
+        [
+          [
+            "VIVEIRO 01",
+            "",
+            "VIVEIRO 02",
+            "",
+            "VIVEIRO 04"
+          ],
+          [
+            "Área: 1,12 há",
+            "",
+            "Área: 0,69 há",
+            "",
+            "Área: 0,28 há"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "600327",
+            "8689318",
+            "",
+            "600295",
+            "8689367",
+            "",
+            "600446",
+            "8689124"
+          ],
+          [
+            "600321",
+            "8689308",
+            "",
+            "600329",
+            "8689328",
+            "",
+            "600435",
+            "8689080"
+          ],
+          [
+            "600290",
+            "8689305",
+            "",
+            "600418",
+            "8689384",
+            "",
+            "600404",
+            "8689084"
+          ],
+          [
+            "600261",
+            "8689292",
+            "",
+            "600435",
+            "8689406",
+            "",
+            "600385",
+            "8689079"
+          ],
+          [
+            "600234",
+            "8689295",
+            "",
+            "600389",
+            "8689433",
+            "",
+            "600379",
+            "8689091"
+          ],
+          [
+            "600149",
+            "8689211",
+            "",
+            "",
+            "",
+            "",
+            "600402",
+            "8689120"
+          ],
+          [
+            "600129",
+            "8689229",
+            "",
+            "VIVEIRO 03",
+            "",
+            "600383",
+            "8689150"
+          ],
+          [
+            "600169",
+            "8689268",
+            "",
+            "Área: 0,31 há",
+            "",
+            "600396",
+            "8689161"
+          ],
+          [
+            "600191",
+            "8689306",
+            "",
+            "X",
+            "Y",
+            "",
+            "600415",
+            "8689138"
+          ],
+          [
+            "600162",
+            "8689345",
+            "",
+            "600459",
+            "8689074",
+            "",
+            "",
+            ""
+          ],
+          [
+            "600182",
+            "8689356",
+            "",
+            "600498",
+            "8689044",
+            "",
+            "VIVEIRO 07"
+          ],
+          [
+            "600198",
+            "8689331",
+            "",
+            "600450",
+            "8688980",
+            "",
+            "Área: 3,96 há"
+          ],
+          [
+            "600247",
+            "8689365",
+            "",
+            "600435",
+            "8688990",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "600282",
+            "8689371",
+            "",
+            "",
+            "",
+            "",
+            "600887",
+            "8689305"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "601023",
+            "8689327"
+          ],
+          [
+            "VIVEIRO 05",
+            "",
+            "VIVEIRO 06",
+            "",
+            "601086",
+            "8689297"
+          ],
+          [
+            "Área: 1,25 há",
+            "",
+            "Área: 1,28 há",
+            "",
+            "601093",
+            "8689308"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y",
+            "",
+            "601082",
+            "8689322"
+          ],
+          [
+            "600448",
+            "8689118",
+            "",
+            "600638",
+            "8689166",
+            "",
+            "601091",
+            "8689365"
+          ],
+          [
+            "600441",
+            "8689093",
+            "",
+            "600666",
+            "8689132",
+            "",
+            "601092",
+            "8689402"
+          ],
+          [
+            "600495",
+            "8689059",
+            "",
+            "600792",
+            "8689179",
+            "",
+            "601117",
+            "8689431"
+          ],
+          [
+            "600640",
+            "8689096",
+            "",
+            "600802",
+            "8689174",
+            "",
+            "601187",
+            "8689301"
+          ],
+          [
+            "600666",
+            "8689117",
+            "",
+            "600856",
+            "8689196",
+            "",
+            "601202",
+            "8689128"
+          ],
+          [
+            "600633",
+            "8689168",
+            "",
+            "600805",
+            "8689286",
+            "",
+            "601190",
+            "8689105"
+          ],
+          [
+            "600479",
+            "8689113",
+            "",
+            "600776",
+            "8689248",
+            "",
+            "601121",
+            "8689101"
+          ],
+          [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "601099",
+            "8689177"
+          ],
+          [
+            "VIVEIRO 08",
+            "",
+            "VIVEIRO 09",
+            "",
+            "601070",
+            "8689209"
+          ],
+          [
+            "Área: 0,17 há",
+            "",
+            "Área: 011 há",
+            "",
+            "601030",
+            "8689246"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y",
+            "",
+            "600983",
+            "8689272"
+          ],
+          [
+            "600849",
+            "8689234",
+            "",
+            "600925",
+            "8689229",
+            "",
+            "600920",
+            "8689263"
+          ],
+          [
+            "600912",
+            "8689254",
+            "",
+            "600921",
+            "8689252",
+            "",
+            "",
+            ""
+          ],
+          [
+            "600918",
+            "8689228",
+            "",
+            "600965",
+            "8689260",
+            "",
+            "",
+            ""
+          ],
+          [
+            "600861",
+            "8689211",
+            "",
+            "600965",
+            "8689235",
+            "",
+            "",
+            ""
+          ],
+          [
+            "VIVEIRO 10",
+            "",
+            "VIVEIRO 11",
+            "",
+            "VIVEIRO 12"
+          ],
+          [
+            "Área: 0,16 há",
+            "",
+            "Área: 0,22 há",
+            "",
+            "Área: 0,27 há"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "600971",
+            "8689237",
+            "",
+            "601021",
+            "8689205",
+            "",
+            "601057",
+            "8689162"
+          ],
+          [
+            "600974",
+            "8689264",
+            "",
+            "601031",
+            "8689239",
+            "",
+            "601087",
+            "8689181"
+          ],
+          [
+            "601028",
+            "8689243",
+            "",
+            "601086",
+            "8689188",
+            "",
+            "601113",
+            "8689103"
+          ],
+          [
+            "601017",
+            "8689213",
+            "",
+            "601051",
+            "8689168",
+            "",
+            "601074",
+            "8689101"
+          ],
+          [
+            "VIVEIRO 13",
+            "",
+            "VIVEIRO 14",
+            "",
+            "VIVEIRO 15"
+          ],
+          [
+            "Área: 5,79",
+            "",
+            "Área: 0,48 há",
+            "",
+            "Área: 0,59 há"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "601112",
+            "8689091",
+            "",
+            "600703",
+            "8688769",
+            "",
+            "600698",
+            "8688819"
+          ],
+          [
+            "601190",
+            "8689095",
+            "",
+            "600596",
+            "8688779",
+            "",
+            "600561",
+            "8688821"
+          ],
+          [
+            "601238",
+            "8688994",
+            "",
+            "600561",
+            "8688813",
+            "",
+            "600559",
+            "8688864"
+          ],
+          [
+            "601257",
+            "8688928",
+            "",
+            "600700",
+            "8688815",
+            "",
+            "600694",
+            "8688862"
+          ],
+          [
+            "601287",
+            "8688909",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "601294",
+            "8688881",
+            "",
+            "VIVEIRO 16",
+            "",
+            "VIVEIRO 17"
+          ],
+          [
+            "601269",
+            "8688813",
+            "",
+            "Área: 0,50 há",
+            "",
+            "Área: 0,40 há"
+          ],
+          [
+            "601254",
+            "8688817",
+            "",
+            "X",
+            "Y",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "601238",
+            "8688812",
+            "",
+            "600696",
+            "8688868",
+            "",
+            "600687",
+            "8688917"
+          ],
+          [
+            "601229",
+            "8688769",
+            "",
+            "600558",
+            "8688872",
+            "",
+            "600573",
+            "8688916"
+          ],
+          [
+            "601213",
+            "8688751",
+            "",
+            "600572",
+            "8688906",
+            "",
+            "600594",
+            "8688957"
+          ],
+          [
+            "601204",
+            "8688722",
+            "",
+            "600687",
+            "8688912",
+            "",
+            "600628",
+            "8688954"
+          ],
+          [
+            "601147",
+            "8688611",
+            "",
+            "",
+            "",
+            "",
+            "600686",
+            "8688958"
+          ],
+          [
+            "601087",
+            "8688668",
+            "",
+            "VIVEIRO 18",
+            "",
+            "",
+            ""
+          ],
+          [
+            "601115",
+            "8688701",
+            "",
+            "Área: 0,67 há",
+            "",
+            "VIVEIRO 19"
+          ],
+          [
+            "601129",
+            "8688832",
+            "",
+            "X",
+            "Y",
+            "",
+            "Área: 0,41 há"
+          ],
+          [
+            "601103",
+            "8688889",
+            "",
+            "600709",
+            "8688771",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "601105",
+            "8688935",
+            "",
+            "600753",
+            "8688796",
+            "",
+            "600696",
+            "8688920"
+          ],
+          [
+            "601099",
+            "8688978",
+            "",
+            "600749",
+            "8688922",
+            "",
+            "600696",
+            "8688957"
+          ],
+          [
+            "601084",
+            "8688982",
+            "",
+            "600695",
+            "8688911",
+            "",
+            "600792",
+            "8688980"
+          ],
+          [
+            "601079",
+            "8689026",
+            "",
+            "",
+            "",
+            "",
+            "600812",
+            "8688946"
+          ],
+          [
+            "VIVEIRO 20",
+            "",
+            "VIVEIRO 21",
+            "",
+            "VIVEIRO 22"
+          ],
+          [
+            "Área: 1,98 há",
+            "",
+            "X",
+            "Y",
+            "",
+            "Área: 0,28 há"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "Área: 0,2416",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "600647",
+            "8688652",
+            "",
+            "600434",
+            "8689512",
+            "",
+            "600191",
+            "8688600"
+          ],
+          [
+            "600596",
+            "8688599",
+            "",
+            "600370",
+            "8689544",
+            "",
+            "600172",
+            "8688605"
+          ],
+          [
+            "600531",
+            "8688619",
+            "",
+            "600370",
+            "8689544",
+            "",
+            "600183",
+            "8688642"
+          ],
+          [
+            "600466",
+            "8688663",
+            "",
+            "600379",
+            "8689550",
+            "",
+            "600173",
+            "8688660"
+          ],
+          [
+            "600446",
+            "8688667",
+            "",
+            "600370",
+            "8689550",
+            "",
+            "600198",
+            "8688671"
+          ],
+          [
+            "600330",
+            "8688659",
+            "",
+            "600402",
+            "8689557",
+            "",
+            "600248",
+            "8688632"
+          ],
+          [
+            "600334",
+            "8688708",
+            "",
+            "600391",
+            "8689554",
+            "",
+            "",
+            ""
+          ],
+          [
+            "600399",
+            "8688715",
+            "",
+            "600416",
+            "8689563",
+            "",
+            "VIVEIRO 24"
+          ],
+          [
+            "600444",
+            "8688732",
+            "",
+            "600410",
+            "8689561",
+            "",
+            "Área: 0,37 há"
+          ],
+          [
+            "600469",
+            "8688764",
+            "",
+            "600370",
+            "8689544",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "600481",
+            "8688727",
+            "",
+            "600425",
+            "8689502",
+            "",
+            "601043",
+            "8689055"
+          ],
+          [
+            "600517",
+            "8688698",
+            "",
+            "600431",
+            "8689502",
+            "",
+            "600990",
+            "8689168"
+          ],
+          [
+            "600589",
+            "8688673",
+            "",
+            "600403",
+            "8689511",
+            "",
+            "600965",
+            "8689158"
+          ],
+          [
+            "600640",
+            "8688671",
+            "",
+            "600412",
+            "8689506",
+            "",
+            "601013",
+            "8689045"
+          ],
+          [
+            "",
+            "",
+            "",
+            "600388",
+            "8689523",
+            "",
+            "",
+            ""
+          ],
+          [
+            "VIVEIRO 23",
+            "",
+            "600395",
+            "8689518",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Área: 0,32 há",
+            "",
+            "600375",
+            "8689535",
+            "",
+            "VIVEIRO 25"
+          ],
+          [
+            "X",
+            "Y",
+            "",
+            "600381",
+            "8689530",
+            "",
+            "Área: 0,31 há"
+          ],
+          [
+            "601045",
+            "8689071",
+            "",
+            "600423",
+            "8689559",
+            "",
+            "X",
+            "Y"
+          ],
+          [
+            "601065",
+            "8689082",
+            "",
+            "600419",
+            "8689565",
+            "",
+            "600995",
+            "8689041"
+          ],
+          [
+            "601049",
+            "8689135",
+            "",
+            "600429",
+            "8689536",
+            "",
+            "601000",
+            "8689050"
+          ],
+          [
+            "601009",
+            "8689189",
+            "",
+            "600427",
+            "8689549",
+            "",
+            "600959",
+            "8689141"
+          ],
+          [
+            "600994",
+            "8689180",
+            "",
+            "600432",
+            "8689519",
+            "",
+            "600932",
+            "8689130"
+          ],
+          [
+            "",
+            "",
+            "",
+            "600431",
+            "8689527",
+            "",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            "",
+            "600434",
+            "8689506",
+            "",
+            "",
+            ""
+          ]
+        ],
+        [
+          [
+            "VIVEIRO 26"
+          ],
+          [
+            "X",
+            "Y"
+          ],
+          [
+            "Área: 0,6625"
+          ],
+          [
+            "X",
+            "Y"
+          ],
+          [
+            "600556",
+            "8689525"
+          ],
+          [
+            "600492",
+            "8689542"
+          ],
+          [
+            "600492",
+            "8689542"
+          ],
+          [
+            "600494",
+            "8689569"
+          ],
+          [
+            "600478",
+            "8689558"
+          ],
+          [
+            "600521",
+            "8689601"
+          ],
+          [
+            "600508",
+            "8689582"
+          ],
+          [
+            "600580",
+            "8689583"
+          ],
+          [
+            "600521",
+            "8689613"
+          ],
+          [
+            "600529",
+            "8689509"
+          ],
+          [
+            "600536",
+            "8689511"
+          ],
+          [
+            "600508",
+            "8689521"
+          ],
+          [
+            "600518",
+            "8689511"
+          ],
+          [
+            "600494",
+            "8689534"
+          ],
+          [
+            "600497",
+            "8689526"
+          ],
+          [
+            "600492",
+            "8689542"
+          ],
+          [
+            "600494",
+            "8689534"
+          ],
+          [
+            "600590",
+            "8689571"
+          ],
+          [
+            "600588",
+            "8689579"
+          ],
+          [
+            "600581",
+            "8689549"
+          ],
+          [
+            "600588",
+            "8689561"
+          ],
+          [
+            "600568",
+            "8689534"
+          ],
+          [
+            "600575",
+            "8689541"
+          ],
+          [
+            "600544",
+            "8689518"
+          ]
+        ]
+      ]
+    },
+    {
+      "arquivo": "01 - ADMINISTRATIVO\\MEMORANDOS 2022\\PROTOCOLO\\2 - FEVEREIRO\\MEMORANDO 008    DISPENSA DE OUTORGA PARA BARRAMENTO MARCELINO ANTONIO BERGAMO CPF 10653856253.docx",
+      "ano": "2022",
+      "mtime": 1643721807.5542743,
+      "metadados_extraidos": {
+        "ano_referencia": "2022",
+        "municipio": "AFO",
+        "interessado_extraido": "ENCAMINHAMOS A VOSSA SENHORIA, PROCESSO PARA SER FORMALIZADO COM  SOLICITAÇÃO DE DISPENSA DE OUTORGA DE USO DE ÁGUA PARA ATIVIDADE DE BARRAMENTO EM NOME DE: MARCELINO ANTONIO BERGA",
+        "empreendimento_extraido": "",
+        "rt_extraido": "",
+        "localizacao_extraida": "ENCAMINHAMOS A VOSSA SENHORIA, PROCESSO PARA SER FORMALIZADO COM  SOLICITAÇÃO DE DISPENSA DE OUTORGA DE USO DE ÁGUA PARA ATIVIDADE DE BARRAMENTO EM NOME DE: MARCELINO ANTONIO BERGA",
+        "cpfs": [
+          "106.538.562-53"
+        ],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [],
+        "cars": [],
+        "coordenadas_dms": [],
+        "areas_mencionadas": [],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "MEMO Nº 008/2022 ERGA/SEDAM/AFO",
+        "ALTA FLORESTA D´OESTE – RO, 01 DE FEVEREIRO DE 2022.",
+        "DO: ESCRITÓRIO REGIONAL/AFO",
+        "PARA: PROTOCOLO/SEDAM /PVH",
+        "ASSUNTO: ENCAMINHAMENTO DE PROCESSO PARA FORMALIZAR.",
+        "ENCAMINHAMOS A VOSSA SENHORIA, PROCESSO PARA SER FORMALIZADO COM  SOLICITAÇÃO DE DISPENSA DE OUTORGA DE USO DE ÁGUA PARA ATIVIDADE DE BARRAMENTO EM NOME DE: MARCELINO ANTONIO BERGAMO, CPF: 106.538.562-53, LINHA 42,5 KM 08.",
+        "ATENCIOSAMENTE,",
+        "MARCELO ALVES DE SOUZA",
+        "Gerente Regional de Gestão Ambiental",
+        "Mat. 300158873",
+        "SEDAM/AF"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "01 - ADMINISTRATIVO\\MEMORANDOS 2022\\PROTOCOLO\\7 - JULHO\\MEMORANDO 070 -  RTVA  OUTORGA DE DIREITO DE USO DE RECURSOS HÍDRICOS PARA IRRIGAÇÃO DE CAFÉ LINO DA SILVA DUQUE CPF 34043018291.docx",
+      "ano": "2022",
+      "mtime": 1659614865.57122,
+      "metadados_extraidos": {
+        "ano_referencia": "2022",
+        "municipio": "AFO",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "",
+        "localizacao_extraida": "ENCAMINHAMOS A VOSSA SENHORIA, PROCESSO PARA SER FORMALIZADO JUNTAMENTE COM O RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA, QUE SOLICITA OUTORGA DE DIREITO DE USO DE RECURSOS HÍD",
+        "cpfs": [
+          "340.430.182-91"
+        ],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [],
+        "cars": [],
+        "coordenadas_dms": [],
+        "areas_mencionadas": [],
+        "valores_taxas": []
+      },
+      "paragrafos_integrais": [
+        "MEMO Nº 070/2022 ERGA/SEDAM/AFO",
+        "ALTA FLORESTA D´OESTE – RO, 14 DE JULHO DE 2022.",
+        "DO: ESCRITÓRIO REGIONAL/AFO",
+        "PARA: PROTOCOLO/SEDAM /PVH",
+        "ASSUNTO: ENCAMINHAMENTO DE PROCESSO PARA FORMALIZAR.",
+        "ENCAMINHAMOS A VOSSA SENHORIA, PROCESSO PARA SER FORMALIZADO JUNTAMENTE COM O RELATÓRIO TÉCNICO DE VISTORIA AMBIENTAL - RTVA, QUE SOLICITA OUTORGA DE DIREITO DE USO DE RECURSOS HÍDRICOS PARA IRRIGAÇÃO DE CAFÉ E HORTIFRUTIGRANJEIROS EM NOME DE LINO DA SILVA DUQUE, CPF: 340.430.182-91. LINHA 156, KM 13,0, LOTE 45-REM, GLEBA 01, SETOR RIO BRANCO II, ZONA RURAL, ALTA FLORESTA D’OESTE - RONDÔNIA.",
+        "ATENCIOSAMENTE,",
+        "MARCELO ALVES DE SOUZA",
+        "Gerente Regional de Gestão Ambiental",
+        "Mat. 300158873",
+        "SEDAM/AF"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "FURTADO\\IMAGENS E RELATÓRIOS 2020\\0-IMAGENS E RELATÓRIOS SEDAM   ANOS ANTERIORES\\RELATÓRIOS  2012\\RELATORIO DE AUTUAÇÃO JOVELINO VALERIANO CORREIA JUL 2012.docx",
+      "ano": "2020",
+      "mtime": 1343390250.0,
+      "metadados_extraidos": {
+        "ano_referencia": "2020",
+        "municipio": "CM",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "Os trabalhos foram realizados pelos servidores do ERGA/SEDAM/AFO Francisco José de Oliveira/Engenheiro Florestal e Joviniano Furtado Neto/Tecnico em Agropecuária, ambos Agentes de ",
+        "localizacao_extraida": "",
+        "cpfs": [],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [
+          "arte",
+          "artir",
+          "Artigo"
+        ],
+        "cars": [],
+        "coordenadas_dms": [
+          "12º 28’ 19.7",
+          "63º 37’ 27.5"
+        ],
+        "areas_mencionadas": [],
+        "valores_taxas": [
+          "R$ 1.000,00"
+        ]
+      },
+      "paragrafos_integrais": [
+        "RELATÓRIO CIRCUNSTANCIADO  DE AUTUAÇÃO",
+        "1-DADOS DO INFRATOR",
+        "1.1-NOME",
+        "Jovelino Valeriano Correia.",
+        "1.2-CPF",
+        "068 284 502 72.",
+        "1.3-ATIVIDADE PRINCIPAL",
+        "Comerciante.",
+        "1.4-ENDEREÇO",
+        "Av. Castelo Branco, 20254, Bairro Novo Horizonte.",
+        "1.5-MUNICÍPIO",
+        "Cacoal-RO.",
+        "2-MOTIVO DA AUTUAÇÃO",
+        "Por pescar mediante a utilização de  petrechos não permitidos pela legislação em vigor.",
+        "3-CONSTATAÇÃO DOS FATOS",
+        "O fato em questão foi constatado por ocasião da realização de ações fiscalizatórias realizadas na região do Vale do Guaporé, abrangendo os municípios de São Francisco do Guaporé, Distrito de São Domingos, Costa Marques e principalmente, parte do Rio Guaporé, via fluvial, compreendendo  o trecho localizado à partir da  sede do município, até a boca do Rio Branco, tendo como ponto de apoio a base da SEDAM, na sede da ECOVALE, localizada na Baia de São Pedro, margem direita do Rio Guaporé, no município de São Francisco do Guaporé.",
+        "O ilícito ocorreu em um acampamento instalado em uma ilha  localizada no Rio Guaporé, em frente a localidade denominada cahoeirinha, no município de São Francisco do Guaporé, no ponto de coordenadas geográficas S 12º 28’ 19.7’’  W 63º 37’ 27.5’’, onde  deparamos com o Sr. Jovelino portando  petrecho proibido na prática da pesca amadora.",
+        "4-DADOS DA AUTUAÇÃO",
+        "Pelo fato do infrator acima qualificado pescar mediante a utilização de petrechos não permitodos, foi constatado a prática de crime  ambiental e  lavrado em seu desfavor o Auto de Infração nº 03951, no valor de R$ 1.000,00 (HUM MIL REAL), sendo o mesmo incurso no Artigo 35, Inciso II  do Decreto Federal 6.514/08.",
+        "O auto de infração foi lavrado em  conformidade com o Parágrafo 1º do  Atigo 70  da Lei 9.605/98.",
+        "Na oportunidade, foi apreendida uma malhadeira, conforme Auto de Apreensão e Depósito nº 007333/BPA. Como fiel depositário, ficou designado o escritório da SEDAM  de Costa Marques, através do seu gerente regional, Sr. Edvaldo Rosa Ferreira. A ocorrência policial foi registrada mediante BOA nº 011384/BPA",
+        "Os trabalhos foram realizados pelos servidores do ERGA/SEDAM/AFO Francisco José de Oliveira/Engenheiro Florestal e Joviniano Furtado Neto/Tecnico em Agropecuária, ambos Agentes de Proteção Ambiental, e tiveram o apoio dos policiais Ambientais, CB PM Lindair, SD PM Alcântara, SD PM Edealdo e SD PM Ulrich, todos lotados no  município de Alta Floresta d’ Oeste bem como dos servidores do ERGA/SEDAM/COSTA MARQUES, Sr.Claudemir Gonçalves (Careca), que conduziu o barco com a equipe, durante toda a operação e do Sr. José Soares Neto (Zeca Lula), no apoio por terra.",
+        "5-ANEXOS",
+        "Tomadas fotográficas;",
+        "Cópia do Auto de Infração nº 03951.",
+        "Alta Floresta D’Oeste –RO, 16 de julho  de 2012.",
+        "ACAMPAMENTO DO SR. JOVELINO VALERIANO SÃO FRANCISCO DO GUAPORÉ-RO.",
+        "BARRACAS NO ACAMPAMENTO",
+        "BARCO DO INFRATOR"
+      ],
+      "tabelas_extraidas": []
+    },
+    {
+      "arquivo": "FURTADO\\IMAGENS E RELATÓRIOS 2020\\0-IMAGENS E RELATÓRIOS SEDAM   ANOS ANTERIORES\\RELATÓRIOS  2014\\RELATORIO CONCISO  DE AUTUAÇÃO GONÇALINO DE ANDRADE DOS SANTOS SET 2014.docx",
+      "ano": "2020",
+      "mtime": 1412689524.0,
+      "metadados_extraidos": {
+        "ano_referencia": "2020",
+        "municipio": "CM",
+        "interessado_extraido": "",
+        "empreendimento_extraido": "",
+        "rt_extraido": "",
+        "localizacao_extraida": "",
+        "cpfs": [],
+        "cnpjs": [],
+        "telefones": [],
+        "processos_sei": [],
+        "processos_siga": [],
+        "creas": [],
+        "arts": [
+          "arte",
+          "Artigo",
+          "artel"
+        ],
+        "cars": [],
+        "coordenadas_dms": [
+          "12º 04’ 29.4” W",
+          "63º 46’ 39.3” "
+        ],
+        "areas_mencionadas": [],
+        "valores_taxas": [
+          "R$ 4.800,00",
+          "R$ 300,00"
+        ]
+      },
+      "paragrafos_integrais": [
+        "‘                             RELATÓRIO  CONCISO  DE  AUTUAÇÃO",
+        "1 - DADOS DO INFRATOR",
+        "1.1 - NOME",
+        "Gonçalino de Andrade dos Santos.",
+        "1.2 – CPF",
+        "288 056 662 - 20.",
+        "1.3 - ATIVIDADE PRINCIPAL",
+        "Motorista.",
+        "1.4 - ENDEREÇO",
+        "Rua Rondônia, 3994 - Bairro Cidade Baixa.",
+        "1.6 - MUNICÍPIO",
+        "São Francisco do Guaporé – RO.",
+        "2 - MOTIVO DA AUTUAÇÃO",
+        "Transportar 2.505,00 m³ de madeira em toros, das essências breu, oiticica, quaruba e sucupira em desacordo com a licença outorgada pela autoridade competente.",
+        "3 - CONSTATAÇÃO DOS FATOS",
+        "O fato foi constatado por ocasião da realização de atividades diversificadas na região do Vale do Guaporé, abrangendo os Municípios de Costa Marques, São Francisco do Guaporé e região, por uma equipe composta por servidores do Escritório Regional de Gestão Ambiental – ERGA e Policiais Militares Ambientais do Município de Alta Floresta d’ Oeste – RO.",
+        "Dentro da programação estabelecida, a equipe se dirigia pela BR 429 com destino a sede do Município de Costa Marques, quando, no km 22,0 da mesma precisamente no ponto de coordenadas geográficas S 12º 04’ 29.4” W 63º 46’ 39.3” deparou com o Veículo Caminhão Mercedez Benz de Cor Azul, Placa JWI 1495 de São Francisco do Guaporé, Ano 1980, Chassi 34405811508429 vindo de um Plano de Manejo Florestal  Sustentável (PMFS)  localizado no Município de Costa Marques, com destino a Madeireira R & I Indústria e Comércio de Madeiras LTDA EPP, do Município de   São Francisco do Guaporé.  Por ocasião da abordagem, ficou constatado que os dados volumétricos assentados no Documento de Origem Florestal – DOF em posse do infrator não condizia com a volumetria de parte da madeira em toros, que compunha a carga do veículo, o que caracterizou a prática de crime ambiental.",
+        "4 - DADOS DA AUTUAÇÃO",
+        "Pelo fato do infrator acima qualificado estar transportando a madeira em questão em desacordo com a licença outorgada pela autoridade competente, foi lavrado em seu desfavor o Auto de Infração nº 001720 no valor de R$ 4.800,00 (QUATRO MIL E OITOCENTOS REAIS), referente à diferença de 16,00 m³, de madeira da essência sucupira, sendo R$ 300,00 (TREZENTOS REAIS) por metro cúbico. Diante de tal circunstância, o infrator foi incurso nos Parágrafos 1º e 3º do Artigo 47 do Decreto Federal 6.514/08.",
+        "O auto de infração foi lavrado em conformidade com a Portaria nº 009/GAB/SEDAM de 01/02/2014 e Parágrafo 1º do Artigo 70 da Lei 9.605/98.",
+        "Foi lavrado ainda o Auto de Apreensão nº 004769 referente à apreensão dos bens (madeira em toros e veículo), objetos do ilícito, e o Auto de Depósito nº 004370, ficando designando como fiel depositário dos referidos bens, o Quartel da  Polícia Militar  do Município de São Francisco do Guaporé – RO, na pessoa do seu atual comandante.",
+        "Os trabalhos atinentes as atividades, foram realizados pelos servidores da SEDAM/ERGA/AFO, Francisco José de Oliveira e Joviniano Furtado Neto, ambos Agentes de Proteção Ambiental juntamente com os Policiais Militares Ambientais do GPPA também de Alta Floresta d’ Oeste, SD PM Ruymar Alexandre Rodrigues e SD PM Vagner Pereira Alcântara.",
+        "5 - ANEXOS",
+        "- Tomadas Fotográficas;",
+        "- Cópia do Auto de Infração nº 001720;",
+        "- Cópia do Auto de Apreensão n° 004769;",
+        "- Cópia do Auto de Depósito nº 004370;",
+        "- Cópia do DOF nº 13012727.",
+        "Alta Floresta D’Oeste – RO, 07 de outubro de 2014.",
+        "CAMINHÃO DE MADEIRA  APREENDIDO/SÃO FRANCISCO DO GUAPORÉ  - RO"
+      ],
+      "tabelas_extraidas": []
+    }
+  ],
+  "guias_malote_oficiais_14_registros": [
+    {
+      "rel_path": "MALOTE 2026\\Guia Nº 0009702026.html",
+      "header": "Guia Nº 0009702026 Guia de Remessa de Documentos 09/06/2026 08:30:57 Nº 0009702026 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.04383/2026",
+          "Solicitação",
+          "1801/00946/2022",
+          "ATENDIMENTO A NOTIFICAÇÃO/DESPACHO Nº 094/COREH/2026, REFERENTE AO PROCESSO 1801/00946/2022",
+          "LINO DA SILVA DUQUE, CPF Nº 340.439.182-91",
+          "",
+          "09/06/2026 07:49",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE 2026\\Guia Nº 0000472026.html",
+      "header": "Guia Nº 0000472026 Guia de Remessa de Documentos 13/01/2026 08:33:28 Nº 0000472026 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.00182/2026",
+          "Solicitação",
+          "1801/00667/2017",
+          "ALTERAÇÃO DE NOMEATURA DE IMOVEL REFERENTE AO PROCESSO DE LICENCIAMENTO.",
+          "LINO DA SILVA DUQUE.CPF: 340.439.182-91",
+          "",
+          "13/01/2026 08:16",
+          "-"
+        ],
+        [
+          "1801.00184/2026",
+          "Solicitação",
+          "1801/00946/2022",
+          "SOLICITAÇÃO DE RETIFICAÇÃO DA DENOMINAÇÃO DO IMOVEL RURAL NO TERMO DE OUTORGA DE DIREITO DE USO DE RECURSOS HIDRICOS.",
+          "LINO DA SILVA DUQUE.CPF: 340.439.182-91",
+          "",
+          "13/01/2026 08:23",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE 2026\\Guia Nº 0002042026.html",
+      "header": "Guia Nº 0002042026 Guia de Remessa de Documentos 03/02/2026 08:57:28 Nº 0002042026 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.00913/2026",
+          "Solicitação",
+          "1801/00667/2017",
+          "REQUERIMENTO DE ADIÇÃO DE ESPECIES EM LICENÇA DE OPERAÇÃO Nº 159556 NO PROCESSO CITADO.",
+          "LINO DA SILVA DUQUE.CPF: 340.439.182-91",
+          "",
+          "03/02/2026 08:36",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE A PARTIR DE MAIO 2025\\Guia Nº 0016312025.html",
+      "header": "Guia Nº 0016312025 Guia de Remessa de Documentos 19/08/2025 08:44:30 Nº 0016312025 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.06695/2025",
+          "Solicitação",
+          "1801/01995/2018",
+          "RTVA, COM SOLICITAÇÃO DO PROSSEGUIMENTO E ATUALIZAÇÃO DO TERMO DE OUTORGA PARA A ATIVIDADE DE PISCICULTUA, ATUALIZAÇÃO E ALTERAÇÃO DO RESPONSAVEL TÉCNICO.",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "19/08/2025 08:12",
+          "-"
+        ],
+        [
+          "1801.06696/2025",
+          "Solicitação",
+          "1801/00667/2017",
+          "RTVA, COM SOLICITAÇÃO DO PROSSEGUIMENTO E ATUALIZAÇÃO DO LICENCIAMENTO PARA A ATIVIDADE DE PISCICULTUA E ATUALIZAÇÃO E ALTERAÇÃ",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "19/08/2025 08:14",
+          "-"
+        ],
+        [
+          "1801.06698/2025",
+          "Solicitação",
+          "1801/00946/2022",
+          "RTVA, COM SOLICITAÇÃO DO PROSSEGUIMENTO E ATUALIZAÇÃO DO TERMO DE OUTORGA PARA A ATIVIDADE DE IRRIGAÇÃO, ATUALIZAÇÃO E ALTERAÇÃO DO RESPONSAVEL TÉCNICO.",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "19/08/2025 08:18",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE A PARTIR DE MAIO 2025\\Guia Nº 0018832025.html",
+      "header": "Guia Nº 0018832025 Guia de Remessa de Documentos 25/09/2025 08:26:54 Nº 0018832025 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.07763/2025",
+          "Solicitação",
+          "1801/01995/2018",
+          "ATENDIMENTO DE PENDENCIA REFERENTE AO PARECER TÉCNICO Nº 899/COREH/2025 (OUTORGA)",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "25/09/2025 08:01",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE A PARTIR DE MAIO 2025\\Guia Nº 0020892025.html",
+      "header": "Guia Nº 0020892025 Guia de Remessa de Documentos 29/10/2025 08:04:28 Nº 0020892025 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.08670/2025",
+          "Solicitação",
+          "1801/00667/2017",
+          "ATENDIMENTO DE PENDENCIAS REFERENTES A NOTIFICAÇÃO Nº 1861/2025/COLMAMP",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "29/10/2025 08:01",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE A PARTIR DE MAIO 2025\\Guia Nº 0023552025.html",
+      "header": "Guia Nº 0023552025 Guia de Remessa de Documentos 09/12/2025 09:04:29 Nº 0023552025 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.09734/2025",
+          "Solicitação",
+          "1801/00667/2017",
+          "ATENDIMENTO DE PENDÊNCIAS REFERENTE A NOTIFICAÇÃO Nº 2172/2025",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "09/12/2025 08:14",
+          "-"
+        ],
+        [
+          "1801.09748/2025",
+          "Requerimento",
+          "S/N",
+          "ENCAMINHA DEFESA ADMINISTRATIVA, REFERENTE AO AUTO DE INFRAÇÃO Nº 102369, PROCESSO SEI Nº 0028.021558/2023-15.",
+          "IVALINO GOLFETTO, CPF:223.047.620-34",
+          "",
+          "09/12/2025 08:47",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\MALOTE A PARTIR DE MAIO 2025\\Guia Nº 0024582025.html",
+      "header": "Guia Nº 0024582025 Guia de Remessa de Documentos 23/12/2025 09:10:21 Nº 0024582025 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.10178/2025",
+          "Solicitação",
+          "1801/01995/2018",
+          "SOLICITAÇÃO DE RETIFICAÇÃO DA DENOMINAÇÃO DO IMÓVEL RURAL CONSTANTE NO TERMO DE OUTORGA DE DIREITO DE USO DE RECUSROSOS HÍDRICOS.",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "23/12/2025 08:48",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\GUAI DE MALOTE 2024\\ABRIL\\Guia Nº 0012122024.html",
+      "header": "Guia Nº 0012122024 Guia de Remessa de Documentos 18/04/2024 08:39:43 Nº 0012122024 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.04662/2024",
+          "Solicitação",
+          "1801/01995/2018",
+          "PENDENCIAS RELACIONADAS AO PROCESSO, REFERENTE A NOTIFICAÇÃO Nº 1293/2023",
+          "LINO DA SILVA DUQUE CPF: 340.439.182-91",
+          "",
+          "18/04/2024 08:13",
+          "-"
+        ],
+        [
+          "1801.04665/2024",
+          "Solicitação",
+          "1801/01995/2018",
+          "PENDENCIAS DA LICENÇA PARA ATIVIDADE DE PISCICULTURA RELACIONADAS AO PROCESSO, REFERENTE A NOTIFICAÇÃO Nº 1293/2023.",
+          "LINO DA SILVA DUQUE CPF: 340.439.182-91",
+          "",
+          "18/04/2024 08:20",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\GUAI DE MALOTE 2024\\MARÇO\\Guia Nº 0009522024.html",
+      "header": "Guia Nº 0009522024 Guia de Remessa de Documentos 21/03/2024 08:13:27 Nº 0009522024 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.03651/2024",
+          "Solicitação",
+          "1801/01995/2018",
+          "PENDENCIA DE OUTORGA PARA ATIVIDADE DE PISCICULTURA, ATENDENDO A NOTIFICAÇÃO Nº1293/2023",
+          "LINO DA SILVA DUQUE CPF-340.439.182-91",
+          "",
+          "21/03/2024 07:57",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\DOC.2022\\GUAI MALOTE 2022\\7-JUL\\Guia Nº 0024072022.html",
+      "header": "Guia Nº 0024072022 Guia de Remessa de Documentos 14/07/2022 08:59:23 Nº 0024072022 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.09073/2022",
+          "Memorando",
+          "MEMO Nº 070/2022 ERGA/SEDAM/AFO",
+          "RTVA - DE OUTORGA DE DIREITO DE USO DE RECURSOS HÍDRICOS PARA IRRIGAÇÃO EM ATIVIDADE DE CAFEICULTURA E HORTIFRUTIGRANJEIROS",
+          "LINO DA SILVA DUQUE, CPF: 340.430.182-91",
+          "",
+          "14/07/2022 08:54",
+          "-"
+        ]
+      ]
+    },
+    {
+      "rel_path": "01 - ADMINISTRATIVO\\DOC. 2021\\GUIA DE MALOTE 2021\\10- OUT\\Guia Nº 0046482021.html",
+      "header": "Guia Nº 0046482021 Guia de Remessa de Documentos 14/10/2021 09:45:35 Nº 0046482021 SECRETARIA DE ESTADO DO DESENVOLVIMENTO AMBIENTAL Origem: SEDAM / ERGA ALTA FLORESTA D´OESTE / Destino: SEDAM / PROT / Número Protocolo Documento Número Documento Assu",
+      "rows": [
+        [
+          "1801.13814/2021",
+          "Solicitação",
+          "1801/00667/2017",
+          "PENDENCIA - PISCICULTURA",
+          "LINO DA SILVA DUQUE, CPF: 340.439.182-91",
+          "",
+          "14/10/2021 09:14",
+          "-"
+        ]
+      ]
+    }
+  ]
+}
