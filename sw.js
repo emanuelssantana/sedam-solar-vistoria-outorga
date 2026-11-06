@@ -1,18 +1,17 @@
 /* ============================================================================
-   SERVICE WORKER - SEDAM-RO / SOLAR - FICHA DE VISTORIA V4
+   SERVICE WORKER - SEDAM-RO / SOLAR - FICHA DE VISTORIA V4 & CRM/ERP GLOBAL
    Estrategia: cache-first para os arquivos do proprio app.
    Depois da primeira abertura com internet, o app abre em modo aviao.
-
-   ATENCAO: Service Worker so funciona sob HTTPS ou localhost.
-   Aberto como file:// direto do app Arquivos do iPhone ele NAO registra --
-   nesse caso o app continua funcionando, mas o "abrir offline" fica por conta
-   do cache comum do Safari. Os DADOS seguem seguros no IndexedDB nos dois casos.
    ============================================================================ */
 
-const CACHE = 'sedam-outorga-v4-004';
+const CACHE = 'sedam-outorga-v4-005';
 
 const ARQUIVOS = [
   './',
+  'index.html',
+  'CRM_ERP_GLOBAL_SEDAM.html',
+  'dados/dossie_lino_duque.js',
+  'dados/catalogo_2026_2012.js',
   'FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html',
   'DASHBOARD_VISTORIAS_SEDAM.html',
   'manifest.webmanifest',
@@ -24,7 +23,6 @@ const ARQUIVOS = [
 self.addEventListener('install', (ev) => {
   ev.waitUntil(
     caches.open(CACHE)
-      // addAll falha inteiro se um arquivo faltar; por isso cada um vai sozinho
       .then(c => Promise.all(ARQUIVOS.map(a => c.add(a).catch(e => console.warn('SW: nao cacheou', a, e)))))
       .then(() => self.skipWaiting())
   );
