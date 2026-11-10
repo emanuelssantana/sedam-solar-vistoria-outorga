@@ -3,7 +3,8 @@
 00_busca_instantanea_sedam.py
 Buscador Instantaneo SEDAM (Sem precisar varrer o HD fisico 172.16.6.10)
 Tempo de resposta: < 0.1 segundo
-Consulta: Catalogo Consolidado Local + SQLite Mestre
+Consulta: Catalogo Consolidado Local + SQLite Mestre (Modo Somente Leitura)
+Aceita tanto o formato com chave 'produtores' (2.377 itens) quanto 'produtores_catalogo' (1.759 itens).
 Uso:
   python 00_busca_instantanea_sedam.py "Lino Duque"
   python 00_busca_instantanea_sedam.py "cafe"
@@ -49,18 +50,19 @@ caminhos_sqlite = [
 encontrados_catalogo = []
 termo_lower = termo.lower()
 
-# Busca no Catalogo JSON
+# Busca no Catalogo JSON (aceita 'produtores' ou 'produtores_catalogo')
 for cp in caminhos_catalogo:
     if os.path.exists(cp):
         try:
             with open(cp, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                prods = data.get("produtores_catalogo", [])
+                prods = data.get("produtores") or data.get("produtores_catalogo") or []
                 for p in prods:
                     hay = f"{p.get('nome_produtor_ou_empresa','')} {p.get('cpf_cnpj','')} {p.get('municipio','')} {' '.join(p.get('processos',[]))} {' '.join(p.get('atividades',[]))} {' '.join(p.get('tecnicos',[]))}".lower()
                     if termo_lower in hay:
                         encontrados_catalogo.append(p)
-            break
+            if encontrados_catalogo:
+                break
         except Exception as e:
             pass
 
@@ -81,18 +83,20 @@ for idx, p in enumerate(encontrados_catalogo[:10], start=1):
 if len(encontrados_catalogo) > 10:
     print(f"... e mais {len(encontrados_catalogo) - 10} registros. Refine o termo para filtrar.")
 
-# Busca no SQLite (Processos e Malotes)
+# Busca no SQLite em MODO SOMENTE LEITURA (?mode=ro)
 encontrados_sqlite = []
 for sp in caminhos_sqlite:
     if os.path.exists(sp):
         try:
-            conn = sqlite3.connect(sp)
+            db_uri = f"file:{os.path.abspath(sp)}?mode=ro"
+            conn = sqlite3.connect(db_uri, uri=True)
             cur = conn.cursor()
-            q = f"SELECT ano, processo, data, requerente_assunto, setor, via FROM produtores_processos WHERE requerente_assunto LIKE ? OR processo LIKE ? LIMIT 10"
+            q = "SELECT ano, processo, data, requerente_assunto, setor, via FROM produtores_processos WHERE requerente_assunto LIKE ? OR processo LIKE ? LIMIT 10"
             cur.execute(q, (f"%{termo}%", f"%{termo}%"))
             encontrados_sqlite = cur.fetchall()
             conn.close()
-            break
+            if encontrados_sqlite:
+                break
         except Exception as e:
             pass
 
