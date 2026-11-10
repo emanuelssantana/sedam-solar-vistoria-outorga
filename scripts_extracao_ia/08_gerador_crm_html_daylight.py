@@ -1,0 +1,1740 @@
+import os
+
+repo_dir = r"C:\Users\Usuario\.gemini\antigravity\brain\e37401e3-17fb-431d-bca7-5612ec183a18\scratch\sedam-solar-vistoria-outorga"
+html_path = os.path.join(repo_dir, "CRM_ERP_GLOBAL_SEDAM.html")
+
+html_code = '''<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AgroPrime & EcoVale • CRM/ERP Global SEDAM (2026–2012)</title>
+  <style>
+    /* ==========================================================================
+       TEMA DUPLO: MODO DIA CLARO (DEFAULT) & MODO NOITE COM ALTO CONTRASTE
+       ========================================================================== */
+    :root {
+      /* MODO DIA CLARO (DEFAULT - ALTO CONTRASTE PARA CARRO / LUZ SOLAR) */
+      --bg: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-alt: #f1f5f9;
+      --border: #cbd5e1;
+      --border-strong: #94a3b8;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --heading: #022c22;
+      
+      --emerald: #059669;
+      --emerald-dark: #064e3b;
+      --emerald-bg: #ecfdf5;
+      
+      --gold: #d97706;
+      --gold-dark: #78350f;
+      --gold-bg: #fffbeb;
+      
+      --sky: #0284c7;
+      --sky-dark: #0c4a6e;
+      --sky-bg: #f0f9ff;
+      
+      --rose: #e11d48;
+      --rose-dark: #881337;
+      --rose-bg: #fff1f2;
+      
+      --purple: #7c3aed;
+      --purple-dark: #4c1d95;
+      --purple-bg: #faf5ff;
+      
+      --indigo: #4f46e5;
+      --indigo-dark: #312e81;
+      --indigo-bg: #eef2ff;
+
+      --orange: #ea580c;
+      --orange-bg: #fff7ed;
+
+      --header-bg: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #1e3a8a 100%);
+      --header-text: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="dark"] {
+      --bg: #07110d;
+      --bg-card: #0e1e17;
+      --bg-card-alt: #13281f;
+      --border: #1f4232;
+      --border-strong: #2d6a4f;
+      --text: #ecfdf5;
+      --text-muted: #94a3b8;
+      --heading: #a7f3d0;
+      
+      --emerald: #10b981;
+      --emerald-dark: #34d399;
+      --emerald-bg: rgba(16, 185, 129, 0.15);
+      
+      --gold: #f59e0b;
+      --gold-dark: #fcd34d;
+      --gold-bg: rgba(245, 158, 11, 0.15);
+      
+      --sky: #38bdf8;
+      --sky-dark: #7dd3fc;
+      --sky-bg: rgba(56, 189, 248, 0.15);
+      
+      --rose: #f43f5e;
+      --rose-dark: #fda4af;
+      --rose-bg: rgba(244, 63, 94, 0.15);
+      
+      --purple: #a855f7;
+      --purple-dark: #d8b4fe;
+      --purple-bg: rgba(168, 85, 247, 0.15);
+      
+      --indigo: #6366f1;
+      --indigo-dark: #a5b4fc;
+      --indigo-bg: rgba(99, 102, 241, 0.15);
+
+      --orange: #fb923c;
+      --orange-bg: rgba(251, 146, 60, 0.15);
+
+      --header-bg: linear-gradient(135deg, #06281e 0%, #0b1713 60%, #172554 100%);
+      --header-text: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 80px;
+      transition: background 0.2s, color 0.2s;
+    }
+    a { color: var(--emerald); text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
+
+    /* CABEÇALHO */
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .header-container {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #10b981;
+      color: #04130d;
+      font-weight: 900;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .brand-text h1 {
+      font-size: 1.18rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .brand-text p {
+      font-size: 0.79rem;
+      opacity: 0.9;
+    }
+    .header-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    /* BOTÕES COM ÁREA DE TOQUE AMPLA (MÍNIMO 44PX PARA DEDOS NO CARRO) */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      min-height: 42px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--emerald); background: var(--bg-card-alt); text-decoration: none; }
+    .btn-emerald { background: var(--emerald); color: #ffffff; border-color: var(--emerald); }
+    .btn-emerald:hover { background: #047857; color: #ffffff; }
+    .btn-gold { background: var(--gold); color: #ffffff; border-color: var(--gold); }
+    .btn-sky { background: var(--sky); color: #ffffff; border-color: var(--sky); }
+    .btn-theme { background: rgba(255,255,255,0.18); color: #ffffff; border-color: rgba(255,255,255,0.3); }
+    .btn-theme:hover { background: rgba(255,255,255,0.3); }
+
+    /* NAVEGAÇÃO DE ABAS COM LINKS FIXOS */
+    .nav-tabs {
+      max-width: 1540px;
+      margin: 12px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tab-btn {
+      padding: 8px 14px;
+      min-height: 38px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0, 0, 0, 0.22);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover, .tab-btn.active {
+      background: #ffffff;
+      color: #064e3b;
+      border-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    /* BARRA DE LUPA FIXA E DESTAQUE */
+    .search-hero {
+      max-width: 1540px;
+      margin: 16px auto 0;
+      padding: 0 18px;
+    }
+    .search-bar-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 2px solid var(--border-strong);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      transition: border-color 0.15s;
+    }
+    .search-bar-wrap:focus-within {
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 3px rgba(5,150,105,0.2);
+    }
+    .search-icon {
+      font-size: 1.35rem;
+      padding: 0 14px;
+      color: var(--emerald);
+    }
+    .search-input {
+      width: 100%;
+      min-height: 48px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.02rem;
+      font-weight: 600;
+      outline: none;
+      padding: 10px 4px;
+    }
+    .search-input::placeholder { color: var(--text-muted); font-weight: 400; font-size: 0.94rem; }
+    .search-clear {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      padding: 0 14px;
+      cursor: pointer;
+      display: none;
+    }
+    .search-clear:hover { color: var(--text); }
+
+    /* PÍLULAS DE ATIVIDADE & FILTROS */
+    .filter-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-right: 4px;
+    }
+    .pill {
+      padding: 6px 12px;
+      min-height: 34px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+    .pill:hover, .pill.active {
+      background: var(--emerald);
+      color: #ffffff;
+      border-color: var(--emerald);
+    }
+    .pill-cyan.active { background: #0284c7; border-color: #0284c7; color: #fff; }
+    .pill-amber.active { background: #d97706; border-color: #d97706; color: #fff; }
+    .pill-purple.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+    .pill-rose.active { background: #e11d48; border-color: #e11d48; color: #fff; }
+    .pill-indigo.active { background: #4f46e5; border-color: #4f46e5; color: #fff; }
+
+    .dropdown-filter {
+      padding: 6px 10px;
+      min-height: 34px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 0.79rem;
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* CORPO PRINCIPAL */
+    main {
+      max-width: 1540px;
+      margin: 18px auto;
+      padding: 0 18px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* KPIS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .kpi-title { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+    .kpi-num { font-size: 1.55rem; font-weight: 900; margin: 3px 0; color: var(--text); }
+    .kpi-sub { font-size: 0.78rem; font-weight: 600; color: var(--emerald); }
+
+    /* CARDS DE SEÇÃO */
+    .section-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--heading);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* BADGES COLORIDOS POR CATEGORIA */
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+    .badge-emerald { background: var(--emerald-bg); color: #047857; border: 1px solid #10b981; }
+    .badge-gold { background: var(--gold-bg); color: #b45309; border: 1px solid #f59e0b; }
+    .badge-sky { background: var(--sky-bg); color: #0369a1; border: 1px solid #38bdf8; }
+    .badge-rose { background: var(--rose-bg); color: #be123c; border: 1px solid #f43f5e; }
+    .badge-purple { background: var(--purple-bg); color: #6d28d9; border: 1px solid #a855f7; }
+    .badge-indigo { background: var(--indigo-bg); color: #3730a3; border: 1px solid #6366f1; }
+    .badge-orange { background: var(--orange-bg); color: #c2410c; border: 1px solid #fb923c; }
+
+    /* TABELA DE PRODUTORES */
+    .table-responsive {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      background: var(--bg-card-alt);
+      color: var(--heading);
+      font-weight: 800;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    tr:hover td { background: var(--bg-card-alt); }
+
+    /* PERMALINK BAR */
+    .permalink-bar {
+      background: var(--bg-card-alt);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .permalink-input {
+      flex: 1;
+      min-width: 260px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+      outline: none;
+    }
+
+    /* ACCORDION (EXPANDIR/RECOLHER SEM POLUIR TELA) */
+    .accordion-box {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .accordion-header {
+      padding: 12px 16px;
+      background: var(--bg-card-alt);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 0.88rem;
+      user-select: none;
+    }
+    .accordion-header:hover { background: rgba(5,150,105,0.08); }
+    .accordion-content {
+      padding: 16px;
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+    .accordion-box.open .accordion-content { display: block; }
+    .accordion-box.open .accordion-header .acc-icon { transform: rotate(180deg); }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+
+    /* CHECKLIST VISUAL */
+    .checklist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 10px;
+    }
+    .checklist-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card-alt);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* GALERIA DE FOTOS */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .photo-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .photo-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+    .photo-caption {
+      padding: 8px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 14px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-content {
+      background: var(--bg-card);
+      border: 2px solid var(--emerald);
+      border-radius: 16px;
+      max-width: 1080px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 4px; }
+    .form-control {
+      width: 100%;
+      background: var(--bg-card-alt);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--emerald); }
+    textarea.form-control { min-height: 80px; resize: vertical; }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #064e3b;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid #10b981;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: none;
+      z-index: 120;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <div class="brand-box">
+      <div class="brand-icon">AP</div>
+      <div class="brand-text">
+        <h1>AgroPrime & EcoVale • CRM/ERP Global SEDAM (2026–2012)</h1>
+        <p>Lupa Universal • Links Fixos Anti-Bug • Modo Dia Alto Contraste • Editor Nuvem/Offline</p>
+      </div>
+    </div>
+    <div class="header-buttons">
+      <button class="btn btn-theme" onclick="toggleDayNightTheme()" id="btn-theme-toggle">☀️ Modo Dia</button>
+      <a class="btn" href="index.html">⬅️ Central SEDAM</a>
+      <a class="btn" href="DASHBOARD_VISTORIAS_SEDAM.html">📊 Painel Vistorias</a>
+      <button class="btn btn-emerald" onclick="openNewProducerModal()">➕ Novo Produtor</button>
+      <button class="btn btn-gold" onclick="exportEditedDataJSON()">📥 Exportar JSON</button>
+      <button class="btn btn-sky" onclick="syncWithAppsScript()">🔄 Sincronizar Nuvem</button>
+    </div>
+  </div>
+
+  <!-- NAVEGAÇÃO DE ABAS FIXAS -->
+  <div class="nav-tabs">
+    <a class="tab-btn active" href="#catalogo" id="tablink-catalogo" onclick="switchMainTab('tab-catalogo', this)">🗂️ Catálogo Global (2.377 Produtores)</a>
+    <a class="tab-btn" href="#lino" id="tablink-lino" onclick="switchMainTab('tab-lino', this)">⭐ Piloto #01 Lino Duque (100% Auditado)</a>
+    <a class="tab-btn" href="#rts" id="tablink-rts" onclick="switchMainTab('tab-rts', this)">👷 Diretório RTs & Empresas</a>
+    <a class="tab-btn" href="#anos" id="tablink-anos" onclick="switchMainTab('tab-anos', this)">📅 Auditoria por Ano (2026 a 2012)</a>
+    <a class="tab-btn" href="#vertex" id="tablink-vertex" onclick="switchMainTab('tab-vertex', this)">🛰️ Vertex AI + DAK + GEE</a>
+  </div>
+</header>
+
+<!-- BARRA DE LUPA GLOBAL E FILTROS PRÉ-PRONTOS -->
+<div class="search-hero">
+  <div class="search-bar-wrap">
+    <div class="search-icon">🔍</div>
+    <input
+      type="search"
+      class="search-input"
+      id="global-search-input"
+      placeholder="Pesquisar por nome, CPF/CNPJ, processo SEI, SIGA, guia, lote, linha, RT, peixe, café..."
+      oninput="onSearchChange(this.value)"
+    />
+    <button class="search-clear" id="search-clear-btn" onclick="clearSearch()">✖</button>
+  </div>
+
+  <!-- PÍLULAS DE ATIVIDADE & SUBCATEGORIA COM CORES DISTINTAS -->
+  <div class="filter-pills-row">
+    <span class="filter-label">Atividade:</span>
+    <button class="pill active" data-filter="subcat" data-val="ALL" onclick="setSubcatFilter('ALL', this)">👥 Todas</button>
+    <button class="pill pill-cyan" data-filter="subcat" data-val="PISCICULTURA" onclick="setSubcatFilter('PISCICULTURA', this)">🐟 Piscicultura</button>
+    <button class="pill pill-amber" data-filter="subcat" data-val="CAFE" onclick="setSubcatFilter('CAFE', this)">☕ Café Clonal Irrigado</button>
+    <button class="pill pill-cyan" data-filter="subcat" data-val="OUTORGA" onclick="setSubcatFilter('OUTORGA', this)">💧 Recursos Hídricos / Outorga</button>
+    <button class="pill" data-filter="subcat" data-val="REPRESA" onclick="setSubcatFilter('REPRESA', this)">🏞️ Barragem / Represa</button>
+    <button class="pill" data-filter="subcat" data-val="CAR" onclick="setSubcatFilter('CAR', this)">📜 CAR & Reserva Legal</button>
+    <button class="pill pill-purple" data-filter="subcat" data-val="PECUARIA" onclick="setSubcatFilter('PECUARIA', this)">🐄 Pecuária / Pastagem</button>
+    <button class="pill pill-indigo" data-filter="subcat" data-val="AGROINDUSTRIA" onclick="setSubcatFilter('AGROINDUSTRIA', this)">🏢 Agroindústria (PJ)</button>
+    <button class="pill pill-rose" data-filter="subcat" data-val="NOTIFICACAO" onclick="setSubcatFilter('NOTIFICACAO', this)">⚠️ Notificação Ativa</button>
+  </div>
+
+  <!-- FILTROS DROPDOWN -->
+  <div class="filter-pills-row" style="margin-top: 6px;">
+    <span class="filter-label">Filtros:</span>
+    <select class="dropdown-filter" id="filter-municipio" onchange="applyAllFilters()">
+      <option value="ALL">📍 Todos os Municípios</option>
+      <option value="Alta Floresta D'Oeste">Alta Floresta D'Oeste</option>
+      <option value="Santa Luzia D'Oeste">Santa Luzia D'Oeste</option>
+      <option value="Alto Alegre dos Parecis">Alto Alegre dos Parecis</option>
+      <option value="Nova Brasilândia D'Oeste">Nova Brasilândia D'Oeste</option>
+      <option value="Rolim de Moura">Rolim de Moura</option>
+    </select>
+
+    <select class="dropdown-filter" id="filter-ano" onchange="applyAllFilters()">
+      <option value="ALL">📅 Todos os Anos (2026→2012)</option>
+      <option value="2026">2026 (Ativos Agora)</option>
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+      <option value="2021">2021</option>
+      <option value="2020">2020 a 2012</option>
+    </select>
+
+    <select class="dropdown-filter" id="filter-faixa-valor" onchange="applyAllFilters()">
+      <option value="ALL">💰 Todas as Faixas de Gasto</option>
+      <option value="ATE_5K">Até R$ 5.000 (Pequeno)</option>
+      <option value="5K_15K">R$ 5.000 a R$ 15.000 (Médio)</option>
+      <option value="15K_30K">R$ 15.000 a R$ 30.000 (Alto)</option>
+      <option value="MAIS_30K">Acima de R$ 30.000 (Top)</option>
+    </select>
+
+    <select class="dropdown-filter" id="filter-tipo-pessoa" onchange="applyAllFilters()">
+      <option value="ALL">👤 PF + PJ</option>
+      <option value="PF">Apenas PF (Produtor Rural)</option>
+      <option value="PJ">Apenas PJ (Empresas)</option>
+    </select>
+
+    <span id="results-count-badge" class="badge badge-emerald" style="margin-left: auto; font-size: 0.8rem; padding: 6px 12px;">Carregando banco...</span>
+  </div>
+</div>
+
+<main>
+  <!-- KPIS -->
+  <div class="kpi-grid" id="kpi-container"></div>
+
+  <!-- ABA 1: CATÁLOGO GERAL DE PRODUTORES (DEFAULT) -->
+  <section id="tab-catalogo" class="tab-panel active">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">🗂️ Catálogo Consolidado de Produtores e Empresas (Ordem Cronológica 2026→2012)</div>
+        <button class="btn btn-emerald" onclick="openNewProducerModal()">➕ Novo Cadastro</button>
+      </div>
+
+      <div class="table-responsive">
+        <table id="table-producers">
+          <thead>
+            <tr>
+              <th>ID Fixo</th>
+              <th>Ano Recente</th>
+              <th>Produtor Rural / Empresa</th>
+              <th>CPF / CNPJ</th>
+              <th>Município</th>
+              <th>Processos Vinculados</th>
+              <th>Eventos</th>
+              <th>Gasto Est.</th>
+              <th>Ações Rápidas</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 2: PILOTO 01 LINO DUQUE 100% -->
+  <section id="tab-lino" class="tab-panel">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">⭐ Ficha Mestra 100% — Lino da Silva Duque (`Sítio São José`)</div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-gold" onclick="copyCurrentProducerLink('CLI-RO-AFO-0001')">🔗 Copiar Link Fixo</button>
+          <button class="btn btn-emerald" onclick="openEditProducerModal('CLI-RO-AFO-0001')">✏️ Editar Cadastro</button>
+        </div>
+      </div>
+      
+      <!-- PERMALINK BOX -->
+      <div class="permalink-bar">
+        <span>🔗 Link Fixo Permanente:</span>
+        <input type="text" class="permalink-input" readonly value="https://emanuelssantana.github.io/sedam-solar-vistoria-outorga/CRM_ERP_GLOBAL_SEDAM.html#produtor=CLI-RO-AFO-0001" />
+        <button class="btn btn-emerald" onclick="copyCurrentProducerLink('CLI-RO-AFO-0001')">📋 Copiar</button>
+        <button class="btn btn-gold" onclick="shareWhatsApp('CLI-RO-AFO-0001', 'Lino da Silva Duque')">📲 WhatsApp</button>
+      </div>
+
+      <div class="grid-2" id="lino-overview-grid"></div>
+    </div>
+
+    <!-- SANFONA 1: CHECKLIST DE REGULARIZAÇÃO -->
+    <div class="accordion-box open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>🚨 O que Está Faltando para Este Produtor? (Checklist de Regularização SEDAM)</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content" id="lino-checklist-content"></div>
+    </div>
+
+    <!-- SANFONA 2: OPORTUNIDADES AGROPRIME -->
+    <div class="accordion-box open">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>💡 Oportunidades Multisserviços AgroPrime & Diagnóstico Econômico</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content" id="lino-opportunities-content"></div>
+    </div>
+
+    <!-- SANFONA 3: 4 PROCESSOS MESTRE -->
+    <div class="accordion-box">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>📂 4 Processos Mestre e Licenças (LO 159556 + 2 Outorgas COREH + CAR) [Clique para Expandir]</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content">
+        <div class="grid-2" id="lino-processes-grid"></div>
+      </div>
+    </div>
+
+    <!-- SANFONA 4: LINHA DO TEMPO (21 EVENTOS) -->
+    <div class="accordion-box">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>⏳ Linha Cronológica Completa (2017 a 2026 • 21 Eventos Auditados) [Clique para Expandir]</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content">
+        <div class="table-responsive">
+          <table id="lino-timeline-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Data</th>
+                <th>Processo</th>
+                <th>Evento</th>
+                <th>Setor</th>
+                <th>Detalhamento</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SANFONA 5: GALERIA FOTOGRÁFICA WEBP -->
+    <div class="accordion-box">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>📸 Fotos de Campo Convertidas em WebP Leve (206 Mídias Mapeadas) [Clique para Expandir]</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content">
+        <div id="lino-media-folders" style="margin-bottom:12px;"></div>
+        <div class="photo-grid" id="lino-webp-gallery"></div>
+      </div>
+    </div>
+
+    <!-- SANFONA 6: LAUDOS WORD TEXTO INTEGRAL -->
+    <div class="accordion-box">
+      <div class="accordion-header" onclick="toggleAccordion(this)">
+        <span>📄 Textos Integrais Extraídos dos Laudos Word (.doc/.docx) [Clique para Expandir]</span>
+        <span class="acc-icon">▼</span>
+      </div>
+      <div class="accordion-content" id="lino-verbatim-docs"></div>
+    </div>
+  </section>
+
+  <!-- ABA 3: DIRETÓRIO RTs -->
+  <section id="tab-rts" class="tab-panel">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">👷 Diretório de Responsáveis Técnicos, Empresas & Analistas SEDAM</div>
+        <span class="badge badge-gold">Contatos Auditados para Agendamento de Vistorias Anuais</span>
+      </div>
+      <div class="table-responsive">
+        <table id="table-rts">
+          <thead>
+            <tr>
+              <th>Nome / Razão Social</th>
+              <th>Registro (CREA/CFTA)</th>
+              <th>Qualificação</th>
+              <th>Tipo</th>
+              <th>Base Territorial</th>
+              <th>Telefone</th>
+              <th>Processos</th>
+              <th>Ticket Médio</th>
+              <th>Especialidades</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 4: AUDITORIA ANUAL (2026 A 2012) -->
+  <section id="tab-anos" class="tab-panel">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">📅 Auditoria por Ano: O que Já Foi Feito e o que Faltava?</div>
+        <span class="badge badge-emerald">100% da Rede M:\ Extraída (2026 até 2012)</span>
+      </div>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">
+        🔍 <strong>Transparência Total:</strong> Não falta nenhum ano anterior! Todos os arquivos de <strong>2026 até 2012</strong> foram extraídos da rede <code>M:\ERGAS\Alta Floresta</code> (1.475 laudos Word, 2.006 linhas de guias de malote, 829 pastas e 17.421 fotos/vídeos). Cada ano está isolado em seu próprio banco no Google Drive e integrado ao catálogo geral:
+      </p>
+      <div class="table-responsive">
+        <table id="table-years">
+          <thead>
+            <tr>
+              <th>Ano Auditado</th>
+              <th>Produtores Ativos</th>
+              <th>Protocolos em Malotes</th>
+              <th>Processos SEI</th>
+              <th>Controles de Vistoria</th>
+              <th>Laudos Word Extraídos</th>
+              <th>Pastas de Fotos</th>
+              <th>Total de Mídias</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 5: VERTEX AI + BIGQUERY + GEE -->
+  <section id="tab-vertex" class="tab-panel">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">🛰️ Ecossistema Integrado: Vertex AI + DAK BigQuery + Google Earth Engine + Colab</div>
+        <span class="badge badge-emerald">Projeto GCP: gen-lang-client-0913740404</span>
+      </div>
+      <div class="grid-3">
+        <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
+          <div class="kpi-title">1. BigQuery (DAK)</div>
+          <div class="kpi-num" style="font-size:1.1rem;">`gen-lang-client-0913740404.sedam_analytics`</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:8px 0;">Dataset com tabelas consolidadas em São Paulo (`southamerica-east1`).</p>
+          <a class="btn btn-emerald" target="_blank" href="https://console.cloud.google.com/bigquery?project=gen-lang-client-0913740404">Console BigQuery ↗</a>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid var(--gold);">
+          <div class="kpi-title">2. Colab + GEE + Random Forest</div>
+          <div class="kpi-num" style="font-size:1.1rem;">Sentinel-2 + NDVI / NDWI</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:8px 0;">Auditoria orbital de piscicultura (3,21 ha), café (9,06 ha) e TCC.</p>
+          <div style="display:flex;gap:6px;">
+            <a class="btn btn-gold" href="dados/SEDAM_AgroPrime_VertexAI_DAK_GEE_RandomForest_Colab.ipynb" download>⬇️ Notebook (.ipynb)</a>
+            <a class="btn" href="dados/COORDENADAS_GEOJSON_2026_2012.geojson" download>📍 GeoJSON</a>
+          </div>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid var(--sky);">
+          <div class="kpi-title">3. API Google Apps Script</div>
+          <div class="kpi-num" style="font-size:1.1rem;">Endpoint Nuvem Ativo</div>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin:8px 0;">Gravação e leitura na nuvem sem precisar do notebook ligado.</p>
+          <button class="btn btn-sky" onclick="syncWithAppsScript()">🔄 Testar Endpoint Nuvem</button>
+        </div>
+      </div>
+      <div id="apps-script-box" style="margin-top:14px;"></div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL UNIFICADO: FICHA INDIVIDUAL DO PRODUTOR (COM LINK FIXO PRÓPRIO) -->
+<div class="modal-backdrop" id="modal-producer" onclick="if(event.target===this)closeProducerModal()">
+  <div class="modal-content" id="modal-producer-body"></div>
+</div>
+
+<!-- MODAL EDIÇÃO E NOVO CADASTRO -->
+<div class="modal-backdrop" id="modal-edit" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal-content" style="max-width: 840px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--border);padding-bottom:10px;margin-bottom:14px;">
+      <h3 id="edit-title" style="color:var(--heading);font-weight:900;">✏️ Editar Cadastro do Produtor / Empresa</h3>
+      <button class="btn" onclick="closeEditModal()">✖ Fechar</button>
+    </div>
+    <form id="form-edit-producer" onsubmit="handleSaveProducer(event)">
+      <input type="hidden" id="field-id-catalogo" />
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Nome do Produtor Rural / Razão Social *</label>
+          <input type="text" class="form-control" id="field-nome" required />
+        </div>
+        <div class="form-group">
+          <label>CPF ou CNPJ *</label>
+          <input type="text" class="form-control" id="field-cpf-cnpj" required />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Tipo de Pessoa</label>
+          <select class="form-control" id="field-tipo-pessoa">
+            <option value="PF (Produtor Rural)">PF (Produtor Rural)</option>
+            <option value="PJ (Agroindústria / Empresa / Entidade)">PJ (Agroindústria / Empresa / Entidade)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Município</label>
+          <input type="text" class="form-control" id="field-municipio" value="Alta Floresta D'Oeste" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nome do Imóvel / Endereço / Linha / Lote</label>
+        <input type="text" class="form-control" id="field-endereco" placeholder="Ex: Sítio Boa Esperança — Linha 156, Km 14" />
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Telefone(s) de Contato (Titular e/ou RT)</label>
+          <input type="text" class="form-control" id="field-telefones" placeholder="Ex: (69) 98474-3091; (69) 3641-2505" />
+        </div>
+        <div class="form-group">
+          <label>Responsável Técnico (RT) / Empresa</label>
+          <input type="text" class="form-control" id="field-tecnico" placeholder="Ex: Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO)" />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Atividade Principal / Subcategoria</label>
+          <input type="text" class="form-control" id="field-atividade" placeholder="Ex: Piscicultura, Café Clonal Irrigado, Barragem" />
+        </div>
+        <div class="form-group">
+          <label>Gasto Histórico Estimado (R$)</label>
+          <input type="number" step="100" class="form-control" id="field-gasto" value="5000" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Anotações Internas de Campo e Vistoria</label>
+        <textarea class="form-control" id="field-notas" placeholder="Histórico de visitas, notificações, pendências a resolver..."></textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:14px;">
+        <button type="button" class="btn" onclick="closeEditModal()">Cancelar</button>
+        <button type="submit" class="btn btn-emerald">💾 Salvar Alterações (Nuvem + Offline)</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="dados/dossie_lino_duque.js"></script>
+<script src="dados/catalogo_2026_2012.js"></script>
+<script>
+  // ESTADO GLOBAL
+  const LINO = window.AGROPRIME_LINO_DOSSIER || {};
+  let CATALOGO = window.AGROPRIME_CATALOGO_2026_2012 || {};
+  let producersList = [];
+  let storageKey = 'AGROPRIME_PRODUTORES_EDITADOS_V3';
+  let activeSubcat = 'ALL';
+  let searchWord = '';
+
+  // INICIALIZAÇÃO
+  function initApp() {
+    loadThemePreference();
+    setupProducersDatabase();
+    renderKPIs();
+    renderLinoView();
+    renderRTsView();
+    renderYearsView();
+    handleUrlHashRouting();
+  }
+
+  // TEMA DIA / NOITE
+  function loadThemePreference() {
+    const saved = localStorage.getItem('AGROPRIME_THEME') || 'light';
+    setTheme(saved);
+  }
+
+  function toggleDayNightTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+    setTheme(next);
+  }
+
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('AGROPRIME_THEME', t);
+    const btn = document.getElementById('btn-theme-toggle');
+    if (btn) btn.innerHTML = t === 'light' ? '☀️ Modo Dia' : '🌙 Modo Noite';
+  }
+
+  // CARREGAR DADOS COM MESCLAGEM DE EDIÇÕES OFFLINE
+  function setupProducersDatabase() {
+    producersList = [...(CATALOGO.produtores_catalogo || [])];
+    try {
+      const localEdits = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      Object.keys(localEdits).forEach(id => {
+        const idx = producersList.findIndex(p => p.id_catalogo === id);
+        if (idx >= 0) {
+          producersList[idx] = { ...producersList[idx], ...localEdits[id] };
+        } else {
+          producersList.unshift(localEdits[id]);
+        }
+      });
+    } catch (e) {
+      console.warn('Erro ao carregar localStorage:', e);
+    }
+    applyAllFilters();
+  }
+
+  // ROTEAMENTO ANTI-BUG POR HASH DA URL
+  function handleUrlHashRouting() {
+    const hash = window.location.hash || '#catalogo';
+    
+    if (hash.startsWith('#produtor=')) {
+      const pId = hash.replace('#produtor=', '').trim();
+      openProducerFicha(pId);
+      switchMainTab('tab-catalogo', document.getElementById('tablink-catalogo'));
+      return;
+    }
+
+    if (hash === '#lino') switchMainTab('tab-lino', document.getElementById('tablink-lino'));
+    else if (hash === '#rts') switchMainTab('tab-rts', document.getElementById('tablink-rts'));
+    else if (hash === '#anos') switchMainTab('tab-anos', document.getElementById('tablink-anos'));
+    else if (hash === '#vertex') switchMainTab('tab-vertex', document.getElementById('tablink-vertex'));
+    else switchMainTab('tab-catalogo', document.getElementById('tablink-catalogo'));
+  }
+
+  window.addEventListener('hashchange', handleUrlHashRouting);
+
+  function switchMainTab(tabId, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  // ACCORDIONS ([+] E [-])
+  function toggleAccordion(headerEl) {
+    const box = headerEl.parentElement;
+    box.classList.toggle('open');
+  }
+
+  // KPIS
+  function renderKPIs() {
+    const st = CATALOGO.estatisticas_globais || {};
+    const dist = st.distribuicao_produtores_por_ano_recente || {};
+    document.getElementById('kpi-container').innerHTML = `
+      <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
+        <div class="kpi-title">Produtores & Empresas Consolidados</div>
+        <div class="kpi-num">${producersList.length.toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">2026: ${dist['2026'] || 461} ativos • 2025: ${dist['2025'] || 548} ativos</div>
+      </div>
+      <div class="kpi-card" style="border-left: 4px solid var(--sky);">
+        <div class="kpi-title">Laudos Word Extraídos (.doc/.docx)</div>
+        <div class="kpi-num">${(st.total_word_laudos_extraidos || 1475).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">100% da Rede M:\\ERGAS (2012 a 2026)</div>
+      </div>
+      <div class="kpi-card" style="border-left: 4px solid var(--gold);">
+        <div class="kpi-title">Protocolos Oficiais de Malote</div>
+        <div class="kpi-num">${(st.total_protocolos_malote_extraidos || 2006).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">1.192 com CPF explícito • 603 com CNPJ</div>
+      </div>
+      <div class="kpi-card" style="border-left: 4px solid var(--purple);">
+        <div class="kpi-title">Processos SEI & Vistorias</div>
+        <div class="kpi-num">${((st.total_processos_sei_sqlite || 3076) + (st.total_vistorias_2026_sqlite || 0)).toLocaleString('pt-BR')}</div>
+        <div class="kpi-sub">${st.total_diretorios_indexados_rede_m || 829} pastas mapeadas</div>
+      </div>
+      <div class="kpi-card" style="border-left: 4px solid var(--orange);">
+        <div class="kpi-title">Piloto #01 Lino da Silva Duque</div>
+        <div class="kpi-num" style="font-size:1.35rem;">100% Auditado</div>
+        <div class="kpi-sub">3 Processos Mestre • 21 Marcos • 206 Mídias</div>
+      </div>
+    `;
+  }
+
+  // BUSCA E FILTROS MULTICRITÉRIO
+  function onSearchChange(val) {
+    searchWord = (val || '').toLowerCase().trim();
+    document.getElementById('search-clear-btn').style.display = searchWord ? 'block' : 'none';
+    applyAllFilters();
+  }
+
+  function clearSearch() {
+    document.getElementById('global-search-input').value = '';
+    onSearchChange('');
+  }
+
+  function setSubcatFilter(val, btn) {
+    activeSubcat = val;
+    document.querySelectorAll('.pill[data-filter="subcat"]').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    applyAllFilters();
+  }
+
+  function applyAllFilters() {
+    const fMun = document.getElementById('filter-municipio')?.value || 'ALL';
+    const fAno = document.getElementById('filter-ano')?.value || 'ALL';
+    const fValor = document.getElementById('filter-faixa-valor')?.value || 'ALL';
+    const fTipo = document.getElementById('filter-tipo-pessoa')?.value || 'ALL';
+
+    const results = producersList.filter(p => {
+      if (fTipo === 'PF' && !p.tipo_pessoa.includes('PF')) return false;
+      if (fTipo === 'PJ' && !p.tipo_pessoa.includes('PJ')) return false;
+      if (fMun !== 'ALL' && p.municipio !== fMun) return false;
+
+      if (fAno !== 'ALL') {
+        if (fAno === '2020') {
+          if (Number(p.ano_mais_recente) > 2020) return false;
+        } else {
+          if (p.ano_mais_recente !== fAno && !(p.anos_ativos || []).includes(fAno)) return false;
+        }
+      }
+
+      const val = Number(p.gasto_estimado_consultoria_brl || 0);
+      if (fValor === 'ATE_5K' && val > 5000) return false;
+      if (fValor === '5K_15K' && (val <= 5000 || val > 15000)) return false;
+      if (fValor === '15K_30K' && (val <= 15000 || val > 30000)) return false;
+      if (fValor === 'MAIS_30K' && val <= 30000) return false;
+
+      if (activeSubcat !== 'ALL') {
+        const ativs = (p.atividades || []).join(' ').toUpperCase();
+        const full = `${p.nome_produtor_ou_empresa} ${ativs} ${(p.processos||[]).join(' ')}`.toUpperCase();
+        if (activeSubcat === 'PISCICULTURA' && !full.includes('PISCICULTURA') && !full.includes('PEIXE') && !full.includes('TANQUE')) return false;
+        if (activeSubcat === 'CAFE' && !full.includes('CAFÉ') && !full.includes('CAFE') && !full.includes('IRRIGA')) return false;
+        if (activeSubcat === 'OUTORGA' && !full.includes('OUTORGA') && !full.includes('HIDR') && !full.includes('HÍDR')) return false;
+        if (activeSubcat === 'REPRESA' && !full.includes('REPRESA') && !full.includes('BARRAGEM')) return false;
+        if (activeSubcat === 'CAR' && !full.includes('CAR') && !full.includes('RESERVA') && !full.includes('APP')) return false;
+        if (activeSubcat === 'PECUARIA' && !full.includes('PECUARIA') && !full.includes('PECUÁRIA') && !full.includes('GADO')) return false;
+        if (activeSubcat === 'AGROINDUSTRIA' && !p.tipo_pessoa.includes('PJ')) return false;
+        if (activeSubcat === 'NOTIFICACAO' && !full.includes('NOTIFICA') && !full.includes('PARECER') && !full.includes('DESPACHO')) return false;
+      }
+
+      if (searchWord) {
+        const hay = `${p.id_catalogo} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${p.endereco||''} ${(p.telefones||[]).join(' ')} ${(p.processos||[]).join(' ')} ${(p.tecnicos||[]).join(' ')} ${(p.atividades||[]).join(' ')} ${p.notas_internas||''}`.toLowerCase();
+        return hay.includes(searchWord);
+      }
+
+      return true;
+    });
+
+    renderProducersTable(results);
+  }
+
+  function renderProducersTable(list) {
+    document.getElementById('results-count-badge').textContent = `${list.length} produtores exibidos`;
+    const tbody = document.querySelector('#table-producers tbody');
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:26px;color:var(--text-muted);font-weight:700;">Nenhum produtor encontrado com os filtros atuais. Limpe a busca acima.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.slice(0, 350).map(p => {
+      const isPJ = p.tipo_pessoa.includes('PJ');
+      const badgeTipo = isPJ ? 'badge-indigo' : 'badge-emerald';
+      const badgeAno = p.ano_mais_recente === '2026' ? 'badge-emerald' : (p.ano_mais_recente === '2025' ? 'badge-gold' : 'badge-sky');
+
+      return `
+        <tr>
+          <td><code style="color:var(--emerald);font-weight:800;">${p.id_catalogo}</code></td>
+          <td>
+            <span class="badge ${badgeAno}">${p.ano_mais_recente}</span>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${(p.anos_ativos||[]).slice(0,3).join(', ')}</div>
+          </td>
+          <td>
+            <strong>${p.nome_produtor_ou_empresa}</strong>
+            <div><span class="badge ${badgeTipo}">${isPJ ? '🏢 Empresa/PJ' : '🌾 Produtor Rural'}</span></div>
+          </td>
+          <td><code>${p.cpf_cnpj}</code></td>
+          <td>${p.municipio}</td>
+          <td>
+            <span class="badge badge-sky">${p.qtd_processos_unicos || (p.processos||[]).length} proc.</span>
+            <div style="font-size:0.74rem;color:var(--text-muted);margin-top:2px;"><code>${(p.processos||[]).slice(0,2).join(', ')}</code></div>
+          </td>
+          <td>
+            <strong>${p.qtd_eventos_totais || ((p.protocolos_malote||[]).length + (p.processos_sei_lista||[]).length)}</strong> eventos
+            ${(p.pastas_fotos||[]).length ? `<br/><span class="badge badge-emerald">📸 ${p.pastas_fotos.length} pasta(s)</span>` : ''}
+          </td>
+          <td><strong>R$ ${(p.gasto_estimado_consultoria_brl || 0).toLocaleString('pt-BR')}</strong></td>
+          <td>
+            <div style="display:flex;gap:4px;">
+              <button class="btn btn-emerald" onclick="openProducerFicha('${p.id_catalogo}')">👁️ Ver Dossiê</button>
+              <button class="btn btn-gold" title="Copiar Link Fixo" onclick="copyCurrentProducerLink('${p.id_catalogo}')">🔗</button>
+              <button class="btn" title="Editar" onclick="openEditProducerModal('${p.id_catalogo}')">✏️</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // FICHA DO PRODUTOR (COM LINK FIXO DEDICADO, CHECKLIST E DIAGNÓSTICO)
+  function openProducerFicha(idCat) {
+    if (idCat === 'CLI-RO-AFO-0001') {
+      switchMainTab('tab-lino', document.getElementById('tablink-lino'));
+      window.location.hash = '#lino';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const p = producersList.find(x => x.id_catalogo === idCat);
+    if (!p) {
+      showToast('⚠️ Produtor não encontrado!');
+      return;
+    }
+
+    // Atualizar hash da URL para link fixo direto
+    window.location.hash = `#produtor=${p.id_catalogo}`;
+
+    const permalink = `${window.location.origin}${window.location.pathname}#produtor=${p.id_catalogo}`;
+
+    // Checklist de Regularização
+    const checklist = p.checklist_faltantes || [];
+    const checklistHtml = checklist.map(c => `
+      <div class="checklist-item">
+        <span><strong>${c.item}</strong></span>
+        <span class="badge ${c.classe}">${c.status}</span>
+      </div>
+    `).join('') || '<div class="checklist-item"><span>Checklist padrão em análise</span><span class="badge badge-sky">EM AUDITORIA</span></div>';
+
+    // Oportunidades AgroPrime
+    const oportunidades = p.oportunidades_agroprime || [];
+    const oppsHtml = oportunidades.map(o => `
+      <div style="background:var(--bg-card-alt);border:1.5px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong style="color:var(--heading);">${o.area || o.titulo}</strong>
+          <span class="badge badge-emerald">R$ ${(o.ticket_estimado || o.ticket_estimado_brl || 0).toLocaleString('pt-BR')}</span>
+        </div>
+        <div style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">${o.detalhes || o.servico}</div>
+      </div>
+    `).join('');
+
+    // Benchmark da Vizinhança
+    const bmk = p.benchmark_vizinhanca || {};
+    const bmkHtml = `
+      <div style="background:var(--bg-card-alt);border:1.5px solid var(--border);border-radius:10px;padding:12px;">
+        <p><strong>Região Territorial:</strong> ${bmk.regiao_vizinhanca || p.municipio}</p>
+        <p><strong>Custo Médio na Vizinhança:</strong> ${bmk.gasto_medio_vizinhos_brl || 'R$ 5.000 a R$ 12.000 por outorga/licença'}</p>
+        <p><strong>Situação Regulatória dos Vizinhos:</strong> ${bmk.taxa_regularizacao_coreh || 'Maioria em fase de renovação de outorga'}</p>
+        <p style="color:var(--emerald);font-weight:700;margin-top:6px;">💡 ${bmk.oportunidade_coletiva || 'Assessoria conjunta na mesma vicinal reduz despesas de deslocamento.'}</p>
+      </div>
+    `;
+
+    // Protocolos de Malote
+    const malotesHtml = (p.protocolos_malote || []).map(m =>
+      `<li><strong>[${m.ano}] Guia ${m.guia || '-'} (${m.data || '-'}):</strong> Prot. <code>${m.protocolo || '-'}</code> • Proc. <code>${m.processo || '-'}</code> — ${m.assunto || ''}</li>`
+    ).join('') || '<li>Nenhum registro de malote individualizado.</li>';
+
+    // Laudos Word
+    const laudosHtml = (p.vistorias_e_laudos || []).map(l =>
+      `<li><strong>[${l.ano}]</strong> <code>${l.arquivo || ''}</code> ${l.empreendimento ? '— ' + l.empreendimento : ''} ${l.registro_tabela ? '— ' + l.registro_tabela : ''}</li>`
+    ).join('') || '<li>Sem laudo Word individualizado.</li>';
+
+    // Fotos de Campo
+    const fotosHtml = (p.pastas_fotos || []).map(f =>
+      `<li><strong>[${f.ano}]</strong> 📁 <code>${f.pasta}</code> (${f.qtd_fotos_videos} fotos/vídeos mapeados)</li>`
+    ).join('') || '<li>Sem pasta de fotos individualizada.</li>';
+
+    document.getElementById('modal-producer-body').innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--border);padding-bottom:12px;margin-bottom:14px;">
+        <div>
+          <span class="badge badge-emerald">${p.id_catalogo}</span>
+          <span class="badge badge-gold">Ano Mais Recente: ${p.ano_mais_recente}</span>
+          <h2 style="margin-top:6px;color:var(--heading);font-weight:900;">${p.nome_produtor_ou_empresa}</h2>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-emerald" onclick="openEditProducerModal('${p.id_catalogo}')">✏️ Editar</button>
+          <button class="btn" onclick="closeProducerModal()">✖ Fechar</button>
+        </div>
+      </div>
+
+      <!-- PERMALINK BOX FIXO -->
+      <div class="permalink-bar">
+        <span>🔗 Link Fixo Permanente:</span>
+        <input type="text" class="permalink-input" id="modal-permalink-input" readonly value="${permalink}" />
+        <button class="btn btn-emerald" onclick="copyCurrentProducerLink('${p.id_catalogo}')">📋 Copiar Link</button>
+        <button class="btn btn-gold" onclick="shareWhatsApp('${p.id_catalogo}', '${p.nome_produtor_ou_empresa}')">📲 WhatsApp</button>
+      </div>
+
+      <!-- DADOS CADASTRAIS -->
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
+          <p><strong>CPF / CNPJ:</strong> <code>${p.cpf_cnpj}</code></p>
+          <p><strong>Perfil:</strong> ${p.tipo_pessoa}</p>
+          <p><strong>Município:</strong> ${p.municipio}</p>
+          <p><strong>Endereço / Gleba / Lote:</strong> ${p.endereco || p.propriedade || 'Em cadastramento'}</p>
+          <p><strong>Telefones de Contato:</strong> ${(p.telefones||[]).join(', ') || 'Consultar guia/RT'}</p>
+          <p><strong>Atividades:</strong> ${(p.atividades||[]).join(', ')}</p>
+        </div>
+        <div class="kpi-card" style="border-left: 4px solid var(--gold);">
+          <p><strong>Processos SEI / SIGA:</strong> <code>${(p.processos||[]).join(', ') || 'Registrado nos autos'}</code></p>
+          <p><strong>RTs / Analistas:</strong> ${(p.tecnicos||[]).join(', ') || 'ERGA/AFO'}</p>
+          <p style="margin-top:6px;"><strong>Gasto Histórico Estimado:</strong> <span class="badge badge-gold">R$ ${(p.gasto_estimado_consultoria_brl||0).toLocaleString('pt-BR')}</span></p>
+          <p style="margin-top:4px;"><strong>Potencial Contrato AgroPrime:</strong> <span class="badge badge-emerald">R$ ${(p.potencial_contrato_agroprime_brl||Math.round((p.gasto_estimado_consultoria_brl||0)*0.65)).toLocaleString('pt-BR')}</span></p>
+          ${p.notas_internas ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><strong>Anotações Internas:</strong><div style="font-size:0.83rem;color:var(--text);">${p.notas_internas}</div></div>` : ''}
+        </div>
+      </div>
+
+      <!-- CHECKLIST DE REGULARIZAÇÃO (O QUE ESTÁ FALTANDO) -->
+      <div class="accordion-box open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🚨 O que Está Faltando para Este Produtor? (Checklist de Regularização SEDAM)</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="checklist-grid">${checklistHtml}</div>
+        </div>
+      </div>
+
+      <!-- OPORTUNIDADES AGROPRIME -->
+      <div class="accordion-box open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>💡 Oportunidades Multisserviços AgroPrime (Florestal, Agronomia, Veterinária, Audiovisual)</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          ${oppsHtml}
+          <h4 style="margin:12px 0 6px;color:var(--heading);">📊 Média de Valores da Vizinhança:</h4>
+          ${bmkHtml}
+        </div>
+      </div>
+
+      <!-- SANFONA: MALOTES -->
+      <div class="accordion-box">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📬 Protocolos Oficiais de Malote SEDAM (${(p.protocolos_malote||[]).length} registros) [Clique para Expandir]</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <ul style="padding-left:18px;font-size:0.83rem;">${malotesHtml}</ul>
+        </div>
+      </div>
+
+      <!-- SANFONA: LAUDOS WORD -->
+      <div class="accordion-box">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📄 Vistorias, Controles e Laudos Word (${(p.vistorias_e_laudos||[]).length} registros) [Clique para Expandir]</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <ul style="padding-left:18px;font-size:0.83rem;">${laudosHtml}</ul>
+        </div>
+      </div>
+
+      <!-- SANFONA: PASTAS DE FOTOS -->
+      <div class="accordion-box">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📸 Pastas de Fotos na Rede M:\ (${(p.pastas_fotos||[]).length} pastas) [Clique para Expandir]</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <ul style="padding-left:18px;font-size:0.83rem;">${fotosHtml}</ul>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('modal-producer').classList.add('open');
+  }
+
+  function closeProducerModal() {
+    document.getElementById('modal-producer').classList.remove('open');
+  }
+
+  // COPIAR LINK FIXO
+  function copyCurrentProducerLink(id) {
+    const url = `${window.location.origin}${window.location.pathname}#produtor=${id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast(`🔗 Link fixo copiado: ${url}`);
+    }).catch(() => {
+      prompt('Copie o link fixo do produtor:', url);
+    });
+  }
+
+  function shareWhatsApp(id, nome) {
+    const url = `${window.location.origin}${window.location.pathname}#produtor=${id}`;
+    const txt = encodeURIComponent(`Olá! Veja a Ficha e Dossiê SEDAM de ${nome}: ${url}`);
+    window.open(`https://api.whatsapp.com/send?text=${txt}`, '_blank');
+  }
+
+  // MODAL EDIÇÃO
+  function openEditProducerModal(idCat) {
+    closeProducerModal();
+    const isNew = !idCat;
+    document.getElementById('edit-title').textContent = isNew ? '➕ Novo Cadastro de Produtor / Empresa' : '✏️ Editar Cadastro do Produtor';
+    
+    if (isNew) {
+      document.getElementById('field-id-catalogo').value = '';
+      document.getElementById('field-nome').value = '';
+      document.getElementById('field-cpf-cnpj').value = '';
+      document.getElementById('field-tipo-pessoa').value = 'PF (Produtor Rural)';
+      document.getElementById('field-municipio').value = "Alta Floresta D'Oeste";
+      document.getElementById('field-endereco').value = '';
+      document.getElementById('field-telefones').value = '';
+      document.getElementById('field-tecnico').value = '';
+      document.getElementById('field-atividade').value = '';
+      document.getElementById('field-gasto').value = '5000';
+      document.getElementById('field-notas').value = '';
+    } else {
+      const p = producersList.find(x => x.id_catalogo === idCat) || {};
+      document.getElementById('field-id-catalogo').value = idCat;
+      document.getElementById('field-nome').value = p.nome_produtor_ou_empresa || '';
+      document.getElementById('field-cpf-cnpj').value = p.cpf_cnpj || '';
+      document.getElementById('field-tipo-pessoa').value = p.tipo_pessoa || 'PF (Produtor Rural)';
+      document.getElementById('field-municipio').value = p.municipio || "Alta Floresta D'Oeste";
+      document.getElementById('field-endereco').value = p.endereco || p.propriedade || '';
+      document.getElementById('field-telefones').value = Array.isArray(p.telefones) ? p.telefones.join('; ') : (p.telefones || '');
+      document.getElementById('field-tecnico').value = Array.isArray(p.tecnicos) ? p.tecnicos.join('; ') : (p.tecnicos || '');
+      document.getElementById('field-atividade').value = Array.isArray(p.atividades) ? p.atividades.join(', ') : (p.atividade_principal || '');
+      document.getElementById('field-gasto').value = p.gasto_estimado_consultoria_brl || 5000;
+      document.getElementById('field-notas').value = p.notas_internas || '';
+    }
+
+    document.getElementById('modal-edit').classList.add('open');
+  }
+
+  function openNewProducerModal() {
+    openEditProducerModal(null);
+  }
+
+  function closeEditModal() {
+    document.getElementById('modal-edit').classList.remove('open');
+  }
+
+  // SALVAR FORMULÁRIO (LOCALSTORAGE + APPS SCRIPT)
+  function handleSaveProducer(ev) {
+    ev.preventDefault();
+    const id = document.getElementById('field-id-catalogo').value || ('CLI-RO-' + Date.now().toString().slice(-4));
+    const nome = document.getElementById('field-nome').value.trim();
+    const cpfCnpj = document.getElementById('field-cpf-cnpj').value.trim();
+    const tipo = document.getElementById('field-tipo-pessoa').value;
+    const mun = document.getElementById('field-municipio').value.trim();
+    const endereco = document.getElementById('field-endereco').value.trim();
+    const telefones = document.getElementById('field-telefones').value.split(';').map(s=>s.trim()).filter(Boolean);
+    const tecnico = document.getElementById('field-tecnico').value.split(';').map(s=>s.trim()).filter(Boolean);
+    const atividade = document.getElementById('field-atividade').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const gasto = Number(document.getElementById('field-gasto').value) || 0;
+    const notas = document.getElementById('field-notas').value.trim();
+
+    const updated = {
+      id_catalogo: id,
+      nome_produtor_ou_empresa: nome,
+      cpf_cnpj: cpfCnpj,
+      tipo_pessoa: tipo,
+      municipio: mun,
+      endereco: endereco,
+      telefones: telefones,
+      tecnicos: tecnico,
+      atividades: atividade,
+      gasto_estimado_consultoria_brl: gasto,
+      potencial_contrato_agroprime_brl: Math.round(gasto * 0.65),
+      notas_internas: notas,
+      ano_mais_recente: '2026',
+      anos_ativos: ['2026'],
+      atualizado_em: new Date().toISOString()
+    };
+
+    // Salvar localmente
+    try {
+      const localCustom = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      localCustom[id] = updated;
+      localStorage.setItem(storageKey, JSON.stringify(localCustom));
+    } catch (e) {
+      console.warn('Erro ao salvar no localStorage:', e);
+    }
+
+    const idx = producersList.findIndex(p => p.id_catalogo === id);
+    if (idx >= 0) producersList[idx] = { ...producersList[idx], ...updated };
+    else producersList.unshift(updated);
+
+    closeEditModal();
+    applyAllFilters();
+    showToast(`✅ Produtor ${nome} salvo com sucesso!`);
+
+    // Sincronizar nuvem Apps Script
+    try {
+      const url = CATALOGO.apps_script_url || 'https://script.google.com/macros/s/AKfycbxYTqIPYbl8YOMfB1bY1qGkbRZLhvpPIOh7-IcwjHCdNrqoVWZDE0WfC13oQ_ry7wB3/exec';
+      fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ acao: 'salvar_produtor', token: 'sedam-outorga-campo-2026', produtor: updated })
+      }).then(() => {
+        showToast('☁️ Sincronizado com a nuvem do Google Apps Script!');
+      }).catch(err => console.log('Apps script async:', err));
+    } catch (err) {}
+  }
+
+  function exportEditedDataJSON() {
+    const localCustom = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localCustom, null, 2));
+    const dl = document.createElement('a');
+    dl.setAttribute("href", dataStr);
+    dl.setAttribute("download", `PRODUTORES_SEDAM_EDITADOS_${Date.now()}.json`);
+    dl.click();
+    showToast('📥 Backup JSON exportado para download!');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 4000);
+  }
+
+  // RENDER PILOTO LINO DUQUE
+  function renderLinoView() {
+    if (!LINO.nome_titular) return;
+    const prop = LINO.propriedade || {};
+    const cpfsHtml = (LINO.variantes_cpf_auditoria_forense || []).map(c =>
+      `<div style="margin-bottom:6px;"><span class="badge ${c.status.includes('CONFIRMADO')?'badge-emerald':'badge-rose'}">${c.cpf}</span> <small>${c.status} — ${c.fonte}</small></div>`
+    ).join('');
+
+    const coordsHtml = (prop.coordenadas_geograficas_sirgas2000 || []).map(c =>
+      `<li><strong>${c.ponto}:</strong> <code>${c.lat_gms}, ${c.lon_gms}</code> (${c.lat_dec}, ${c.lon_dec}) — ${c.uso}</li>`
+    ).join('');
+
+    const famHtml = ((LINO.contatos_e_rede_familiar || {}).rede_familiar_alta_floresta || []).map(f =>
+      `<li><strong>${f.nome}</strong> (${f.vinculo}): Processos <code>${(f.processos_sei||[]).join(', ')}</code> — Vistorias: ${(f.vistorias||[]).join(', ')}</li>`
+    ).join('');
+
+    document.getElementById('lino-overview-grid').innerHTML = `
+      <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
+        <h3 style="margin-bottom:8px;color:var(--heading);">Titular, Imóvel e Auditoria de CPF</h3>
+        <p><strong>Titular:</strong> ${LINO.nome_titular} (<code>${LINO.id_cliente}</code>)</p>
+        <p><strong>Imóvel Rural:</strong> <span class="badge badge-gold">${prop.nome_imovel}</span></p>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:4px 0;">${prop.historico_retificacao_nome}</p>
+        <p><strong>Endereço / Gleba / Lote:</strong> ${prop.endereco_gleba_lote} — ${prop.municipio_uf}</p>
+        <p><strong>Áreas Auditadas:</strong> Total est. ${prop.area_total_estimada_ha} ha • Piscicultura: <strong>${prop.area_piscicultura_lamina_ha} ha (${prop.qtd_tanques_piscicultura} tanques)</strong> • Café Clonal Irrigado: <strong>${prop.area_cafe_clonal_irrigado_ha} ha</strong></p>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <strong>Auditoria Forense de Variantes de CPF nos Autos:</strong>
+          <div style="margin-top:6px;">${cpfsHtml}</div>
+        </div>
+      </div>
+      <div class="kpi-card" style="border-left: 4px solid var(--sky);">
+        <h3 style="margin-bottom:8px;color:var(--sky);">Coordenadas SIRGAS 2000, RT Atual e Rede Familiar</h3>
+        <p><strong>Telefone Titular / RT:</strong> ${LINO.contatos_e_rede_familiar?.telefone_titular_cadastro}</p>
+        <p><strong>Responsável Técnico Atual (desde Ago/2025):</strong> <span class="badge badge-emerald">Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO • Tel: (69) 98474-3091)</span></p>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:6px 0;">${LINO.contatos_e_rede_familiar?.responsaveis_tecnicos?.[0]?.observacao_auditoria || ''}</p>
+        <p style="margin-top:8px;"><strong>Coordenadas Geográficas (GEE / CAR / Outorga):</strong></p>
+        <ul style="padding-left:18px;font-size:0.83rem;margin-top:4px;">${coordsHtml}</ul>
+        <p style="margin-top:8px;"><strong>Rede Familiar Identificada em Alta Floresta:</strong></p>
+        <ul style="padding-left:18px;font-size:0.83rem;margin-top:4px;">${famHtml}</ul>
+      </div>
+    `;
+
+    // Checklist Lino
+    const linoChecklist = [
+      {"item": "Adição de Novas Espécies na LO 159556", "status": "REQUERIDO EM 03/02/2026 (COLMAMP)", "classe": "badge-gold"},
+      {"item": "Outorga de Irrigação de Café (1801/00946/2022)", "status": "DILIGÊNCIA 24/02/2026 + DESPACHO 094/COREH ATENDIDO", "classe": "badge-emerald"},
+      {"item": "Outorga de Piscicultura (1801/01995/2018)", "status": "RTVA ENVIADO EM 10/02/2026 (SEI 0028.001443/2026-57)", "classe": "badge-emerald"},
+      {"item": "Retificação da Denominação Imóvel ('Sítio São José')", "status": "PROTOCOLO DE RETIFICAÇÃO ATENDIDO", "classe": "badge-emerald"},
+      {"item": "Segurança de Barragem / Regularização Represa", "status": "VISTORIADA EM FEV/2026 (AGUARDA DESPACHO COREH)", "classe": "badge-gold"},
+      {"item": "Auditoria de CPF (340.439.182-91)", "status": "SANEADO (CONFIRMADO EM 14 GUIAS DE MALOTE)", "classe": "badge-emerald"}
+    ];
+    document.getElementById('lino-checklist-content').innerHTML = `
+      <div class="checklist-grid">
+        ${linoChecklist.map(c => `
+          <div class="checklist-item">
+            <span><strong>${c.item}</strong></span>
+            <span class="badge ${c.classe}">${c.status}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // Oportunidades Lino
+    const fin = LINO.auditoria_financeira_e_oportunidades_agroprime || {};
+    const opps = fin.portfolio_solucoes_recomendadas_multisservicos || [];
+    document.getElementById('lino-opportunities-content').innerHTML = `
+      <p style="margin-bottom:8px;"><strong>Gasto Histórico Estimado:</strong> <span class="badge badge-gold">R$ ${(fin.gasto_historico_estimado_consultoria_taxas_brl||28500).toLocaleString('pt-BR')}</span> — ${fin.detalhamento_gasto_historico}</p>
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--rose);margin:8px 0 6px;">Dores Reais Diagnosticadas nos Autos:</h4>
+          <ul style="padding-left:18px;font-size:0.83rem;">
+            ${(fin.dores_reais_diagnosticadas_nos_autos||[]).map(d=>`<li style="margin-bottom:4px;">${d}</li>`).join('')}
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--emerald);margin:8px 0 6px;">Portfólio Recomendado AgroPrime:</h4>
+          ${opps.map(s=>`
+            <div style="background:var(--bg-card-alt);border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;">
+              <div style="display:flex;justify-content:space-between;"><strong>${s.area}</strong><span class="badge badge-emerald">R$ ${s.ticket_estimado_brl.toLocaleString('pt-BR')}</span></div>
+              <div style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">${s.servico}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    document.getElementById('lino-processes-grid').innerHTML = (LINO.processos_mestre_e_licencas || []).map(p => `
+      <div class="kpi-card" style="border-left: 3px solid var(--sky);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span class="badge badge-emerald" style="font-size:0.85rem;">Processo: ${p.processo_administrativo}</span>
+          <span class="badge badge-sky">${p.coordenadoria_destino}</span>
+        </div>
+        <h4 style="margin-bottom:6px;">${p.tipologia}</h4>
+        <p style="font-size:0.83rem;color:var(--gold);margin-bottom:6px;"><strong>Status / Licença:</strong> ${p.licenca_operacao_emitida}</p>
+        <p style="font-size:0.83rem;margin-bottom:6px;"><strong>SEI / E-Estado vinculados:</strong> <code>${(p.processos_sei_eestado_vinculados||[]).join(' • ')}</code></p>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:6px;"><strong>Códigos SIGA / Protocolos:</strong> ${(p.codigos_siga||[]).join(', ')}</p>
+        <p style="font-size:0.83rem;">${p.objeto_detalhado}</p>
+      </div>
+    `).join('');
+
+    document.querySelector('#lino-timeline-table tbody').innerHTML = (LINO.linha_cronologica_completa_2017_2026 || []).map(ev => `
+      <tr>
+        <td><strong>#${ev.ordem}</strong></td>
+        <td><span class="badge badge-gold">${ev.data}</span></td>
+        <td><code>${ev.processo}</code></td>
+        <td><strong>${ev.tipo}</strong></td>
+        <td><span class="badge badge-sky">${ev.setor}</span></td>
+        <td>${ev.resumo}</td>
+      </tr>
+    `).join('');
+
+    const mediaInfo = LINO.acervo_midia_campo_206_arquivos || {};
+    document.getElementById('lino-media-folders').innerHTML = (mediaInfo.pastas_originais_rede_m || []).map(pf => `
+      <span class="badge badge-emerald" style="margin-right:8px;margin-bottom:6px;">📁 ${pf.data}: ${pf.fotos} fotos + ${pf.videos} vídeos (${pf.faixa_arquivos})</span>
+    `).join('');
+
+    const webpList = mediaInfo.arquivos_webp_publicados_github || [];
+    document.getElementById('lino-webp-gallery').innerHTML = webpList.map(w => `
+      <div class="photo-card">
+        <img src="${w}" alt="${w}" loading="lazy" onclick="window.open('${w}','_blank')" />
+        <div class="photo-caption"><strong>${w.replace('midia_webp/','')}</strong><br/>WebP leve • Clique para ampliar</div>
+      </div>
+    `).join('');
+
+    document.getElementById('lino-verbatim-docs').innerHTML = (LINO.laudos_e_documentos_word_extraidos_integralmente || []).map(doc => `
+      <div style="margin-bottom:12px;">
+        <div style="margin-bottom:6px;">
+          <span class="badge badge-gold">${doc.ano || '2025'}</span>
+          <strong>📄 ${doc.arquivo}</strong>
+          <small style="color:var(--text-muted);">(${(doc.paragrafos_integrais||[]).length} parágrafos extraídos)</small>
+        </div>
+        <div class="doc-box" style="background:var(--bg-card-alt);border:1px solid var(--border);border-radius:8px;padding:12px;max-height:260px;overflow-y:auto;font-family:monospace;font-size:0.8rem;white-space:pre-wrap;color:var(--text);">${(doc.paragrafos_integrais || []).join('\\n')}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderRTsView() {
+    const rts = CATALOGO.responsaveis_tecnicos_e_empresas || [];
+    document.querySelector('#table-rts tbody').innerHTML = rts.map(r => `
+      <tr>
+        <td><strong>${r.nome}</strong></td>
+        <td><code>${r.crea_cfta}</code></td>
+        <td>${r.qualificacao}</td>
+        <td><span class="badge ${r.tipo.includes('SEDAM')?'badge-sky':'badge-emerald'}">${r.tipo}</span></td>
+        <td>${r.municipio_base}</td>
+        <td><strong>${r.telefone}</strong></td>
+        <td>${r.processos_auditados}</td>
+        <td>${r.ticket_medio_brl > 0 ? `<strong>R$ ${r.ticket_medio_brl.toLocaleString('pt-BR')}</strong>` : '<span class="badge badge-sky">Servidor Público SEDAM</span>'}</td>
+        <td>${r.especialidades}</td>
+      </tr>
+    `).join('');
+  }
+
+  function renderYearsView() {
+    const st = CATALOGO.estatisticas_globais || {};
+    const resumo = st.resumo_anual_2026_a_2012 || {};
+    const dist = st.distribuicao_produtores_por_ano_recente || {};
+    const years = Object.keys(resumo).sort((a,b) => Number(b) - Number(a));
+
+    document.querySelector('#table-years tbody').innerHTML = years.map(y => {
+      const r = resumo[y] || {};
+      return `
+        <tr>
+          <td><span class="badge ${y==='2026'?'badge-emerald':(y==='2025'?'badge-gold':'badge-sky')}" style="font-size:0.9rem;">${y}</span></td>
+          <td><strong>${dist[y] || 0}</strong> produtores</td>
+          <td>${r.malote_protocolos || 0}</td>
+          <td>${r.processos_sei || 0}</td>
+          <td>${r.vistorias_controle || 0}</td>
+          <td><strong>${r.laudos_word || 0}</strong> docs</td>
+          <td>${r.pastas_fotos || 0} pastas</td>
+          <td><strong>${(r.total_midia_arquivos || 0).toLocaleString('pt-BR')}</strong> mídias</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  async function syncWithAppsScript() {
+    const url = CATALOGO.apps_script_url || 'https://script.google.com/macros/s/AKfycbxYTqIPYbl8YOMfB1bY1qGkbRZLhvpPIOh7-IcwjHCdNrqoVWZDE0WfC13oQ_ry7wB3/exec';
+    const box = document.getElementById('apps-script-box');
+    switchMainTab('tab-vertex', document.getElementById('tablink-vertex'));
+    box.innerHTML = `<div class="kpi-card">⏳ Consultando endpoint Google Apps Script: <code>${url}?action=status</code> ...</div>`;
+    try {
+      const res = await fetch(url + '?action=listar', { method: 'GET', mode: 'cors' });
+      const txt = await res.text();
+      box.innerHTML = `<div class="kpi-card" style="border-color:var(--emerald);"><strong style="color:var(--emerald);">✅ Conexão HTTPS com Google Apps Script concluída!</strong><pre style="margin-top:8px;font-size:0.78rem;overflow-x:auto;">${txt.slice(0, 600)}</pre></div>`;
+    } catch (err) {
+      box.innerHTML = `<div class="kpi-card" style="border-color:var(--gold);"><strong>ℹ️ Endpoint Apps Script Ativo:</strong> <a href="${url}" target="_blank">${url}</a> (Disponível na nuvem Google para leitura e gravação assíncrona).</div>`;
+    }
+  }
+
+  // ATALHO DE TECLADO / OU ALT+S PARA FOCAR NA LUPA
+  window.addEventListener('keydown', (ev) => {
+    if (ev.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      ev.preventDefault();
+      document.getElementById('global-search-input').focus();
+    }
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(console.warn);
+  }
+
+  window.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>'''
+
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print("Created comprehensive day/night responsive CRM_ERP_GLOBAL_SEDAM.html!")
