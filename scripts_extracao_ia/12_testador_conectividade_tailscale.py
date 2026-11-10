@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Testador de Conectividade Mesh Tailscale e Contingencia SEDAM M:\
+Testador de Conectividade Mesh Tailscale e Contingencia SEDAM M:\\
 Executar em qualquer host (Dell G3 ou A320MH) para validar se a rede esta 100%
 """
 import subprocess
@@ -11,7 +11,7 @@ print("=== VERIFICANDO CONECTIVIDADE TAILSCALE & REDE SEDAM ===")
 
 # 1. Tailscale status
 try:
-    res = subprocess.run(["tailscale", "status"], capture_output=True, text=True, check=True)
+    res = subprocess.run(["tailscale", "status"], capture_output=True, text=True, errors="replace", check=True)
     print("[OK] Tailscale ativo:")
     for line in res.stdout.splitlines()[:5]:
         print("  ", line)
@@ -20,7 +20,7 @@ except Exception as e:
 
 # 2. Tailscale IPs
 try:
-    ip = subprocess.run(["tailscale", "ip", "-4"], capture_output=True, text=True).stdout.strip()
+    ip = subprocess.run(["tailscale", "ip", "-4"], capture_output=True, text=True, errors="replace").stdout.strip()
     print(f"\n[OK] Meu IP Tailscale IPv4: {ip}")
 except Exception as e:
     print("[AVISO] Nao foi possivel obter IP:", e)
@@ -32,7 +32,7 @@ peers = [
 ]
 print("\n--- Teste de Ping Mesh ---")
 for name, peer_ip in peers:
-    res_ping = subprocess.run(["ping", "-n", "1", "-w", "1000", peer_ip], capture_output=True, text=True)
+    res_ping = subprocess.run(["ping", "-n", "1", "-w", "1000", peer_ip], capture_output=True, text=True, errors="replace")
     if res_ping.returncode == 0:
         print(f"  [CONECTADO] {name} ({peer_ip}) - Ping OK")
     else:
