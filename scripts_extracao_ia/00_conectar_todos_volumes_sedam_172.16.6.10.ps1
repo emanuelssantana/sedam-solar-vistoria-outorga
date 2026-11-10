@@ -1,8 +1,12 @@
 ﻿# ==============================================================================
 # SCRIPT 00: CONEXÃO PRIORITÁRIA TOTAL AO SERVIDOR SEDAM (172.16.6.10)
-# Mapeia TODOS os 9 compartilhamentos disponíveis no storage central da SEDAM
-# Executar no A320MH (e em qualquer máquina Windows da rede)
+# Mapeia os compartilhamentos do storage central da SEDAM usando credenciais salvas no Windows
+# Executar no A320MH (e em qualquer máquina Windows autorizada)
 # ==============================================================================
+
+param(
+    [string]$Usuario = "SEDAM\22255613972"
+)
 
 Write-Host "======================================================================" -ForegroundColor Cyan
 Write-Host " CONECTANDO A TODOS OS COMPARTILHAMENTOS DO SERVIDOR SEDAM (172.16.6.10)" -ForegroundColor Cyan
@@ -14,23 +18,17 @@ $ping = Test-Connection -ComputerName "172.16.6.10" -Count 1 -Quiet -ErrorAction
 if ($ping) {
     Write-Host "  [OK] Servidor 172.16.6.10 respondeu ao ping!" -ForegroundColor Green
 } else {
-    Write-Host "  [AVISO] Servidor 172.16.6.10 nao respondeu ao ping ICMP. Testando porta SMB 445..." -ForegroundColor Yellow
+    Write-Host "  [AVISO] Ping ICMP sem resposta. Testando porta SMB 445..." -ForegroundColor Yellow
     $tcp = Test-NetConnection -ComputerName "172.16.6.10" -Port 445 -WarningAction SilentlyContinue
     if ($tcp.TcpTestSucceeded) {
         Write-Host "  [OK] Porta 445 SMB aberta em 172.16.6.10!" -ForegroundColor Green
     } else {
-        Write-Host "  [ALERTA] Porta 445 nao alcancada. Verifique se o Tailscale esta conectado com --accept-routes." -ForegroundColor Red
+        Write-Host "  [ALERTA] Porta 445 inacessivel. Rota Tailscale (172.16.6.0/24) ou ponte da SEDAM necessaria." -ForegroundColor Red
     }
 }
 
-# 2. Injetar Credenciais Oficiais no Windows Credential Manager
-Write-Host "`n[2/3] Injetando credenciais homologadas SEDAM\22255613972..." -ForegroundColor Yellow
-cmdkey /add:172.16.6.10 /user:SEDAM\22255613972 /pass:AnaePenina@2024
-cmdkey /add:sedam /user:SEDAM\22255613972 /pass:AnaePenina@2024
-Write-Host "  [OK] Credenciais salvas no cofre do Windows." -ForegroundColor Green
-
-# 3. Mapear Todos os Compartilhamentos Disponíveis
-Write-Host "`n[3/3] Mapeando compartilhamentos do servidor..." -ForegroundColor Yellow
+# 2. Mapeamento Seguro utilizando Credenciais do Windows Credential Manager
+Write-Host "`n[2/3] Mapeando compartilhamentos usando identidade autenticada..." -ForegroundColor Yellow
 
 $shares = @(
     @{ Letra = "M:"; UNC = "\\172.16.6.10\SEDAM";           Desc = "Volume Principal (ERGAS, ASCOM, GOVCLIMA)" },
@@ -50,23 +48,18 @@ foreach ($s in $shares) {
     $d = $s.Desc
     Write-Host "`nConectando $l ➔ $u ($d)..." -ForegroundColor White
     
-    # Se a letra ja estiver em uso, remove antes
+    # Se a letra ja estiver ocupada por outro destino, preserva
     $existing = Get-PSDrive -Name $l.Replace(":", "") -ErrorAction SilentlyContinue
-    if ($existing) {
-        net use $l /delete /yes 2>$null | Out-Null
+    if ($existing -and $existing.DisplayRoot -ne $u) {
+        Write-Host "  [PRESERVADO] Letra $l ja em uso por $($existing.DisplayRoot). Use letra alternativa se necessario." -ForegroundColor Yellow
+        continue
     }
     
-    $res = net use $l "$u" /user:SEDAM\22255613972 AnaePenina@2024 /persistent:yes 2>&1
+    $res = net use $l "$u" /persistent:yes 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  [SUCESSO] $l conectado a $u" -ForegroundColor Green
     } else {
-        # Tenta sem credencial explicita (reaproveitando sessao ativa)
-        $res2 = net use $l "$u" /persistent:yes 2>&1
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "  [SUCESSO] $l conectado via sessao ativa a $u" -ForegroundColor Green
-        } else {
-            Write-Host "  [AVISO] $l ($u): $res" -ForegroundColor Yellow
-        }
+        Write-Host "  [PENDENTE] $u requer autenticacao previa no cofre do Windows (cmdkey) ou rota ativa." -ForegroundColor Yellow
     }
 }
 
@@ -75,4 +68,4 @@ Write-Host " STATUS FINAL DAS UNIDADES MAPEADAS: " -ForegroundColor Cyan
 Write-Host "======================================================================" -ForegroundColor Cyan
 net use
 
-Write-Host "`n[CONCLUIDO] Todos os compartilhamentos do 172.16.6.10 foram processados!" -ForegroundColor Green
+Write-Host "`n[CONCLUIDO] Script executado sem exposicao de segredos em logs ou codigo." -ForegroundColor Green
