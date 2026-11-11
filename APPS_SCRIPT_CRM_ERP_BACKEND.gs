@@ -8,6 +8,7 @@ var TOKEN = 'sedam-outorga-campo-2026';
 var PASTA_RAIZ = 'SEDAM_VISTORIAS_OUTORGA';
 var ABA_VISTORIAS = 'VISTORIAS';
 var ABA_CRM = 'CRM_PRODUTORES';
+var ABA_CAMPANHAS = 'CRM_CAMPANHAS_NUTRICAO';
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
@@ -16,7 +17,7 @@ function doGet(e) {
   if (acao === 'listar' || acao === 'status') {
     return ContentService.createTextOutput(JSON.stringify({
       status: 'OK',
-      versao: '2.0-CRM-ERP-GLOBAL',
+      versao: '3.0-CRM-ERP-IDS-FIXOS-CAMPANHAS',
       projeto: 'gen-lang-client-0913740404',
       regiao: 'southamerica-east1',
       dataset: 'sedam_analytics',
@@ -26,6 +27,11 @@ function doGet(e) {
 
   if (acao === 'listar_produtores' || acao === 'listar_crm') {
     return ContentService.createTextOutput(JSON.stringify(obterProdutoresSalvos()))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (acao === 'listar_campanhas') {
+    return ContentService.createTextOutput(JSON.stringify(obterCampanhasNutricao()))
       .setMimeType(ContentService.MimeType.JSON);
   }
 
@@ -49,6 +55,13 @@ function doPost(e) {
         id_catalogo: res.id_catalogo,
         timestamp: new Date().toISOString()
       })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (acao === 'salvar_campanha_nutricao') {
+      var itemCamp = corpo.campanha || corpo.interacao || corpo;
+      var resCamp = salvarCampanhaNutricaoAntiColisao(itemCamp);
+      return ContentService.createTextOutput(JSON.stringify(resCamp))
+        .setMimeType(ContentService.MimeType.JSON);
     }
 
     if (acao === 'salvar_nota') {
@@ -161,6 +174,10 @@ function salvarProdutorPlanilhaEDrive(prod) {
         'GASTO_ESTIMADO_BRL': prod.gasto_estimado_consultoria_brl || 0,
         'TAGS_SERVICOS': Array.isArray(prod.tags_servicos) ? prod.tags_servicos.join('; ') : (prod.tags_servicos || ''),
         'NOTAS_INTERNAS': prod.notas_internas || '',
+        'IMOVEL_ID_FIXO': (prod.id_fixo_global && prod.id_fixo_global.imovel_id_fixo) || prod.imovel_id_fixo || '',
+        'PLACA_SOLAR_STATUS': prod.placa_solar_status || (prod.diagnostico_perfil && prod.diagnostico_perfil.placa_solar_status) || '',
+        'BOMBA_INFO': prod.bomba_info || (prod.diagnostico_perfil && prod.diagnostico_perfil.bomba_info) || '',
+        'MOTIVO_CAMPANHA': prod.motivo_campanha || '',
         'ATUALIZADO_EM': prod.atualizado_em
       };
 
@@ -215,4 +232,105 @@ function salvarProdutorPlanilhaEDrive(prod) {
 
   return { id_catalogo: id, status: destinos.planilha && destinos.drive ? 'SUCESSO' : (destinos.planilha || destinos.drive ? 'PARCIAL' : 'ERRO'), destinos: destinos };
   } finally { lock.releaseLock(); }
+}
+
+function obterCampanhasNutricao() {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) return { status: 'OK', campanhas: [] };
+    var sh = ss.getSheetByName(ABA_CAMPANHAS);
+    if (!sh) return { status: 'OK', campanhas: [] };
+    var dados = sh.getDataRange().getValues();
+    if (dados.length <= 1) return { status: 'OK', campanhas: [] };
+    var headers = dados[0];
+    var lista = [];
+    for (var i = 1; i < dados.length; i++) {
+      var obj = {};
+      for (var j = 0; j < headers.length; j++) obj[headers[j]] = dados[i][j];
+      lista.push(obj);
+    }
+    return { status: 'OK', total: lista.length, campanhas: lista };
+  } catch (e) {
+    return { status: 'ERRO', mensagem: String(e), campanhas: [] };
+  }
+}
+
+function salvarCampanhaNutricaoAntiColisao(camp) {
+  var c = camp || {};
+  var cliId = String(c.cliente_id_fixo || c.id_catalogo || '').trim();
+  var solId = String(c.solucao_id_fixo || '').trim();
+  var trilhaId = String(c.trilha_id_fixo || 'TRL-GERAL').trim();
+  var campId = String(c.campanha_id_fixo || 'CAMP-MANUAL').trim();
+  var janela = String(c.janela_yyyymm || new Date().toISOString().slice(0, 7).replace('-', '')).trim();
+  var canal = String(c.canal || 'WHATSAPP_CRM').trim();
+  var key = String(c.idempotency_key || (cliId + '|' + solId + '|' + trilhaId + '|' + campId + '|' + janela + '|' + canal)).toUpperCase();
+
+  if (!cliId || !solId) {
+    return { status: 'ERRO', mensagem: 'cliente_id_fixo e solucao_id_fixo são obrigatórios.', idempotency_key: key };
+  }
+
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) {
+    return { status: 'OCUPADO', colisao_evitada: true, idempotency_key: key };
+  }
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) throw new Error('Planilha não configurada');
+    var COLS = [
+      'IDEMPOTENCY_KEY', 'REGISTRO_ID', 'CLIENTE_ID_FIXO', 'IMOVEL_ID_FIXO',
+      'NOME_PRODUTOR', 'TECNICO_ID_FIXO', 'TRILHA_ID_FIXO', 'SOLUCAO_ID_FIXO',
+      'CAMPANHA_ID_FIXO', 'JANELA_YYYYMM', 'CANAL', 'STATUS_ENVIO',
+      'RESUMO_PERSONALIZADO', 'ATUALIZADO_EM'
+    ];
+    var sh = ss.getSheetByName(ABA_CAMPANHAS);
+    if (!sh) {
+      sh = ss.insertSheet(ABA_CAMPANHAS);
+      sh.appendRow(COLS);
+      sh.getRange(1, 1, 1, COLS.length).setBackground('#1e3a8a').setFontColor('#ffffff').setFontWeight('bold');
+    }
+    var dados = sh.getDataRange().getValues();
+    for (var r = 1; r < dados.length; r++) {
+      if (String(dados[r][0]).trim().toUpperCase() === key) {
+        return {
+          status: 'COLISAO_BLOQUEADA_IDEMPOTENTE',
+          colisao_evitada: true,
+          idempotency_key: key,
+          mensagem: 'Interação já registrada para esta trilha/janela; disparo duplicado bloqueado.',
+          destinos: { planilha: true }
+        };
+      }
+    }
+    var nowIso = new Date().toISOString();
+    var regId = String(c.registro_id || ('NUT-' + Utilities.getUuid()));
+    var row = [
+      key,
+      regId,
+      cliId,
+      String(c.imovel_id_fixo || ''),
+      String(c.nome_produtor || ''),
+      String(c.tecnico_id_fixo || ''),
+      trilhaId,
+      solId,
+      campId,
+      janela,
+      canal,
+      String(c.status_envio || 'AGENDADO_CRM'),
+      String(c.resumo_personalizado || ''),
+      nowIso
+    ].map(function(value) { return typeof value === 'string' && /^[=+@-]/.test(value) ? "'" + value : value; });
+    sh.appendRow(row);
+    SpreadsheetApp.flush();
+    return {
+      status: 'SUCESSO',
+      colisao_evitada: false,
+      idempotency_key: key,
+      registro_id: regId,
+      destinos: { planilha: true },
+      timestamp: nowIso
+    };
+  } catch (err) {
+    return { status: 'ERRO', mensagem: String(err), idempotency_key: key };
+  } finally {
+    lock.releaseLock();
+  }
 }

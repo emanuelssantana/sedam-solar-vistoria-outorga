@@ -592,10 +592,11 @@
 
   <!-- NAVEGAÇÃO DE ABAS FIXAS -->
   <div class="nav-tabs">
-    <a class="tab-btn active" href="#catalogo" id="tablink-catalogo" onclick="switchMainTab('tab-catalogo', this)">🗂️ Catálogo Global (2.377 Produtores)</a>
+    <a class="tab-btn active" href="#catalogo" id="tablink-catalogo" onclick="switchMainTab('tab-catalogo', this)">🗂️ Catálogo Global (1.759 Produtores)</a>
     <a class="tab-btn" href="#lino" id="tablink-lino" onclick="switchMainTab('tab-lino', this)">⭐ Piloto #01 Lino Duque (100% Auditado)</a>
     <a class="tab-btn" href="#rts" id="tablink-rts" onclick="switchMainTab('tab-rts', this)">👷 Diretório RTs & Empresas</a>
     <a class="tab-btn" href="#anos" id="tablink-anos" onclick="switchMainTab('tab-anos', this)">📅 Auditoria por Ano (2026 a 2012)</a>
+    <a class="tab-btn" href="#campanhas" id="tablink-campanhas" onclick="switchMainTab('tab-campanhas', this)">🎯 Campanhas, +120 Soluções & IDs Fixos</a>
     <a class="tab-btn" href="#vertex" id="tablink-vertex" onclick="switchMainTab('tab-vertex', this)">🛰️ Vertex AI + DAK + GEE</a>
   </div>
 </header>
@@ -626,6 +627,9 @@
     <button class="pill pill-purple" data-filter="subcat" data-val="PECUARIA" onclick="setSubcatFilter('PECUARIA', this)">🐄 Pecuária / Pastagem</button>
     <button class="pill pill-indigo" data-filter="subcat" data-val="AGROINDUSTRIA" onclick="setSubcatFilter('AGROINDUSTRIA', this)">🏢 Agroindústria (PJ)</button>
     <button class="pill pill-rose" data-filter="subcat" data-val="NOTIFICACAO" onclick="setSubcatFilter('NOTIFICACAO', this)">⚠️ Notificação Ativa</button>
+    <button class="pill pill-rose" data-filter="subcat" data-val="SICAR" onclick="setSubcatFilter('SICAR', this)">🔐 Onda SICAR (E-mail CAR)</button>
+    <button class="pill pill-amber" data-filter="subcat" data-val="SOLAR_BOMBA" onclick="setSubcatFilter('SOLAR_BOMBA', this)">☀️ Solar & Bombas</button>
+    <button class="pill pill-cyan" data-filter="subcat" data-val="GEO" onclick="setSubcatFilter('GEO', this)">🛰️ GeoJSON Satélite</button>
   </div>
 
   <!-- FILTROS DROPDOWN -->
@@ -859,7 +863,73 @@
     </div>
   </section>
 
-  <!-- ABA 5: VERTEX AI + BIGQUERY + GEE -->
+  <!-- ABA 5: CAMPANHAS, +120 SOLUÇÕES, IDS FIXOS GLOBAIS & ANTI-COLISÃO -->
+  <section id="tab-campanhas" class="tab-panel">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title">🎯 Campanhas Preditivas, Matriz +120 Soluções, IDs Fixos Globais & Nutrição Anti-Colisão</div>
+        <span class="badge badge-emerald" id="badge-campanhas-resumo">120 Soluções • IDs Fixos Ativos</span>
+      </div>
+      <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">
+        <strong>Arquitetura Anti-Colisão:</strong> Cada produtor (<code>CLI-RO-*</code>), imóvel (<code>IMV-RO-*</code>), técnico/especialista (<code>TEC-*</code> / <code>CONS-*</code>), solução (<code>SOL-001..120</code>) e campanha (<code>CAMP-*</code>) possui <strong>ID Fixo Global Imutável</strong>. Múltiplos especialistas e automações (Solar/Bombas, Plantário/Agronomia, Jurídico/Multas, Satélite GEE/RF) podem nutrir o mesmo produtor em <strong>trilhas independentes (<code>TRL-*</code>)</strong> sem duplicar mensagens nem misturar telefones (Regra Furtado).
+      </p>
+      <div class="kpi-grid" id="campanhas-kpis-grid" style="margin-bottom:14px;"></div>
+
+      <h3 style="color:var(--heading);margin:14px 0 8px;">🚀 Campanhas Prontas & Gatilhos Preditivos</h3>
+      <div class="grid-2" id="campanhas-prontas-grid" style="margin-bottom:16px;"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:18px 0 10px;">
+        <h3 style="color:var(--heading);margin:0;">📚 Matriz Completa: +120 Produtos, Serviços, Consultorias, Automações & Legais</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <select class="dropdown-filter" id="camp-filter-cat" onchange="renderSolucoesMatrix()">
+            <option value="ALL">Todas as 8 Categorias (120 itens)</option>
+          </select>
+          <select class="dropdown-filter" id="camp-filter-fase" onchange="renderSolucoesMatrix()">
+            <option value="ALL">Todas as Fases Cronológicas</option>
+            <option value="JA_PRECISOU_PASSADO">⏮️ Já Precisou (Passado/Base)</option>
+            <option value="NECESSIDADE_ATUAL_IMEDIATA">⚡ Urgente Agora (Ativo)</option>
+            <option value="PREVISAO_FUTURA_6_18M">🔮 Previsão Futura (6–18 meses)</option>
+          </select>
+          <select class="dropdown-filter" id="camp-filter-tec" onchange="renderSolucoesMatrix()">
+            <option value="ALL">Todos Especialistas (ID Fixo)</option>
+          </select>
+          <input type="search" class="dropdown-filter" id="camp-filter-search" placeholder="Filtrar solução, bomba, solar, praga, multa..." oninput="renderSolucoesMatrix()" style="min-width:220px;" />
+        </div>
+      </div>
+      <div id="solucoes-catalogo-grid" class="grid-2" style="margin-bottom:18px;"></div>
+
+      <h3 style="color:var(--heading);margin:16px 0 8px;">🤝 Quem Atende Quem — Diretório de Especialistas & RTs por ID Fixo</h3>
+      <div id="consultores-fixos-grid" class="grid-2" style="margin-bottom:18px;"></div>
+
+      <div class="accordion-box open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🔐 Onda Real SICAR: Requerimentos de Alteração de E-mail/Senha CAR (2018–2026 SEI/COMRAR)</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div id="sicar-wave-summary" style="font-size:0.84rem;color:var(--text-muted);margin-bottom:8px;"></div>
+          <div class="table-responsive" style="max-height:280px;overflow-y:auto;">
+            <table id="sicar-wave-table">
+              <thead><tr><th>Ano</th><th>NUP SEI</th><th>Data</th><th>Assunto Oficial (Excel COMRAR)</th><th>Setor</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-box open" style="margin-top:12px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🛡️ Ledger Anti-Colisão de Nutrição (LocalStorage + Trava por Trilha & Janela)</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div id="anti-collision-ledger-box" style="font-size:0.84rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABA 6: VERTEX AI + BIGQUERY + GEE + RANDOM FOREST -->
   <section id="tab-vertex" class="tab-panel">
     <div class="section-card">
       <div class="section-header">
@@ -890,6 +960,13 @@
         </div>
       </div>
       <div id="apps-script-box" style="margin-top:14px;"></div>
+      <div style="margin-top:18px;">
+        <h3 style="color:var(--heading);margin-bottom:8px;">🤖 Monitoramento Autônomo (Random Forest + Sentinel-1 SAR + Sentinel-2 + FIRMS + CHIRPS + Colab/DAK)</h3>
+        <p style="font-size:0.86rem;color:var(--text-muted);margin-bottom:10px;">
+          Operação 100% contínua e agendada sem visita manual: detecta padrões reais de <strong>plantio, florada, colheita, estresse por pragas/fungos/vírus, fogo e inundação sob nuvens</strong> para todos os produtores georreferenciados em <code>COORDENADAS_GEOJSON_2026_2012.geojson</code>, alimentando as trilhas anti-colisão por <code>cliente_id_fixo</code>.
+        </p>
+        <div id="rf-comportamento-box" class="grid-2"></div>
+      </div>
     </div>
   </section>
 </main>
@@ -969,6 +1046,27 @@
           <input type="number" step="100" class="form-control" id="field-gasto" value="5000" />
         </div>
       </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>☀️ Status Placa Solar / Eficiência Energética</label>
+          <select class="form-control" id="field-placa-solar">
+            <option value="NAO_MAPEADO_VERIFICAR_CAMPO">Não Mapeado (Verificar em Campo)</option>
+            <option value="NAO_POSSUI_ALTA_PRIORIDADE">Não Possui — Alta Prioridade Solar</option>
+            <option value="CITADO_NO_DOCUMENTO">Citado em Documento / Projeto</option>
+            <option value="POSSUI_USINA_ON_GRID">Possui Usina On-Grid</option>
+            <option value="POSSUI_BOMBEAMENTO_SOLAR">Possui Bombeamento Solar</option>
+            <option value="POSSUI_HIBRIDA_AERADORES">Possui Sistema Híbrido c/ Bateria</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>💧 Bomba / Irrigação / Potência (CV & Vazão)</label>
+          <input type="text" class="form-control" id="field-bomba-info" placeholder="Ex: Bomba centrífuga 15 cv + gotejo; Hidrômetro pendente" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>🎯 Motivo Personalizado & Trilha de Campanha (Plantário / Jurídico / Solar / SICAR)</label>
+        <input type="text" class="form-control" id="field-motivo-campanha" placeholder="Ex: Troca de e-mail SICAR; Verificar ferrugem/broca; Ofertar hidrômetro + inversor solar" />
+      </div>
       <div class="form-group">
         <label>Anotações Internas de Campo e Vistoria</label>
         <textarea class="form-control" id="field-notas" placeholder="Histórico de visitas, notificações, pendências a resolver..."></textarea>
@@ -985,12 +1083,15 @@
 
 <script src="dados/dossie_lino_duque.js"></script>
 <script src="dados/catalogo_2026_2012.js"></script>
+<script src="dados/solucoes_120_e_ids_globais.js"></script>
 <script>
   // ESTADO GLOBAL
   const LINO = window.AGROPRIME_LINO_DOSSIER || {};
   let CATALOGO = window.AGROPRIME_CATALOGO_2026_2012 || {};
+  const SOLUCOES_DATA = window.AGROPRIME_SOLUCOES_120_E_IDS || {};
   let producersList = [];
   let storageKey = 'AGROPRIME_PRODUTORES_EDITADOS_V3';
+  let campLedgerKey = 'AGROPRIME_CAMPANHAS_LEDGER_V1';
   let activeSubcat = 'ALL';
   let searchWord = '';
 
@@ -1002,6 +1103,8 @@
     renderLinoView();
     renderRTsView();
     renderYearsView();
+    renderCampanhasESolucoesView();
+    renderVertexComportamentosView();
     handleUrlHashRouting();
   }
 
@@ -1066,6 +1169,7 @@
     if (hash === '#lino') switchMainTab('tab-lino', document.getElementById('tablink-lino'));
     else if (hash === '#rts') switchMainTab('tab-rts', document.getElementById('tablink-rts'));
     else if (hash === '#anos') switchMainTab('tab-anos', document.getElementById('tablink-anos'));
+    else if (hash === '#campanhas') switchMainTab('tab-campanhas', document.getElementById('tablink-campanhas'));
     else if (hash === '#vertex') switchMainTab('tab-vertex', document.getElementById('tablink-vertex'));
     else switchMainTab('tab-catalogo', document.getElementById('tablink-catalogo'));
   }
@@ -1174,10 +1278,22 @@
         if (activeSubcat === 'PECUARIA' && !full.includes('PECUARIA') && !full.includes('PECUÁRIA') && !full.includes('GADO')) return false;
         if (activeSubcat === 'AGROINDUSTRIA' && !p.tipo_pessoa.includes('PJ')) return false;
         if (activeSubcat === 'NOTIFICACAO' && !full.includes('NOTIFICA') && !full.includes('PARECER') && !full.includes('DESPACHO')) return false;
+        if (activeSubcat === 'SICAR') {
+          const hasSicar = Boolean(p.sicar_alteracao_email && p.sicar_alteracao_email.length) || (full.includes('SICAR') && full.includes('E-MAIL'));
+          if (!hasSicar) return false;
+        }
+        if (activeSubcat === 'SOLAR_BOMBA') {
+          const dPerf = p.diagnostico_perfil || {};
+          const wantsSolarBomba = full.includes('SOLAR') || full.includes('BOMBA') || full.includes('IRRIGA') || full.includes('PISCICULTURA') || full.includes('OUTORGA') || (dPerf.placa_solar_status && dPerf.placa_solar_status !== 'NAO_APLICAVEL');
+          if (!wantsSolarBomba) return false;
+        }
+        if (activeSubcat === 'GEO' && !(p.geojson_stats && p.geojson_stats.cobertura_satelite)) return false;
       }
 
       if (searchWord) {
-        const hay = `${p.id_catalogo} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${p.endereco||''} ${p.contato_produtor_anotacao_furtado||''} ${(p.telefones||[]).join(' ')} ${(p.processos||[]).join(' ')} ${(p.processos_sei_nup||[]).join(' ')} ${(p.processos_sei_lista||[]).join(' ')} ${(p.processos_antigos_sedam||[]).join(' ')} ${(p.tecnicos||[]).join(' ')} ${(p.atividades||[]).join(' ')} ${p.notas_internas||''}`.toLowerCase();
+        const idFix = p.id_fixo_global || {};
+        const dPerf = p.diagnostico_perfil || {};
+        const hay = `${p.id_catalogo} ${idFix.imovel_id_fixo||''} ${idFix.rt_principal_id_fixo||''} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${p.endereco||''} ${p.contato_produtor_anotacao_furtado||''} ${(p.telefones||[]).join(' ')} ${(p.processos||[]).join(' ')} ${(p.processos_sei_nup||[]).join(' ')} ${(p.processos_sei_lista||[]).join(' ')} ${(p.processos_antigos_sedam||[]).join(' ')} ${(p.tecnicos||[]).join(' ')} ${(p.atividades||[]).join(' ')} ${dPerf.placa_solar_status||''} ${dPerf.bomba_info||''} ${p.motivo_campanha||''} ${p.notas_internas||''}`.toLowerCase();
         return hay.includes(searchWord);
       }
 
@@ -1202,14 +1318,21 @@
 
       return `
         <tr>
-          <td><code style="color:var(--emerald);font-weight:800;">${escHtml(p.id_catalogo)}</code></td>
+          <td>
+            <code style="color:var(--emerald);font-weight:800;">${escHtml(p.id_catalogo)}</code>
+            ${(p.id_fixo_global && p.id_fixo_global.imovel_id_fixo) ? `<div style="font-size:0.68rem;color:var(--text-muted);">${escHtml(p.id_fixo_global.imovel_id_fixo)}</div>` : ''}
+          </td>
           <td>
             <span class="badge ${badgeAno}">${escHtml(p.ano_mais_recente)}</span>
             <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${escHtml((p.anos_ativos||[]).slice(0,3).join(', '))}</div>
           </td>
           <td>
             <strong>${escHtml(p.nome_produtor_ou_empresa)}</strong>
-            <div><span class="badge ${badgeTipo}">${isPJ ? '🏢 Empresa/PJ' : '🌾 Produtor Rural'}</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:2px;">
+              <span class="badge ${badgeTipo}">${isPJ ? '🏢 Empresa/PJ' : '🌾 Produtor Rural'}</span>
+              ${(p.sicar_alteracao_email && p.sicar_alteracao_email.length) ? '<span class="badge badge-rose">🔐 SICAR</span>' : ''}
+              ${(p.geojson_stats && p.geojson_stats.cobertura_satelite) ? `<span class="badge badge-sky">🛰️ ${Number(p.geojson_stats.total_pontos_reais)} pt</span>` : ''}
+            </div>
           </td>
           <td><code>${escHtml(p.cpf_cnpj)}</code></td>
           <td>${escHtml(p.municipio)}</td>
@@ -1359,10 +1482,36 @@
       `<li><strong>[${escHtml(f.ano)}]</strong> 📁 <code>${escHtml(f.pasta)}</code> (${Number(f.qtd_fotos_videos || 0)} fotos/vídeos mapeados)</li>`
     ).join('') || '<li>Sem pasta de fotos individualizada.</li>';
 
+    // IDs Fixos Globais, Diagnóstico Prático & Cronologia (+120 Soluções Anti-Colisão)
+    const idFix = p.id_fixo_global || {};
+    const diagP = p.diagnostico_perfil || {};
+    const geoSt = p.geojson_stats || {};
+    const solsAll = (typeof SOLUCOES_DATA !== 'undefined' && SOLUCOES_DATA.solucoes_120) ? SOLUCOES_DATA.solucoes_120 : [];
+    const solById = {};
+    solsAll.forEach(s => { solById[s.solucao_id_fixo] = s; });
+    const cron = diagP.cronologia_solucoes_ids || {};
+    const renderCronGrupo = (tituloCron, corBadge, arrIds) => {
+      const lista = (arrIds || []).slice(0, 6).map(sid => {
+        const sObj = solById[sid] || { solucao_id_fixo: sid, titulo: sid, trilha_id_fixo: 'TRL-GERAL', tecnico_responsavel_id_fixo: 'CONS-PLANT-001' };
+        return `<li style="margin-bottom:5px;">
+          <span class="badge ${corBadge}">${escHtml(sObj.solucao_id_fixo)}</span>
+          <strong>${escHtml(sObj.titulo)}</strong>
+          <span style="font-size:0.74rem;color:var(--text-muted);">(${escHtml(sObj.tecnico_responsavel_id_fixo)} • ${escHtml(sObj.trilha_id_fixo)})</span>
+          <button type="button" class="btn btn-emerald" style="padding:2px 8px;font-size:0.72rem;margin-left:6px;" onclick="registrarInteracaoCampanhaSemColisao('${escHtml(p.id_catalogo)}','${escHtml(sObj.solucao_id_fixo)}','${escHtml(sObj.trilha_id_fixo)}','CAMP-MANUAL-FICHA','${escHtml(sObj.tecnico_responsavel_id_fixo)}')">🤝 Nutrir</button>
+        </li>`;
+      }).join('') || '<li>Sem itens nesta faixa — execute auditoria na guia Campanhas.</li>';
+      return `<div style="margin-bottom:10px;"><div style="font-weight:800;color:var(--heading);margin-bottom:4px;">${tituloCron}</div><ul style="padding-left:16px;font-size:0.82rem;">${lista}</ul></div>`;
+    };
+    const sicarHtml = (p.sicar_alteracao_email && p.sicar_alteracao_email.length)
+      ? `<div style="margin-top:8px;padding:8px 12px;border-radius:6px;background:rgba(244,63,94,0.12);border:1px solid rgba(244,63,94,0.35);font-size:0.82rem;"><strong>🔐 Alerta Onda SICAR (${p.sicar_alteracao_email.length} protocolo(s)):</strong> ${p.sicar_alteracao_email.map(x => `${escHtml(x.nup_sei)} (${escHtml(x.ano)} — ${escHtml(x.assunto)})`).join('; ')}</div>`
+      : '';
+
     document.getElementById('modal-producer-body').innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--border);padding-bottom:12px;margin-bottom:14px;">
         <div>
           <span class="badge badge-emerald">${escHtml(p.id_catalogo)}</span>
+          ${idFix.imovel_id_fixo ? `<span class="badge badge-sky">${escHtml(idFix.imovel_id_fixo)}</span>` : ''}
+          ${idFix.rt_principal_id_fixo ? `<span class="badge badge-purple">${escHtml(idFix.rt_principal_id_fixo)}</span>` : ''}
           <span class="badge badge-gold">Ano Mais Recente: ${escHtml(p.ano_mais_recente)}</span>
           <h2 style="margin-top:6px;color:var(--heading);font-weight:900;">${escHtml(p.nome_produtor_ou_empresa)}</h2>
         </div>
@@ -1378,6 +1527,32 @@
         <input type="text" class="permalink-input" id="modal-permalink-input" readonly value="${escHtml(permalink)}" />
         <button class="btn btn-emerald" onclick="copyCurrentProducerLink('${escHtml(p.id_catalogo)}')">📋 Copiar Link</button>
         <button class="btn btn-gold" onclick="shareWhatsApp('${escHtml(p.id_catalogo)}')">📲 WhatsApp</button>
+      </div>
+      ${sicarHtml}
+
+      <!-- DIAGNÓSTICO PERSONALIZADO DE PRODUTOS, SERVIÇOS & ANTI-COLISÃO -->
+      <div class="accordion-box open" style="margin-top:10px;">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🎯 Diagnóstico Prático (Solar, Bombas, Plantário, Jurídico, GeoJSON) & Cronologia Anti-Colisão</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="grid-2" style="margin-bottom:10px;font-size:0.83rem;">
+            <div style="background:var(--bg-card-alt);padding:10px;border-radius:8px;border:1px solid var(--border);">
+              <p><strong>☀️ Placa Solar:</strong> <code>${escHtml(p.placa_solar_status || diagP.placa_solar_status || 'NAO_MAPEADO_VERIFICAR_CAMPO')}</code></p>
+              <p><strong>💧 Bomba / Irrigação:</strong> ${escHtml(p.bomba_info || diagP.bomba_info || 'NAO_MAPEADO_VERIFICAR_CAMPO')}</p>
+              <p><strong>🌱 Consultoria Plantário/Agronomia:</strong> ${diagP.necessita_consultoria_plantario ? '<span class="badge badge-emerald">Recomendada (Café/Pastagem)</span>' : '<span class="badge badge-sky">Sob Demanda</span>'}</p>
+            </div>
+            <div style="background:var(--bg-card-alt);padding:10px;border-radius:8px;border:1px solid var(--border);">
+              <p><strong>⚖️ Consultoria Jurídica / Multas:</strong> <span class="badge ${diagP.alerta_juridico_nivel === 'ALTO_NOTIFICACAO_OU_SICAR' ? 'badge-rose' : 'badge-gold'}">${escHtml(diagP.alerta_juridico_nivel || 'PREVENTIVO_PADRAO')}</span></p>
+              <p><strong>🛰️ Cobertura Satélite GeoJSON:</strong> ${geoSt.cobertura_satelite ? `<span class="badge badge-emerald">${Number(geoSt.total_pontos_reais)} ponto(s) real(is)</span>` : '<span class="badge badge-gold">Sem GeoJSON — Levantar Ponto</span>'}</p>
+              <p><strong>🎯 Motivo Campanha / Trilha:</strong> ${escHtml(p.motivo_campanha || 'Manutenção preventiva multi-especialista')}</p>
+            </div>
+          </div>
+          ${renderCronGrupo('⏮️ 1. O que Já Precisou (Passado / Base Documental)', 'badge-sky', cron.ja_precisou)}
+          ${renderCronGrupo('⚡ 2. O que Precisa Agora (Ativo & Prevenção Imediata)', 'badge-emerald', cron.precisa_agora)}
+          ${renderCronGrupo('🔮 3. Previsões Futuras & Próximos Passos (6–18 meses)', 'badge-gold', cron.previsao_futura)}
+        </div>
       </div>
 
       <!-- DADOS CADASTRAIS & REGRA FURTADO -->
@@ -1546,9 +1721,13 @@
       document.getElementById('field-tecnico').value = '';
       document.getElementById('field-atividade').value = '';
       document.getElementById('field-gasto').value = '5000';
+      if (document.getElementById('field-placa-solar')) document.getElementById('field-placa-solar').value = 'NAO_MAPEADO_VERIFICAR_CAMPO';
+      if (document.getElementById('field-bomba-info')) document.getElementById('field-bomba-info').value = '';
+      if (document.getElementById('field-motivo-campanha')) document.getElementById('field-motivo-campanha').value = '';
       document.getElementById('field-notas').value = '';
     } else {
       const p = producersList.find(x => x.id_catalogo === idCat) || {};
+      const dp = p.diagnostico_perfil || {};
       document.getElementById('field-id-catalogo').value = idCat;
       document.getElementById('field-nome').value = p.nome_produtor_ou_empresa || '';
       document.getElementById('field-cpf-cnpj').value = p.cpf_cnpj || '';
@@ -1562,6 +1741,9 @@
       document.getElementById('field-tecnico').value = Array.isArray(p.tecnicos) ? p.tecnicos.join('; ') : (p.tecnicos || '');
       document.getElementById('field-atividade').value = Array.isArray(p.atividades) ? p.atividades.join(', ') : (p.atividade_principal || '');
       document.getElementById('field-gasto').value = p.gasto_estimado_consultoria_brl || 5000;
+      if (document.getElementById('field-placa-solar')) document.getElementById('field-placa-solar').value = p.placa_solar_status || dp.placa_solar_status || 'NAO_MAPEADO_VERIFICAR_CAMPO';
+      if (document.getElementById('field-bomba-info')) document.getElementById('field-bomba-info').value = p.bomba_info || dp.bomba_info || '';
+      if (document.getElementById('field-motivo-campanha')) document.getElementById('field-motivo-campanha').value = p.motivo_campanha || '';
       document.getElementById('field-notas').value = p.notas_internas || '';
     }
 
@@ -1592,9 +1774,13 @@
     const tecnico = document.getElementById('field-tecnico').value.split(';').map(s=>s.trim()).filter(Boolean);
     const atividade = document.getElementById('field-atividade').value.split(',').map(s=>s.trim()).filter(Boolean);
     const gasto = Number(document.getElementById('field-gasto').value) || 0;
+    const placaSolar = ((document.getElementById('field-placa-solar') || {}).value || '').trim();
+    const bombaInfo = ((document.getElementById('field-bomba-info') || {}).value || '').trim();
+    const motivoCampanha = ((document.getElementById('field-motivo-campanha') || {}).value || '').trim();
     const notas = document.getElementById('field-notas').value.trim();
 
     const existing = producersList.find(x => x.id_catalogo === id) || {};
+    const existingDiag = existing.diagnostico_perfil || {};
     const updated = {
       ...existing,
       id_catalogo: id,
@@ -1612,6 +1798,14 @@
       atividades: atividade,
       gasto_estimado_consultoria_brl: gasto,
       potencial_contrato_agroprime_brl: Math.round(gasto * 0.65),
+      ...(placaSolar ? { placa_solar_status: placaSolar } : {}),
+      ...(bombaInfo ? { bomba_info: bombaInfo } : {}),
+      ...(motivoCampanha ? { motivo_campanha: motivoCampanha } : {}),
+      diagnostico_perfil: {
+        ...existingDiag,
+        ...(placaSolar ? { placa_solar_status: placaSolar } : {}),
+        ...(bombaInfo ? { bomba_info: bombaInfo } : {})
+      },
       notas_internas: notas,
       ano_mais_recente: existing.ano_mais_recente || '2026',
       anos_ativos: Array.from(new Set([...(existing.anos_ativos || []), '2026'])),
@@ -1807,15 +2001,15 @@
     const rts = CATALOGO.responsaveis_tecnicos_e_empresas || [];
     document.querySelector('#table-rts tbody').innerHTML = rts.map(r => `
       <tr>
-        <td><strong>${r.nome}</strong></td>
-        <td><code>${r.crea_cfta}</code></td>
-        <td>${r.qualificacao}</td>
-        <td><span class="badge ${r.tipo.includes('SEDAM')?'badge-sky':'badge-emerald'}">${r.tipo}</span></td>
-        <td>${r.municipio_base}</td>
-        <td><strong>${r.telefone}</strong></td>
-        <td>${r.processos_auditados}</td>
-        <td>${r.ticket_medio_brl > 0 ? `<strong>R$ ${r.ticket_medio_brl.toLocaleString('pt-BR')}</strong>` : '<span class="badge badge-sky">Servidor Público SEDAM</span>'}</td>
-        <td>${r.especialidades}</td>
+        <td><strong>${escHtml(r.nome)}</strong></td>
+        <td><code>${escHtml(r.crea_cfta)}</code></td>
+        <td>${escHtml(r.qualificacao)}</td>
+        <td><span class="badge ${String(r.tipo||'').includes('SEDAM')?'badge-sky':'badge-emerald'}">${escHtml(r.tipo)}</span></td>
+        <td>${escHtml(r.municipio_base)}</td>
+        <td><strong>${escHtml(r.telefone)}</strong></td>
+        <td>${Number(r.processos_auditados || 0)}</td>
+        <td>${Number(r.ticket_medio_brl || 0) > 0 ? `<strong>R$ ${Number(r.ticket_medio_brl).toLocaleString('pt-BR')}</strong>` : '<span class="badge badge-sky">Servidor Público SEDAM</span>'}</td>
+        <td>${escHtml(r.especialidades)}</td>
       </tr>
     `).join('');
   }
@@ -1830,7 +2024,7 @@
       const r = resumo[y] || {};
       return `
         <tr>
-          <td><span class="badge ${y==='2026'?'badge-emerald':(y==='2025'?'badge-gold':'badge-sky')}" style="font-size:0.9rem;">${y}</span></td>
+          <td><span class="badge ${y==='2026'?'badge-emerald':(y==='2025'?'badge-gold':'badge-sky')}" style="font-size:0.9rem;">${escHtml(y)}</span></td>
           <td><strong>${dist[y] || 0}</strong> produtores</td>
           <td>${r.malote_protocolos || 0}</td>
           <td>${r.processos_sei || 0}</td>
@@ -1841,6 +2035,305 @@
         </tr>
       `;
     }).join('');
+  }
+
+  function countCampanhaElegiveis(campId) {
+    if (!Array.isArray(producersList)) return 0;
+    return producersList.filter(p => {
+      const d = p.diagnostico_perfil || {};
+      const g = p.geojson_stats || {};
+      const txt = `${(p.atividades||[]).join(' ')} ${(p.processos||[]).join(' ')}`.toUpperCase();
+      if (campId === 'CAMP-SICAR-ROMPIMENTO-001') return Boolean(p.sicar_alteracao_email && p.sicar_alteracao_email.length);
+      if (campId === 'CAMP-PREVENCAO-MULTAS-002') return d.alerta_juridico_nivel === 'ALTO_NOTIFICACAO_OU_SICAR' || txt.includes('NOTIFICA') || txt.includes('BARRAGEM');
+      if (campId === 'CAMP-SOLAR-BOMBA-003') return txt.includes('IRRIGA') || txt.includes('PISCICULTURA') || txt.includes('OUTORGA') || txt.includes('CAFE') || txt.includes('CAFÉ');
+      if (campId === 'CAMP-PLANTARIO-AGRONOMIA-004') return Boolean(d.necessita_consultoria_plantario);
+      if (campId === 'CAMP-RADAR-SATELITE-RF-005') return Boolean(g.cobertura_satelite);
+      if (campId === 'CAMP-OUTORGA-PISCICULTURA-006') return txt.includes('OUTORGA') || txt.includes('PISCICULTURA') || txt.includes('BARRAGEM');
+      return true;
+    }).length;
+  }
+
+  function filtrarProdutoresPorCampanha(campId) {
+    switchMainTab('tab-catalogo', document.getElementById('tablink-catalogo'));
+    window.location.hash = '#catalogo';
+    let subcat = 'ALL';
+    if (campId === 'CAMP-SICAR-ROMPIMENTO-001') subcat = 'SICAR';
+    else if (campId === 'CAMP-PREVENCAO-MULTAS-002') subcat = 'NOTIFICACAO';
+    else if (campId === 'CAMP-SOLAR-BOMBA-003') subcat = 'SOLAR_BOMBA';
+    else if (campId === 'CAMP-PLANTARIO-AGRONOMIA-004') subcat = 'CAFE';
+    else if (campId === 'CAMP-RADAR-SATELITE-RF-005') subcat = 'GEO';
+    else if (campId === 'CAMP-OUTORGA-PISCICULTURA-006') subcat = 'OUTORGA';
+    const btn = document.querySelector(`.pill[data-filter="subcat"][data-val="${subcat}"]`);
+    setSubcatFilter(subcat, btn);
+    showToast(`🔎 Carteira filtrada para campanha ${campId}`);
+  }
+
+  function registrarInteracaoCampanhaSemColisao(cliId, solId, trilhaId, campId, tecId, canal) {
+    const channel = String(canal || 'WHATSAPP_CRM').trim().toUpperCase();
+    const yyyymm = new Date().toISOString().slice(0, 7).replace('-', '');
+    const key = `${String(cliId||'').trim()}|${String(solId||'').trim()}|${String(trilhaId||'TRL-GERAL').trim()}|${String(campId||'CAMP-MANUAL').trim()}|${yyyymm}|${channel}`.toUpperCase();
+    let ledger = [];
+    try {
+      ledger = JSON.parse(localStorage.getItem(campLedgerKey) || '[]');
+      if (!Array.isArray(ledger)) ledger = [];
+    } catch (e) { ledger = []; }
+
+    const nowMs = Date.now();
+    const cooldownMs = 7 * 24 * 60 * 60 * 1000;
+    const collision = ledger.find(item => {
+      if (!item) return false;
+      if (String(item.idempotency_key || '').toUpperCase() === key) return true;
+      const sameTrackClient = String(item.cliente_id_fixo || '') === String(cliId || '') && String(item.trilha_id_fixo || '') === String(trilhaId || '');
+      if (sameTrackClient && item.atualizado_em) {
+        const diff = nowMs - Date.parse(item.atualizado_em);
+        if (!Number.isNaN(diff) && diff >= 0 && diff < cooldownMs) return true;
+      }
+      return false;
+    });
+
+    if (collision) {
+      if (typeof showToast === 'function') showToast(`⛔ Anti-Colisão: cliente ${cliId} já nutrido na trilha ${trilhaId} nesta janela!`);
+      return { status: 'COLISAO_BLOQUEADA_IDEMPOTENTE', colisao_evitada: true, idempotency_key: key };
+    }
+
+    const pObj = (Array.isArray(producersList) ? producersList.find(x => x.id_catalogo === cliId) : null) || {};
+    const entry = {
+      idempotency_key: key,
+      registro_id: 'NUT-' + Date.now(),
+      cliente_id_fixo: cliId,
+      imovel_id_fixo: (pObj.id_fixo_global && pObj.id_fixo_global.imovel_id_fixo) || '',
+      nome_produtor: pObj.nome_produtor_ou_empresa || cliId,
+      tecnico_id_fixo: tecId || 'CONS-PLANT-001',
+      trilha_id_fixo: trilhaId || 'TRL-GERAL',
+      solucao_id_fixo: solId,
+      campanha_id_fixo: campId || 'CAMP-MANUAL',
+      janela_yyyymm: yyyymm,
+      canal: channel,
+      status_envio: 'REGISTRADO_ANTI_COLISAO',
+      resumo_personalizado: `${solId} / ${tecId} (${trilhaId})`,
+      atualizado_em: new Date().toISOString()
+    };
+
+    try {
+      ledger.unshift(entry);
+      localStorage.setItem(campLedgerKey, JSON.stringify(ledger.slice(0, 500)));
+    } catch (e) {
+      return { status: 'ERRO_STORAGE', colisao_evitada: false, idempotency_key: key };
+    }
+
+    if (typeof renderAntiCollisionLedger === 'function') renderAntiCollisionLedger();
+    if (typeof showToast === 'function') showToast(`✅ Nutrição registrada sem colisão (${cliId} • ${trilhaId} • ${solId})`);
+
+    if (typeof fetch === 'function' && typeof CATALOGO !== 'undefined' && CATALOGO.apps_script_url) {
+      try {
+        fetch(CATALOGO.apps_script_url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ acao: 'salvar_campanha_nutricao', token: 'sedam-outorga-campo-2026', campanha: entry })
+        }).catch(() => {});
+      } catch (e) {}
+    }
+
+    return { status: 'SUCESSO', colisao_evitada: false, idempotency_key: key, registro: entry };
+  }
+
+  function renderAntiCollisionLedger() {
+    const box = document.getElementById('anti-collision-ledger-box');
+    if (!box) return;
+    let ledger = [];
+    try { ledger = JSON.parse(localStorage.getItem(campLedgerKey) || '[]'); } catch (e) { ledger = []; }
+    if (!ledger.length) {
+      box.innerHTML = '<div style="color:var(--text-muted);">Nenhuma interação de campanha registrada ainda neste navegador. Clique em <strong>"🤝 Nutrir"</strong> na ficha de qualquer produtor para testar o bloqueio anti-colisão em tempo real.</div>';
+      return;
+    }
+    box.innerHTML = `<div style="margin-bottom:6px;"><strong>${ledger.length}</strong> registro(s) idempotente(s) gravado(s) com trava de 7 dias por <code>trilha_id_fixo</code>:</div>` +
+      ledger.slice(0, 20).map(item => `
+        <div style="padding:6px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+          <div>
+            <span class="badge badge-emerald">${escHtml(item.cliente_id_fixo)}</span>
+            <span class="badge badge-sky">${escHtml(item.solucao_id_fixo)}</span>
+            <span class="badge badge-purple">${escHtml(item.trilha_id_fixo)}</span>
+            <strong>${escHtml(item.nome_produtor)}</strong>
+          </div>
+          <div style="font-size:0.75rem;color:var(--text-muted);"><code>${escHtml(item.idempotency_key)}</code> • ${escHtml(item.tecnico_id_fixo)}</div>
+        </div>
+      `).join('');
+  }
+
+  function renderSolucoesMatrix() {
+    const grid = document.getElementById('solucoes-catalogo-grid');
+    if (!grid) return;
+    const all = SOLUCOES_DATA.solucoes_120 || [];
+    const cat = (document.getElementById('camp-filter-cat') || {}).value || 'ALL';
+    const fase = (document.getElementById('camp-filter-fase') || {}).value || 'ALL';
+    const tec = (document.getElementById('camp-filter-tec') || {}).value || 'ALL';
+    const q = ((document.getElementById('camp-filter-search') || {}).value || '').toLowerCase().trim();
+
+    const filtered = all.filter(s => {
+      if (cat !== 'ALL' && s.categoria !== cat) return false;
+      if (fase !== 'ALL' && s.fase_cronologica !== fase) return false;
+      if (tec !== 'ALL' && s.tecnico_responsavel_id_fixo !== tec) return false;
+      if (q) {
+        const hay = `${s.solucao_id_fixo} ${s.titulo} ${s.categoria} ${s.quem_precisa_perfil} ${s.padrao_comportamento_gatilho} ${s.beneficio_prevencao_multa_ou_lucro}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    grid.innerHTML = filtered.map(s => {
+      const faseBadge = s.fase_cronologica === 'NECESSIDADE_ATUAL_IMEDIATA' ? 'badge-emerald' : (s.fase_cronologica === 'PREVISAO_FUTURA_6_18M' ? 'badge-gold' : 'badge-sky');
+      const faseLabel = s.fase_cronologica === 'NECESSIDADE_ATUAL_IMEDIATA' ? '⚡ Urgente Agora' : (s.fase_cronologica === 'PREVISAO_FUTURA_6_18M' ? '🔮 Previsão Futura' : '⏮️ Já Precisou');
+      return `
+        <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge badge-indigo">${escHtml(s.solucao_id_fixo)}</span>
+            <span class="badge ${faseBadge}">${faseLabel}</span>
+            <span class="badge badge-purple">${escHtml(s.trilha_id_fixo)}</span>
+          </div>
+          <div style="font-weight:800;color:var(--heading);margin-bottom:4px;">${escHtml(s.titulo)}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:6px;">${escHtml(s.categoria)} • <strong>${escHtml(s.tipo)}</strong></div>
+          <div style="font-size:0.8rem;"><strong>Perfil:</strong> ${escHtml(s.quem_precisa_perfil)}</div>
+          <div style="font-size:0.8rem;"><strong>Gatilho:</strong> ${escHtml(s.padrao_comportamento_gatilho)}</div>
+          <div style="font-size:0.8rem;color:var(--emerald);margin-top:4px;"><strong>Valor/Proteção:</strong> ${escHtml(s.beneficio_prevencao_multa_ou_lucro)}</div>
+          <div style="font-size:0.74rem;color:var(--text-muted);margin-top:6px;">Especialista Fixo: <code>${escHtml(s.tecnico_responsavel_id_fixo)}</code></div>
+        </div>
+      `;
+    }).join('') || '<div class="kpi-card">Nenhuma solução corresponde ao filtro selecionado.</div>';
+  }
+
+  function renderCampanhasESolucoesView() {
+    const sols = SOLUCOES_DATA.solucoes_120 || [];
+    const consultores = SOLUCOES_DATA.consultores_especialistas_fixos || [];
+    const camps = SOLUCOES_DATA.campanhas_prontas || [];
+    const sicar = SOLUCOES_DATA.onda_sicar_processos_reais || {};
+    const integ = CATALOGO.integracao_solucoes_ids_fixos || {};
+
+    const kpiGrid = document.getElementById('campanhas-kpis-grid');
+    if (kpiGrid) {
+      kpiGrid.innerHTML = `
+        <div class="kpi-card" style="border-left:4px solid var(--emerald);">
+          <div class="kpi-title">Soluções Mapeadas</div>
+          <div class="kpi-num">${sols.length}</div>
+          <div class="kpi-sub">8 categorias • Produto, Serviço, Jurídico & IA</div>
+        </div>
+        <div class="kpi-card" style="border-left:4px solid var(--sky);">
+          <div class="kpi-title">GeoJSON Real no CRM</div>
+          <div class="kpi-num">${Number(integ.total_features_geojson || 0).toLocaleString('pt-BR')}</div>
+          <div class="kpi-sub">${Number(integ.clientes_com_coordenada_real || 0)} produtores vinculados</div>
+        </div>
+        <div class="kpi-card" style="border-left:4px solid var(--rose, #f43f5e);">
+          <div class="kpi-title">Onda Troca E-mail SICAR</div>
+          <div class="kpi-num">${Number(sicar.total_registros_extraidos_excel || 0)}</div>
+          <div class="kpi-sub">${Number(integ.clientes_com_sicar_alteracao_email_real || 0)} produtores já cruzados no catálogo</div>
+        </div>
+        <div class="kpi-card" style="border-left:4px solid var(--purple);">
+          <div class="kpi-title">Especialistas ID Fixo</div>
+          <div class="kpi-num">${consultores.filter(c => c.atuacao_comercial_permitida).length}</div>
+          <div class="kpi-sub">Atuação paralela sem colisão entre trilhas</div>
+        </div>
+      `;
+    }
+
+    const catSel = document.getElementById('camp-filter-cat');
+    if (catSel && catSel.options.length <= 1) {
+      (SOLUCOES_DATA.categorias_resumo || []).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.nome;
+        opt.textContent = `${c.nome} (${c.qtd} itens)`;
+        catSel.appendChild(opt);
+      });
+    }
+    const tecSel = document.getElementById('camp-filter-tec');
+    if (tecSel && tecSel.options.length <= 1) {
+      consultores.filter(c => c.atuacao_comercial_permitida).forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.tecnico_id_fixo;
+        opt.textContent = `${c.tecnico_id_fixo} — ${c.nome}`;
+        tecSel.appendChild(opt);
+      });
+    }
+
+    const campsGrid = document.getElementById('campanhas-prontas-grid');
+    if (campsGrid) {
+      campsGrid.innerHTML = camps.map(c => {
+        const countEl = countCampanhaElegiveis(c.campanha_id_fixo);
+        return `
+          <div class="kpi-card" style="border-left:4px solid var(--gold);">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+              <span class="badge badge-indigo">${escHtml(c.campanha_id_fixo)}</span>
+              <span class="badge badge-purple">${escHtml(c.trilha_id_fixo)}</span>
+              <span class="badge badge-emerald">${countEl} elegíveis</span>
+            </div>
+            <div style="font-weight:900;color:var(--heading);margin-bottom:4px;">${escHtml(c.nome)}</div>
+            <div style="font-size:0.81rem;color:var(--text-muted);margin-bottom:6px;">${escHtml(c.criterio_segmentacao)}</div>
+            <div style="font-size:0.81rem;margin-bottom:8px;"><strong>Objetivo:</strong> ${escHtml(c.objetivo_pratico)}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:8px;">
+              Soluções: <code>${escHtml((c.solucoes_ids||[]).join(', '))}</code><br/>
+              Especialistas: <code>${escHtml((c.especialistas_ids||[]).join(', '))}</code>
+            </div>
+            <button type="button" class="btn btn-emerald" onclick="filtrarProdutoresPorCampanha('${escHtml(c.campanha_id_fixo)}')">🔎 Filtrar Produtores no Catálogo</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    const consGrid = document.getElementById('consultores-fixos-grid');
+    if (consGrid) {
+      consGrid.innerHTML = consultores.map(c => `
+        <div class="kpi-card" style="border-left:4px solid ${c.atuacao_comercial_permitida ? 'var(--emerald)' : 'var(--sky)'};">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="badge ${c.atuacao_comercial_permitida ? 'badge-emerald' : 'badge-sky'}">${escHtml(c.tecnico_id_fixo)}</span>
+            <span class="badge badge-gold">${escHtml(c.papel_bloco)}</span>
+          </div>
+          <div style="font-weight:800;color:var(--heading);">${escHtml(c.nome)}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:6px;">${escHtml(c.registro_profissional)} • ${escHtml(c.telefone_publico_referencia)}</div>
+          <div style="font-size:0.8rem;"><strong>Especialidades:</strong> ${escHtml((c.especialidades||[]).join(' • '))}</div>
+          <div style="font-size:0.8rem;margin-top:4px;"><strong>Quem Atende:</strong> ${escHtml((c.padroes_cliente_atendidos||[]).join(' | '))}</div>
+        </div>
+      `).join('');
+    }
+
+    const sicarSum = document.getElementById('sicar-wave-summary');
+    if (sicarSum) {
+      const yrs = sicar.por_ano || {};
+      sicarSum.innerHTML = `Total consolidado na planilha oficial <code>CONTROLE DE PROCESSOS SEI.xlsx</code>: <strong>${Number(sicar.total_registros_extraidos_excel || 0)}</strong> processos SICAR/CAR — Distribuição: ` +
+        Object.keys(yrs).sort().reverse().map(y => `<span class="badge badge-sky">${escHtml(y)}: ${Number(yrs[y])}</span>`).join(' ');
+    }
+    const sicarTbody = document.querySelector('#sicar-wave-table tbody');
+    if (sicarTbody) {
+      const rows = (sicar.registros || []).slice().reverse().slice(0, 80);
+      sicarTbody.innerHTML = rows.map(r => `
+        <tr>
+          <td><span class="badge badge-gold">${escHtml(r.aba_ano)}</span></td>
+          <td><code>${escHtml(r.nup_sei)}</code></td>
+          <td>${escHtml(r.data_protocolo)}</td>
+          <td>${escHtml(r.assunto_oficial)}</td>
+          <td>${escHtml(r.setor)}</td>
+        </tr>
+      `).join('');
+    }
+
+    renderSolucoesMatrix();
+    renderAntiCollisionLedger();
+  }
+
+  function renderVertexComportamentosView() {
+    const box = document.getElementById('rf-comportamento-box');
+    if (!box) return;
+    const pats = SOLUCOES_DATA.padroes_comportamento_satelite_rf || [];
+    box.innerHTML = pats.map(pt => `
+      <div class="kpi-card" style="border-left:4px solid var(--sky);">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+          <span class="badge badge-sky">${escHtml(pt.padrao_id)}</span>
+          <span class="badge badge-purple">${escHtml((pt.especialistas_acionados||[]).join(', '))}</span>
+        </div>
+        <div style="font-weight:800;color:var(--heading);margin-bottom:4px;">${escHtml(pt.nome)}</div>
+        <div style="font-size:0.79rem;color:var(--text-muted);margin-bottom:4px;"><strong>Sensores:</strong> ${escHtml((pt.sensores||[]).join(' + '))}</div>
+        <div style="font-size:0.8rem;margin-bottom:4px;"><strong>Sinal:</strong> ${escHtml(pt.sinal_observavel)}</div>
+        <div style="font-size:0.8rem;color:var(--emerald);"><strong>Ação CRM Anti-Colisão:</strong> ${escHtml(pt.acao_crm_sugerida)}</div>
+      </div>
+    `).join('');
   }
 
   async function syncWithAppsScript() {

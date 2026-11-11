@@ -4,7 +4,7 @@
    Depois da primeira abertura com internet, o app abre em modo aviao.
    ============================================================================ */
 
-const CACHE = 'sedam-outorga-v4-006';
+const CACHE = 'sedam-outorga-v4-007';
 
 const ARQUIVOS = [
   './',
@@ -12,6 +12,9 @@ const ARQUIVOS = [
   'CRM_ERP_GLOBAL_SEDAM.html',
   'dados/dossie_lino_duque.js',
   'dados/catalogo_2026_2012.js',
+  'dados/solucoes_120_e_ids_globais.js',
+  'dados/COORDENADAS_GEOJSON_2026_2012.geojson',
+  'dados/SEDAM_AgroPrime_VertexAI_DAK_GEE_RandomForest_Colab.ipynb',
   'FICHA_VISTORIA_INTERATIVA_OFFLINE_IPHONE_V4.html',
   'DASHBOARD_VISTORIAS_SEDAM.html',
   'manifest.webmanifest',
