@@ -690,7 +690,8 @@
               <th>Produtor Rural / Empresa</th>
               <th>CPF / CNPJ</th>
               <th>Município</th>
-              <th>Processos Vinculados</th>
+              <th>Contato Vistoria (Furtado)</th>
+              <th>Processos SEI / Antigos</th>
               <th>Eventos</th>
               <th>Gasto Est.</th>
               <th>Ações Rápidas</th>
@@ -936,13 +937,27 @@
       </div>
       <div class="grid-2">
         <div class="form-group">
-          <label>Telefone(s) de Contato (Titular e/ou RT)</label>
-          <input type="text" class="form-control" id="field-telefones" placeholder="Ex: (69) 98474-3091; (69) 3641-2505" />
+          <label style="color:var(--emerald);font-weight:700;">⭐ Contato Soberano Pós-Vistoria (Anotação Furtado)</label>
+          <input type="text" class="form-control" id="field-contato-furtado" placeholder="Ex: (69) 98474-3091 (Confirmado em campo)" style="border-color:var(--emerald);" />
         </div>
         <div class="form-group">
-          <label>Responsável Técnico (RT) / Empresa</label>
-          <input type="text" class="form-control" id="field-tecnico" placeholder="Ex: Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO)" />
+          <label>Telefone(s) Submetidos (RT / Petição)</label>
+          <input type="text" class="form-control" id="field-telefones" placeholder="Ex: (69) 98474-3091; (69) 3641-2505" />
         </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Processo(s) NUP SEI</label>
+          <input type="text" class="form-control" id="field-processo-sei" placeholder="Ex: 0028.006760/2026-60" />
+        </div>
+        <div class="form-group">
+          <label>Processo(s) Antigo(s) SEDAM (Físico)</label>
+          <input type="text" class="form-control" id="field-processo-antigo" placeholder="Ex: 1801/01067/2015" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Responsável Técnico (RT) / Empresa</label>
+        <input type="text" class="form-control" id="field-tecnico" placeholder="Ex: Eng. Florestal Magno Ribeiro de Lima (CREA 9388D/RO)" />
       </div>
       <div class="grid-2">
         <div class="form-group">
@@ -1007,6 +1022,15 @@
     localStorage.setItem('AGROPRIME_THEME', t);
     const btn = document.getElementById('btn-theme-toggle');
     if (btn) btn.innerHTML = t === 'light' ? '☀️ Modo Dia' : '🌙 Modo Noite';
+  }
+
+  function escHtml(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   // CARREGAR DADOS COM MESCLAGEM DE EDIÇÕES OFFLINE
@@ -1153,7 +1177,7 @@
       }
 
       if (searchWord) {
-        const hay = `${p.id_catalogo} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${p.endereco||''} ${(p.telefones||[]).join(' ')} ${(p.processos||[]).join(' ')} ${(p.tecnicos||[]).join(' ')} ${(p.atividades||[]).join(' ')} ${p.notas_internas||''}`.toLowerCase();
+        const hay = `${p.id_catalogo} ${p.nome_produtor_ou_empresa} ${p.cpf_cnpj} ${p.municipio} ${p.endereco||''} ${p.contato_produtor_anotacao_furtado||''} ${(p.telefones||[]).join(' ')} ${(p.processos||[]).join(' ')} ${(p.processos_sei_nup||[]).join(' ')} ${(p.processos_sei_lista||[]).join(' ')} ${(p.processos_antigos_sedam||[]).join(' ')} ${(p.tecnicos||[]).join(' ')} ${(p.atividades||[]).join(' ')} ${p.notas_internas||''}`.toLowerCase();
         return hay.includes(searchWord);
       }
 
@@ -1178,31 +1202,38 @@
 
       return `
         <tr>
-          <td><code style="color:var(--emerald);font-weight:800;">${p.id_catalogo}</code></td>
+          <td><code style="color:var(--emerald);font-weight:800;">${escHtml(p.id_catalogo)}</code></td>
           <td>
-            <span class="badge ${badgeAno}">${p.ano_mais_recente}</span>
-            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${(p.anos_ativos||[]).slice(0,3).join(', ')}</div>
+            <span class="badge ${badgeAno}">${escHtml(p.ano_mais_recente)}</span>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">${escHtml((p.anos_ativos||[]).slice(0,3).join(', '))}</div>
           </td>
           <td>
-            <strong>${p.nome_produtor_ou_empresa}</strong>
+            <strong>${escHtml(p.nome_produtor_ou_empresa)}</strong>
             <div><span class="badge ${badgeTipo}">${isPJ ? '🏢 Empresa/PJ' : '🌾 Produtor Rural'}</span></div>
           </td>
-          <td><code>${p.cpf_cnpj}</code></td>
-          <td>${p.municipio}</td>
+          <td><code>${escHtml(p.cpf_cnpj)}</code></td>
+          <td>${escHtml(p.municipio)}</td>
           <td>
-            <span class="badge badge-sky">${p.qtd_processos_unicos || (p.processos||[]).length} proc.</span>
-            <div style="font-size:0.74rem;color:var(--text-muted);margin-top:2px;"><code>${(p.processos||[]).slice(0,2).join(', ')}</code></div>
+            ${p.contato_produtor_anotacao_furtado ? `<span class="badge badge-emerald" style="font-size:0.74rem;font-weight:700;" title="Contato in loco Furtado">📞 ${escHtml(p.contato_produtor_anotacao_furtado)}</span>` : (p.telefones && p.telefones.length ? `<span style="font-size:0.75rem;color:var(--text-muted);">${escHtml(p.telefones[0])}</span>` : '<span style="color:#ef4444;font-size:0.74rem;">⚠️ Sem contato</span>')}
           </td>
           <td>
-            <strong>${p.qtd_eventos_totais || ((p.protocolos_malote||[]).length + (p.processos_sei_lista||[]).length)}</strong> eventos
+            <span class="badge badge-sky">${Number(p.qtd_processos_unicos || (p.processos||[]).length)} proc.</span>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px;">
+              ${((p.processos_sei_nup||[]).length || (p.processos_sei_lista||[]).length) ? `<span style="color:var(--emerald);">SEI:</span> <code>${escHtml(((p.processos_sei_nup && p.processos_sei_nup.length) ? p.processos_sei_nup : p.processos_sei_lista)[0])}</code><br/>` : ''}
+              ${(p.processos_antigos_sedam||[]).length ? `<span style="color:var(--gold);">Físico:</span> <code>${escHtml(p.processos_antigos_sedam[0])}</code>` : ''}
+              ${!((p.processos_sei_nup||[]).length || (p.processos_sei_lista||[]).length) && !(p.processos_antigos_sedam||[]).length ? `<code>${escHtml((p.processos||[]).slice(0,2).join(', '))}</code>` : ''}
+            </div>
+          </td>
+          <td>
+            <strong>${Number(p.qtd_eventos_totais || ((p.protocolos_malote||[]).length + (p.processos_sei_lista||[]).length))}</strong> eventos
             ${(p.pastas_fotos||[]).length ? `<br/><span class="badge badge-emerald">📸 ${p.pastas_fotos.length} pasta(s)</span>` : ''}
           </td>
-          <td><strong>R$ ${(p.gasto_estimado_consultoria_brl || 0).toLocaleString('pt-BR')}</strong></td>
+          <td><strong>R$ ${(Number(p.gasto_estimado_consultoria_brl) || 0).toLocaleString('pt-BR')}</strong></td>
           <td>
             <div style="display:flex;gap:4px;">
-              <button class="btn btn-emerald" onclick="openProducerFicha('${p.id_catalogo}')">👁️ Ver Dossiê</button>
-              <button class="btn btn-gold" title="Copiar Link Fixo" onclick="copyCurrentProducerLink('${p.id_catalogo}')">🔗</button>
-              <button class="btn" title="Editar" onclick="openEditProducerModal('${p.id_catalogo}')">✏️</button>
+              <button class="btn btn-emerald" onclick="openProducerFicha('${escHtml(p.id_catalogo)}')">👁️ Ver Dossiê</button>
+              <button class="btn btn-gold" title="Copiar Link Fixo" onclick="copyCurrentProducerLink('${escHtml(p.id_catalogo)}')">🔗</button>
+              <button class="btn" title="Editar" onclick="openEditProducerModal('${escHtml(p.id_catalogo)}')">✏️</button>
             </div>
           </td>
         </tr>
@@ -1225,8 +1256,14 @@
       res.push({ item: 'Laudo de Estabilidade de Barragem & Segurança', status: 'AUDITAR LAUDO', classe: 'badge-gold' });
     }
     res.push({ item: 'Cadastro Ambiental Rural (CAR / SICAR-RO)', status: 'CONFORME / AUDITORIA', classe: 'badge-emerald' });
-    res.push({ item: 'Responsável Técnico (ART / CREA / CRMV)', status: (p.tecnicos && p.tecnicos.length > 0) ? `VINCULADO (${p.tecnicos[0]})` : 'SEM RT FIXO IDENTIFICADO', classe: (p.tecnicos && p.tecnicos.length > 0) ? 'badge-emerald' : 'badge-rose' });
-    res.push({ item: 'Canal de Contato Direto / WhatsApp', status: (p.telefones && p.telefones.length > 0) ? 'CONFIRMADO' : 'PENDENTE DE CONTATO', classe: (p.telefones && p.telefones.length > 0) ? 'badge-emerald' : 'badge-gold' });
+    res.push({ item: 'Responsável Técnico (ART / CREA / CRMV)', status: (p.tecnicos && p.tecnicos.length > 0) ? `VINCULADO (${escHtml(p.tecnicos[0])})` : 'SEM RT FIXO IDENTIFICADO', classe: (p.tecnicos && p.tecnicos.length > 0) ? 'badge-emerald' : 'badge-rose' });
+    const hasFurtado = Boolean(p.contato_produtor_anotacao_furtado);
+    const hasDocPhone = Array.isArray(p.telefones) && p.telefones.length > 0;
+    res.push({
+      item: 'Canal de Contato Direto / WhatsApp',
+      status: hasFurtado ? 'ANOTADO FURTADO' : (hasDocPhone ? 'EM DOCUMENTO (CONFERIR TITULARIDADE)' : 'PENDENTE DE CONTATO'),
+      classe: hasFurtado ? 'badge-emerald' : (hasDocPhone ? 'badge-sky' : 'badge-gold')
+    });
     return res;
   }
 
@@ -1289,10 +1326,10 @@
     const oppsHtml = oportunidades.map(o => `
       <div style="background:var(--bg-card-alt);border:1.5px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <strong style="color:var(--heading);">${o.area || o.titulo}</strong>
-          <span class="badge badge-emerald">R$ ${(o.ticket_estimado || o.ticket_estimado_brl || 0).toLocaleString('pt-BR')}</span>
+          <strong style="color:var(--heading);">${escHtml(o.area || o.titulo)}</strong>
+          <span class="badge badge-emerald">R$ ${Number(o.ticket_estimado || o.ticket_estimado_brl || 0).toLocaleString('pt-BR')}</span>
         </div>
-        <div style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">${o.detalhes || o.servico}</div>
+        <div style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">${escHtml(o.detalhes || o.servico)}</div>
       </div>
     `).join('');
 
@@ -1300,37 +1337,37 @@
     const bmk = getProducerBenchmark(p);
     const bmkHtml = `
       <div style="background:var(--bg-card-alt);border:1.5px solid var(--border);border-radius:10px;padding:12px;">
-        <p><strong>Região Territorial:</strong> ${bmk.regiao_vizinhanca || p.municipio}</p>
-        <p><strong>Custo Médio na Vizinhança:</strong> ${bmk.gasto_medio_vizinhos_brl || 'R$ 5.000 a R$ 12.000 por outorga/licença'}</p>
-        <p><strong>Situação Regulatória dos Vizinhos:</strong> ${bmk.taxa_regularizacao_coreh || 'Maioria em fase de renovação de outorga'}</p>
-        <p style="color:var(--emerald);font-weight:700;margin-top:6px;">💡 ${bmk.oportunidade_coletiva || 'Assessoria conjunta na mesma vicinal reduz despesas de deslocamento.'}</p>
+        <p><strong>Região Territorial:</strong> ${escHtml(bmk.regiao_vizinhanca || p.municipio)}</p>
+        <p><strong>Custo Médio na Vizinhança:</strong> ${escHtml(bmk.gasto_medio_vizinhos_brl || 'R$ 5.000 a R$ 12.000 por outorga/licença')}</p>
+        <p><strong>Situação Regulatória dos Vizinhos:</strong> ${escHtml(bmk.taxa_regularizacao_coreh || 'Maioria em fase de renovação de outorga')}</p>
+        <p style="color:var(--emerald);font-weight:700;margin-top:6px;">💡 ${escHtml(bmk.oportunidade_coletiva || 'Assessoria conjunta na mesma vicinal reduz despesas de deslocamento.')}</p>
       </div>
     `;
 
     // Protocolos de Malote
     const malotesHtml = (p.protocolos_malote || []).map(m =>
-      `<li><strong>[${m.ano}] Guia ${m.guia || '-'} (${m.data || '-'}):</strong> Prot. <code>${m.protocolo || '-'}</code> • Proc. <code>${m.processo || '-'}</code> — ${m.assunto || ''}</li>`
+      `<li><strong>[${escHtml(m.ano)}] Guia ${escHtml(m.guia || '-')} (${escHtml(m.data || '-')}):</strong> Prot. <code>${escHtml(m.protocolo || '-')}</code> • Proc. <code>${escHtml(m.processo || '-')}</code> — ${escHtml(m.assunto || '')}</li>`
     ).join('') || '<li>Nenhum registro de malote individualizado.</li>';
 
     // Laudos Word
     const laudosHtml = (p.vistorias_e_laudos || []).map(l =>
-      `<li><strong>[${l.ano}]</strong> <code>${l.arquivo || ''}</code> ${l.empreendimento ? '— ' + l.empreendimento : ''} ${l.registro_tabela ? '— ' + l.registro_tabela : ''}</li>`
+      `<li><strong>[${escHtml(l.ano)}]</strong> <code>${escHtml(l.arquivo || '')}</code> ${l.empreendimento ? '— ' + escHtml(l.empreendimento) : ''} ${l.registro_tabela ? '— ' + escHtml(l.registro_tabela) : ''}</li>`
     ).join('') || '<li>Sem laudo Word individualizado.</li>';
 
     // Fotos de Campo
     const fotosHtml = (p.pastas_fotos || []).map(f =>
-      `<li><strong>[${f.ano}]</strong> 📁 <code>${f.pasta}</code> (${f.qtd_fotos_videos} fotos/vídeos mapeados)</li>`
+      `<li><strong>[${escHtml(f.ano)}]</strong> 📁 <code>${escHtml(f.pasta)}</code> (${Number(f.qtd_fotos_videos || 0)} fotos/vídeos mapeados)</li>`
     ).join('') || '<li>Sem pasta de fotos individualizada.</li>';
 
     document.getElementById('modal-producer-body').innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid var(--border);padding-bottom:12px;margin-bottom:14px;">
         <div>
-          <span class="badge badge-emerald">${p.id_catalogo}</span>
-          <span class="badge badge-gold">Ano Mais Recente: ${p.ano_mais_recente}</span>
-          <h2 style="margin-top:6px;color:var(--heading);font-weight:900;">${p.nome_produtor_ou_empresa}</h2>
+          <span class="badge badge-emerald">${escHtml(p.id_catalogo)}</span>
+          <span class="badge badge-gold">Ano Mais Recente: ${escHtml(p.ano_mais_recente)}</span>
+          <h2 style="margin-top:6px;color:var(--heading);font-weight:900;">${escHtml(p.nome_produtor_ou_empresa)}</h2>
         </div>
         <div style="display:flex;gap:6px;">
-          <button class="btn btn-emerald" onclick="openEditProducerModal('${p.id_catalogo}')">✏️ Editar</button>
+          <button class="btn btn-emerald" onclick="openEditProducerModal('${escHtml(p.id_catalogo)}')">✏️ Editar</button>
           <button class="btn" onclick="closeProducerModal()">✖ Fechar</button>
         </div>
       </div>
@@ -1338,27 +1375,71 @@
       <!-- PERMALINK BOX FIXO -->
       <div class="permalink-bar">
         <span>🔗 Link Fixo Permanente:</span>
-        <input type="text" class="permalink-input" id="modal-permalink-input" readonly value="${permalink}" />
-        <button class="btn btn-emerald" onclick="copyCurrentProducerLink('${p.id_catalogo}')">📋 Copiar Link</button>
-        <button class="btn btn-gold" onclick="shareWhatsApp('${p.id_catalogo}', '${p.nome_produtor_ou_empresa}')">📲 WhatsApp</button>
+        <input type="text" class="permalink-input" id="modal-permalink-input" readonly value="${escHtml(permalink)}" />
+        <button class="btn btn-emerald" onclick="copyCurrentProducerLink('${escHtml(p.id_catalogo)}')">📋 Copiar Link</button>
+        <button class="btn btn-gold" onclick="shareWhatsApp('${escHtml(p.id_catalogo)}')">📲 WhatsApp</button>
       </div>
 
-      <!-- DADOS CADASTRAIS -->
+      <!-- DADOS CADASTRAIS & REGRA FURTADO -->
       <div class="grid-2" style="margin-bottom:14px;">
         <div class="kpi-card" style="border-left: 4px solid var(--emerald);">
-          <p><strong>CPF / CNPJ:</strong> <code>${p.cpf_cnpj}</code></p>
-          <p><strong>Perfil:</strong> ${p.tipo_pessoa}</p>
-          <p><strong>Município:</strong> ${p.municipio}</p>
-          <p><strong>Endereço / Gleba / Lote:</strong> ${p.endereco || p.propriedade || 'Em cadastramento'}</p>
-          <p><strong>Telefones de Contato:</strong> ${(p.telefones||[]).join(', ') || 'Consultar guia/RT'}</p>
-          <p><strong>Atividades:</strong> ${(p.atividades||[]).join(', ')}</p>
+          <p><strong>CPF / CNPJ:</strong> <code>${escHtml(p.cpf_cnpj)}</code></p>
+          <p><strong>Perfil:</strong> ${escHtml(p.tipo_pessoa)}</p>
+          <p><strong>Município:</strong> ${escHtml(p.municipio)}</p>
+          <p><strong>Endereço / Gleba / Lote:</strong> ${escHtml(p.endereco || p.propriedade || 'Em cadastramento')}</p>
+          <div style="margin:8px 0;padding:8px 12px;background:rgba(16,185,129,0.12);border-radius:6px;border:1px solid rgba(16,185,129,0.35);">
+            <strong style="color:var(--emerald);font-size:0.85rem;">⭐ Contato Soberano Pós-Vistoria (Anotação Furtado):</strong><br/>
+            <span style="font-size:1.02rem;font-weight:800;color:var(--heading);">${escHtml(p.contato_produtor_anotacao_furtado || 'Pendente coleta in loco pós-vistoria')}</span>
+          </div>
+          <p><strong>Telefones Submetidos (RT / Inicial):</strong> ${escHtml((p.telefones||[]).join(', ') || 'Não informado na petição inicial')}</p>
+          <p><strong>Atividades:</strong> ${escHtml((p.atividades||[]).join(', '))}</p>
         </div>
         <div class="kpi-card" style="border-left: 4px solid var(--gold);">
-          <p><strong>Processos SEI / SIGA:</strong> <code>${(p.processos||[]).join(', ') || 'Registrado nos autos'}</code></p>
-          <p><strong>RTs / Analistas:</strong> ${(p.tecnicos||[]).join(', ') || 'ERGA/AFO'}</p>
-          <p style="margin-top:6px;"><strong>Gasto Histórico Estimado:</strong> <span class="badge badge-gold">R$ ${(p.gasto_estimado_consultoria_brl||0).toLocaleString('pt-BR')}</span></p>
-          <p style="margin-top:4px;"><strong>Potencial Contrato AgroPrime:</strong> <span class="badge badge-emerald">R$ ${(p.potencial_contrato_agroprime_brl||Math.round((p.gasto_estimado_consultoria_brl||0)*0.65)).toLocaleString('pt-BR')}</span></p>
-          ${p.notas_internas ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><strong>Anotações Internas:</strong><div style="font-size:0.83rem;color:var(--text);">${p.notas_internas}</div></div>` : ''}
+          <p><strong>Processos SEI (NUP):</strong> <code>${escHtml(((p.processos_sei_nup && p.processos_sei_nup.length) ? p.processos_sei_nup : ((p.processos_sei_lista && p.processos_sei_lista.length) ? p.processos_sei_lista : (p.processos||[]).filter(x=>x.startsWith('0028.')||x.startsWith('0036.')))).join(', ') || 'Consultar SEI')}</code></p>
+          <p><strong>Processos Físicos SEDAM (Antigos):</strong> <code>${escHtml((p.processos_antigos_sedam && p.processos_antigos_sedam.length ? p.processos_antigos_sedam.join(', ') : (p.processos||[]).filter(x=>x.startsWith('1801.')).join(', ')) || 'Sem físico antigo')}</code></p>
+          <p><strong>RTs / Vistoriadores SEDAM:</strong> ${escHtml((p.tecnicos||[]).join(', ') || 'ERGA/AFO')}</p>
+          <p style="margin-top:6px;"><strong>Gasto Histórico Estimado:</strong> <span class="badge badge-gold">R$ ${(Number(p.gasto_estimado_consultoria_brl)||0).toLocaleString('pt-BR')}</span></p>
+          <p style="margin-top:4px;"><strong>Potencial Contrato AgroPrime:</strong> <span class="badge badge-emerald">R$ ${(Number(p.potencial_contrato_agroprime_brl)||Math.round((Number(p.gasto_estimado_consultoria_brl)||0)*0.65)).toLocaleString('pt-BR')}</span></p>
+          ${p.notas_internas ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);"><strong>Anotações Internas:</strong><div style="font-size:0.83rem;color:var(--text);">${escHtml(p.notas_internas)}</div></div>` : ''}
+        </div>
+      </div>
+
+      <!-- RASTREABILIDADE MULTI-DOCUMENTAL DE CONTATOS (REGRA FURTADO) -->
+      <div class="accordion-box open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📑 Rastreabilidade de Contatos por Documento (AR, Requerimento, Boleto, NF, PIX, Laudo Furtado)</span>
+          <span class="acc-icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:8px;">
+            Auditoria de divergência: Contatos coletados em múltiplos documentos são preservados integralmente sem unificação. A anotação técnica do vistoriador Furtado é o contato verdadeiro do produtor.
+          </div>
+          ${p.historico_contatos_documentais && p.historico_contatos_documentais.length ? `
+            <table style="width:100%;font-size:0.8rem;border-collapse:collapse;margin-top:6px;">
+              <thead>
+                <tr style="background:rgba(255,255,255,0.05);text-align:left;">
+                  <th style="padding:6px;">Tipo de Documento</th>
+                  <th style="padding:6px;">Contato Identificado</th>
+                  <th style="padding:6px;">Referência Documental</th>
+                  <th style="padding:6px;">Origem / Informante</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${p.historico_contatos_documentais.map(h => `
+                  <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                    <td style="padding:6px;"><strong>${escHtml(h.tipo_documento || h.tipo || '-')}</strong></td>
+                    <td style="padding:6px;"><code style="color:var(--emerald);font-weight:700;">${escHtml(h.contato || '-')}</code></td>
+                    <td style="padding:6px;">${escHtml(h.doc_ref || '-')}</td>
+                    <td style="padding:6px;">${escHtml(h.origem_papel || h.origem || '-')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          ` : `
+            <div style="padding:10px;background:rgba(255,255,255,0.03);border-radius:6px;font-size:0.82rem;">
+              Nenhum contato intermediário conflitante registrado nos autos. Contato oficial registrado: <strong>${escHtml(p.contato_produtor_anotacao_furtado || (p.telefones||[]).join(', ') || 'Em levantamento')}</strong>.
+            </div>
+          `}
         </div>
       </div>
 
@@ -1437,7 +1518,9 @@
     });
   }
 
-  function shareWhatsApp(id, nome) {
+  function shareWhatsApp(id, nomeFallback) {
+    const found = producersList.find(x => x.id_catalogo === id);
+    const nome = (found && found.nome_produtor_ou_empresa) || nomeFallback || id;
     const url = `${window.location.origin}${window.location.pathname}#produtor=${id}`;
     const txt = encodeURIComponent(`Olá! Veja a Ficha e Dossiê SEDAM de ${nome}: ${url}`);
     window.open(`https://api.whatsapp.com/send?text=${txt}`, '_blank');
@@ -1456,7 +1539,10 @@
       document.getElementById('field-tipo-pessoa').value = 'PF (Produtor Rural)';
       document.getElementById('field-municipio').value = "Alta Floresta D'Oeste";
       document.getElementById('field-endereco').value = '';
+      document.getElementById('field-contato-furtado').value = '';
       document.getElementById('field-telefones').value = '';
+      document.getElementById('field-processo-sei').value = '';
+      document.getElementById('field-processo-antigo').value = '';
       document.getElementById('field-tecnico').value = '';
       document.getElementById('field-atividade').value = '';
       document.getElementById('field-gasto').value = '5000';
@@ -1469,7 +1555,10 @@
       document.getElementById('field-tipo-pessoa').value = p.tipo_pessoa || 'PF (Produtor Rural)';
       document.getElementById('field-municipio').value = p.municipio || "Alta Floresta D'Oeste";
       document.getElementById('field-endereco').value = p.endereco || p.propriedade || '';
+      document.getElementById('field-contato-furtado').value = p.contato_produtor_anotacao_furtado || '';
       document.getElementById('field-telefones').value = Array.isArray(p.telefones) ? p.telefones.join('; ') : (p.telefones || '');
+      document.getElementById('field-processo-sei').value = (Array.isArray(p.processos_sei_nup) && p.processos_sei_nup.length) ? p.processos_sei_nup.join('; ') : (Array.isArray(p.processos_sei_lista) ? p.processos_sei_lista.join('; ') : (p.processo_nup_sei || ''));
+      document.getElementById('field-processo-antigo').value = Array.isArray(p.processos_antigos_sedam) ? p.processos_antigos_sedam.join('; ') : (p.processo_antigo_sedam || '');
       document.getElementById('field-tecnico').value = Array.isArray(p.tecnicos) ? p.tecnicos.join('; ') : (p.tecnicos || '');
       document.getElementById('field-atividade').value = Array.isArray(p.atividades) ? p.atividades.join(', ') : (p.atividade_principal || '');
       document.getElementById('field-gasto').value = p.gasto_estimado_consultoria_brl || 5000;
@@ -1490,33 +1579,42 @@
   // SALVAR FORMULÁRIO (LOCALSTORAGE + APPS SCRIPT)
   function handleSaveProducer(ev) {
     ev.preventDefault();
-    const id = document.getElementById('field-id-catalogo').value || ('CLI-RO-' + Date.now().toString().slice(-4));
+    const id = document.getElementById('field-id-catalogo').value || ('CLI-RO-' + crypto.randomUUID());
     const nome = document.getElementById('field-nome').value.trim();
     const cpfCnpj = document.getElementById('field-cpf-cnpj').value.trim();
     const tipo = document.getElementById('field-tipo-pessoa').value;
     const mun = document.getElementById('field-municipio').value.trim();
     const endereco = document.getElementById('field-endereco').value.trim();
+    const contatoFurtado = document.getElementById('field-contato-furtado').value.trim();
     const telefones = document.getElementById('field-telefones').value.split(';').map(s=>s.trim()).filter(Boolean);
+    const processosSei = document.getElementById('field-processo-sei').value.split(';').map(s=>s.trim()).filter(Boolean);
+    const processosAntigos = document.getElementById('field-processo-antigo').value.split(';').map(s=>s.trim()).filter(Boolean);
     const tecnico = document.getElementById('field-tecnico').value.split(';').map(s=>s.trim()).filter(Boolean);
     const atividade = document.getElementById('field-atividade').value.split(',').map(s=>s.trim()).filter(Boolean);
     const gasto = Number(document.getElementById('field-gasto').value) || 0;
     const notas = document.getElementById('field-notas').value.trim();
 
+    const existing = producersList.find(x => x.id_catalogo === id) || {};
     const updated = {
+      ...existing,
       id_catalogo: id,
       nome_produtor_ou_empresa: nome,
       cpf_cnpj: cpfCnpj,
       tipo_pessoa: tipo,
       municipio: mun,
       endereco: endereco,
+      contato_produtor_anotacao_furtado: contatoFurtado,
       telefones: telefones,
+      processos_sei_nup: processosSei,
+      processos_antigos_sedam: processosAntigos,
+      processos: Array.from(new Set([...(existing.processos || []), ...processosSei, ...processosAntigos])),
       tecnicos: tecnico,
       atividades: atividade,
       gasto_estimado_consultoria_brl: gasto,
       potencial_contrato_agroprime_brl: Math.round(gasto * 0.65),
       notas_internas: notas,
-      ano_mais_recente: '2026',
-      anos_ativos: ['2026'],
+      ano_mais_recente: existing.ano_mais_recente || '2026',
+      anos_ativos: Array.from(new Set([...(existing.anos_ativos || []), '2026'])),
       atualizado_em: new Date().toISOString()
     };
 
@@ -1527,6 +1625,8 @@
       localStorage.setItem(storageKey, JSON.stringify(localCustom));
     } catch (e) {
       console.warn('Erro ao salvar no localStorage:', e);
+      showToast('Não foi possível salvar neste aparelho. Exporte um backup e libere espaço antes de tentar novamente.');
+      return;
     }
 
     const idx = producersList.findIndex(p => p.id_catalogo === id);
@@ -1535,7 +1635,7 @@
 
     closeEditModal();
     applyAllFilters();
-    showToast(`✅ Produtor ${nome} salvo com sucesso!`);
+    showToast(`✅ Produtor ${nome} salvo neste aparelho; nuvem ainda não confirmada.`);
 
     // Sincronizar nuvem Apps Script
     try {
@@ -1546,8 +1646,8 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ acao: 'salvar_produtor', token: 'sedam-outorga-campo-2026', produtor: updated })
       }).then(() => {
-        showToast('☁️ Sincronizado com a nuvem do Google Apps Script!');
-      }).catch(err => console.log('Apps script async:', err));
+        showToast('☁️ Envio realizado; a resposta da nuvem não pode ser confirmada. Cópia local preservada.');
+      }).catch(err => { console.log('Apps script async:', err); showToast('Sem confirmação da nuvem. Seus dados continuam salvos neste aparelho.'); });
     } catch (err) {}
   }
 
@@ -1747,13 +1847,15 @@
     const url = CATALOGO.apps_script_url || 'https://script.google.com/macros/s/AKfycbxYTqIPYbl8YOMfB1bY1qGkbRZLhvpPIOh7-IcwjHCdNrqoVWZDE0WfC13oQ_ry7wB3/exec';
     const box = document.getElementById('apps-script-box');
     switchMainTab('tab-vertex', document.getElementById('tablink-vertex'));
-    box.innerHTML = `<div class="kpi-card">⏳ Consultando endpoint Google Apps Script: <code>${url}?action=status</code> ...</div>`;
+    box.textContent = 'Consultando disponibilidade do Google Apps Script…';
     try {
-      const res = await fetch(url + '?action=listar', { method: 'GET', mode: 'cors' });
-      const txt = await res.text();
-      box.innerHTML = `<div class="kpi-card" style="border-color:var(--emerald);"><strong style="color:var(--emerald);">✅ Conexão HTTPS com Google Apps Script concluída!</strong><pre style="margin-top:8px;font-size:0.78rem;overflow-x:auto;">${txt.slice(0, 600)}</pre></div>`;
+      const res = await fetch(url + '?action=status', { method: 'GET', mode: 'cors' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (data.status !== 'OK') throw new Error('Resposta sem confirmação de disponibilidade');
+      box.textContent = 'Endpoint respondeu ao teste de disponibilidade. Este teste não confirma gravação de cadastros. Versão: ' + String(data.versao || 'não informada');
     } catch (err) {
-      box.innerHTML = `<div class="kpi-card" style="border-color:var(--gold);"><strong>ℹ️ Endpoint Apps Script Ativo:</strong> <a href="${url}" target="_blank">${url}</a> (Disponível na nuvem Google para leitura e gravação assíncrona).</div>`;
+      box.textContent = 'Não foi possível confirmar a disponibilidade do Apps Script. A cópia local permanece disponível. Tente novamente quando a conexão retornar.';
     }
   }
 

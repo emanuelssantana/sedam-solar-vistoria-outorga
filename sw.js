@@ -4,7 +4,7 @@
    Depois da primeira abertura com internet, o app abre em modo aviao.
    ============================================================================ */
 
-const CACHE = 'sedam-outorga-v4-005';
+const CACHE = 'sedam-outorga-v4-006';
 
 const ARQUIVOS = [
   './',

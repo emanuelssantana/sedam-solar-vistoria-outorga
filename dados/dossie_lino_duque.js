@@ -62,7 +62,7 @@ window.AGROPRIME_LINO_DOSSIER = {
     ]
   },
   "contatos_e_rede_familiar": {
-    "telefone_titular_cadastro": "(69) 3641-2505 / Contato via RT (69) 98474-3091",
+    "telefone_titular_cadastro": "(69) 99949 5630 (RTVA Ago/2025 Item 2.4) / Contato via RT (69) 98474-3091 • legado cadastro: (69) 3641-2505",
     "rede_familiar_alta_floresta": [
       {
         "nome": "William de Castro Duque",
@@ -119,7 +119,8 @@ window.AGROPRIME_LINO_DOSSIER = {
         "nome": "Marcelo Alves de Souza (Gerente Regional ERGA/AFO - Mat. 300158873)",
         "atuacao": "Assinatura do MEMO Nº 070/2022 e despachos de malote 2022–2025"
       }
-    ]
+    ],
+    "observacao_auditoria_telefone_legado": "Número (69) 3641-2505 registrado apenas no cadastro legado anterior sem respaldo nos RTVAs Word; telefone real de contato no RTVA Ago/2025 (Item 2.4): (69) 99949 5630."
   },
   "processos_mestre_e_licencas": [
     {

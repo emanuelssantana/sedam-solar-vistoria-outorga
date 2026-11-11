@@ -43,8 +43,9 @@ function doPost(e) {
       var prod = corpo.produtor || corpo.dados || {};
       var res = salvarProdutorPlanilhaEDrive(prod);
       return ContentService.createTextOutput(JSON.stringify({
-        status: 'SUCESSO',
-        mensagem: 'Produtor salvo no Google Drive e Planilha CRM com sucesso!',
+        status: res.status,
+        mensagem: res.status === 'SUCESSO' ? 'Produtor salvo no Drive e Planilha.' : 'Gravação incompleta. Preserve a cópia local e tente novamente.',
+        destinos: res.destinos,
         id_catalogo: res.id_catalogo,
         timestamp: new Date().toISOString()
       })).setMimeType(ContentService.MimeType.JSON);
@@ -52,15 +53,16 @@ function doPost(e) {
 
     if (acao === 'salvar_nota') {
       return ContentService.createTextOutput(JSON.stringify({
-        status: 'SUCESSO',
-        mensagem: 'Nota gravada no histórico do cliente!',
+        status: 'NAO_IMPLEMENTADO',
+        mensagem: 'Este backend não persiste notas. Preserve a cópia local.',
         id_catalogo: corpo.id_catalogo
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
     // Compatibilidade com vistorias da Ficha V4
     return ContentService.createTextOutput(JSON.stringify({
-      status: 'OK',
+      status: 'NAO_IMPLEMENTADO',
+      mensagem: 'Esta ação não é persistida por este backend.',
       recebido: acao
     })).setMimeType(ContentService.MimeType.JSON);
 
@@ -97,26 +99,34 @@ function obterProdutoresSalvos() {
 }
 
 function salvarProdutorPlanilhaEDrive(prod) {
-  var id = prod.id_catalogo || ('CLI-RO-' + Utilities.formatDate(new Date(), 'GMT-4', 'yyyyMMddHHmmss'));
+  var id = prod.id_catalogo || ('CLI-RO-' + Utilities.getUuid());
   prod.id_catalogo = id;
   prod.atualizado_em = new Date().toISOString();
 
+  var destinos = { planilha: false, drive: false };
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) return {id_catalogo: id, status: 'OCUPADO', destinos: destinos};
+  try {
   // 1. Salva/Atualiza na Planilha
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
+    if (!ss) throw new Error('Planilha não configurada');
     if (ss) {
+      var TARGET_COLS_17 = [
+        'ID_CATALOGO', 'NOME_PRODUTOR', 'CPF_CNPJ', 'TIPO_PESSOA', 'MUNICIPIO',
+        'ENDERECO_GLEBA', 'CONTATO_FURTADO', 'TELEFONES_INICIAIS', 'PROCESSO_NUP_SEI', 'PROCESSO_ANTIGO_SEDAM',
+        'ATIVIDADE_PRINCIPAL', 'RESPONSAVEL_TECNICO', 'HISTORICO_CONTATOS',
+        'GASTO_ESTIMADO_BRL', 'TAGS_SERVICOS', 'NOTAS_INTERNAS', 'ATUALIZADO_EM'
+      ];
       var sh = ss.getSheetByName(ABA_CRM);
       if (!sh) {
         sh = ss.insertSheet(ABA_CRM);
-        sh.appendRow([
-          'ID_CATALOGO', 'NOME_PRODUTOR', 'CPF_CNPJ', 'TIPO_PESSOA', 'MUNICIPIO',
-          'ENDERECO_GLEBA', 'TELEFONES', 'ATIVIDADE_PRINCIPAL', 'RESPONSAVEL_TECNICO',
-          'GASTO_ESTIMADO_BRL', 'TAGS_SERVICOS', 'NOTAS_INTERNAS', 'ATUALIZADO_EM'
-        ]);
-        sh.getRange(1, 1, 1, 13).setBackground('#064e3b').setFontColor('#ffffff').setFontWeight('bold');
+        sh.appendRow(TARGET_COLS_17);
+        sh.getRange(1, 1, 1, TARGET_COLS_17.length).setBackground('#064e3b').setFontColor('#ffffff').setFontWeight('bold');
       }
 
       var dados = sh.getDataRange().getValues();
+      var header = dados.length > 0 ? dados[0].slice() : [];
       var linhaExistente = -1;
       for (var r = 1; r < dados.length; r++) {
         if (dados[r][0] === id) {
@@ -125,27 +135,60 @@ function salvarProdutorPlanilhaEDrive(prod) {
         }
       }
 
-      var rowValues = [
-        id,
-        prod.nome_produtor_ou_empresa || '',
-        prod.cpf_cnpj || '',
-        prod.tipo_pessoa || '',
-        prod.municipio || 'Alta Floresta D\'Oeste',
-        prod.endereco || prod.propriedade || '',
-        Array.isArray(prod.telefones) ? prod.telefones.join('; ') : (prod.telefones || ''),
-        prod.atividade_principal || '',
-        Array.isArray(prod.tecnicos) ? prod.tecnicos.join('; ') : (prod.tecnicos || ''),
-        prod.gasto_estimado_consultoria_brl || 0,
-        Array.isArray(prod.tags_servicos) ? prod.tags_servicos.join('; ') : (prod.tags_servicos || ''),
-        prod.notas_internas || '',
-        prod.atualizado_em
-      ];
+      var telsStr = Array.isArray(prod.telefones) ? prod.telefones.join('; ') : (prod.telefones || '');
+      var seiList = Array.isArray(prod.processos_sei_nup) && prod.processos_sei_nup.length
+        ? prod.processos_sei_nup
+        : (Array.isArray(prod.processos_sei_lista) ? prod.processos_sei_lista : null);
+      var seiStr = seiList ? seiList.join('; ') : (prod.processo_nup_sei || '');
+      var antigoStr = Array.isArray(prod.processos_antigos_sedam) ? prod.processos_antigos_sedam.join('; ') : (prod.processo_antigo_sedam || '');
+      var histStr = Array.isArray(prod.historico_contatos_documentais) ? JSON.stringify(prod.historico_contatos_documentais) : (prod.historico_contatos_documentais || '');
 
+      var rowByHeader = {
+        'ID_CATALOGO': id,
+        'NOME_PRODUTOR': prod.nome_produtor_ou_empresa || '',
+        'CPF_CNPJ': prod.cpf_cnpj || '',
+        'TIPO_PESSOA': prod.tipo_pessoa || '',
+        'MUNICIPIO': prod.municipio || 'Alta Floresta D\'Oeste',
+        'ENDERECO_GLEBA': prod.endereco || prod.propriedade || '',
+        'CONTATO_FURTADO': prod.contato_produtor_anotacao_furtado || '',
+        'TELEFONES_INICIAIS': telsStr,
+        'TELEFONES': telsStr,
+        'PROCESSO_NUP_SEI': seiStr,
+        'PROCESSO_ANTIGO_SEDAM': antigoStr,
+        'ATIVIDADE_PRINCIPAL': prod.atividade_principal || '',
+        'RESPONSAVEL_TECNICO': Array.isArray(prod.tecnicos) ? prod.tecnicos.join('; ') : (prod.tecnicos || ''),
+        'HISTORICO_CONTATOS': histStr,
+        'GASTO_ESTIMADO_BRL': prod.gasto_estimado_consultoria_brl || 0,
+        'TAGS_SERVICOS': Array.isArray(prod.tags_servicos) ? prod.tags_servicos.join('; ') : (prod.tags_servicos || ''),
+        'NOTAS_INTERNAS': prod.notas_internas || '',
+        'ATUALIZADO_EM': prod.atualizado_em
+      };
+
+      var activeHeaders = TARGET_COLS_17;
+      if (header.length >= 13) {
+        var extraCols = ['CONTATO_FURTADO', 'PROCESSO_NUP_SEI', 'PROCESSO_ANTIGO_SEDAM', 'HISTORICO_CONTATOS']
+          .filter(function(col) { return header.indexOf(col) === -1; });
+        if (extraCols.length > 0) {
+          var hdrRange = sh.getRange(1, header.length + 1, 1, extraCols.length);
+          hdrRange.setValues([extraCols]);
+          hdrRange.setBackground('#064e3b').setFontColor('#ffffff').setFontWeight('bold');
+          header = header.concat(extraCols);
+        }
+        activeHeaders = header;
+      }
+
+      var rowValues = activeHeaders.map(function(col) {
+        return Object.prototype.hasOwnProperty.call(rowByHeader, col) ? rowByHeader[col] : '';
+      });
+
+      rowValues = rowValues.map(function(value) { return typeof value === 'string' && /^[=+@-]/.test(value) ? "'" + value : value; });
       if (linhaExistente > 0) {
         sh.getRange(linhaExistente, 1, 1, rowValues.length).setValues([rowValues]);
       } else {
         sh.appendRow(rowValues);
       }
+      SpreadsheetApp.flush();
+      destinos.planilha = true;
     }
   } catch (errPlanilha) {
     Logger.log('Erro ao salvar na planilha CRM: ' + errPlanilha);
@@ -165,9 +208,11 @@ function salvarProdutorPlanilhaEDrive(prod) {
     } else {
       pastaCrm.createFile(nomeArquivo, JSON.stringify(prod, null, 2), MimeType.PLAIN_TEXT);
     }
+    destinos.drive = true;
   } catch (errDrive) {
     Logger.log('Erro ao salvar JSON no Drive: ' + errDrive);
   }
 
-  return { id_catalogo: id };
+  return { id_catalogo: id, status: destinos.planilha && destinos.drive ? 'SUCESSO' : (destinos.planilha || destinos.drive ? 'PARCIAL' : 'ERRO'), destinos: destinos };
+  } finally { lock.releaseLock(); }
 }
